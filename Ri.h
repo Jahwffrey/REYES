@@ -19,17 +19,24 @@ typedef RtFloat RtBound[6];
 typedef char *RtString;
 typedef void *RtPointer;
 typedef char *RtToken;
+#define RtVoid void
+
+//I decided I would hold the various globally accessible things inside of of context object
+class RiContext {
+	public:
+	RtMatrix CurrentTransform;
+	RtInt* FrameBuffer;
+};
 
 //Global Variables
-extern RtMatrix RiCurrentTransform;//current transformation
-extern RtInt* RiFrameBuffer;//The screen
+extern RiContext *RiCurrentContext;
 
 //Graphics States
-void RiBegin(RtToken name);
-void RiEnd();
+RtVoid RiBegin(RtToken name);
+RtVoid RiEnd();
 
 //Transforms
-void RiIdentity();
+RtVoid RiIdentity();
 
-void JohnPrint();
+RtVoid JohnPrint();
 #endif
