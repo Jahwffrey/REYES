@@ -42,6 +42,9 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration);
 
 //Transforms
 RtVoid RiIdentity();
+RtVoid RiConcatTransform(RtMatrix trans);
 
+//Temp stuff
 RtVoid JohnPrint();
+void JohnPrintMat();
 #endif

@@ -6,6 +6,7 @@
 
 RiContext* RiCurrentContext;
 
+
 //Graphics States
 RtVoid RiBegin(RtToken name){
 	RiCurrentContext = new RiContext();
@@ -35,6 +36,7 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration){
 	return;
 }
 
+//Transformation Stuff
 RtVoid RiIdentity(){
 	for(int i = 0;i < 4;i++){
 		for(int j = 0;j < 4;j++){
@@ -48,6 +50,22 @@ RtVoid RiIdentity(){
 	return;
 }
 
+RtVoid RiConcatTransform(RtMatrix trans){
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			RtFloat tmp = 0.0;
+			for(int l = 0;l < 4;l++){
+				tmp += RiCurrentContext -> CurrentTransform[i][l] * trans[l][j];
+			}
+			RiCurrentContext -> CurrentTransform[i][j] = tmp;
+		}
+	}
+	return;
+}
+
+
+
+
 void JohnPrint(){
 	for(int j = 0;j < RiCurrentContext -> YResolution;j++){
 		for(int i = 0;i < RiCurrentContext -> XResolution;i++){
@@ -56,4 +74,13 @@ void JohnPrint(){
 		std::cout << "\n";
 	}
 	return;
+}
+
+void JohnPrintMat(){
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			std::cout << RiCurrentContext -> CurrentTransform[i][j] << "|";
+		}
+		std::cout << "\n";
+	}
 }

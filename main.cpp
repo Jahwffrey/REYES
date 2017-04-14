@@ -8,5 +8,7 @@ int main(){
 	RiBegin(RI_NULL);
 		RiFormat(20,10,1);
 		JohnPrint();
+		std::cout << "\n";
+		JohnPrintMat();
 	RiEnd();
 }
