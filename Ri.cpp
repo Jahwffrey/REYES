@@ -38,8 +38,8 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration){
 
 //Transformation Stuff
 RtVoid RiIdentity(){
-	for(int i = 0;i < 4;i++){
-		for(int j = 0;j < 4;j++){
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
 			if(i == j){
 				RiCurrentContext -> CurrentTransform[i][j] = 1;
 			} else {
@@ -51,15 +51,22 @@ RtVoid RiIdentity(){
 }
 
 RtVoid RiConcatTransform(RtMatrix trans){
+	RtMatrix tmp;
 	for(int j = 0;j < 4;j++){
 		for(int i = 0;i < 4;i++){
-			RtFloat tmp = 0.0;
+			tmp[i][j] = 0.0;
 			for(int l = 0;l < 4;l++){
-				tmp += RiCurrentContext -> CurrentTransform[i][l] * trans[l][j];
+				tmp[i][j] += RiCurrentContext -> CurrentTransform[l][j] * trans[i][l];
 			}
-			RiCurrentContext -> CurrentTransform[i][j] = tmp;
 		}
 	}
+
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			RiCurrentContext -> CurrentTransform[i][j] = tmp[i][j];
+		}
+	}
+
 	return;
 }
 
