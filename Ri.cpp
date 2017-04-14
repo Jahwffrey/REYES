@@ -28,6 +28,9 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration){
 	RiCurrentContext -> FrameBuffer = new RtInt*[xresolution];
 	for(int i = 0;i < xresolution;i++){
 		RiCurrentContext -> FrameBuffer[i] = new RtInt[yresolution];	
+		for(int j = 0;j < yresolution;j++){
+			RiCurrentContext -> FrameBuffer[i][j] = 0;
+		}
 	}
 	return;
 }
@@ -46,6 +49,11 @@ RtVoid RiIdentity(){
 }
 
 void JohnPrint(){
-	std::cout << "Print!\n";
+	for(int j = 0;j < RiCurrentContext -> YResolution;j++){
+		for(int i = 0;i < RiCurrentContext -> XResolution;i++){
+			std::cout << RiCurrentContext -> FrameBuffer[i][j];
+		}
+		std::cout << "\n";
+	}
 	return;
 }

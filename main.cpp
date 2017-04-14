@@ -5,6 +5,8 @@
 #include <iostream>
 
 int main(){
-	std::cout << "Oh hi\n";
-	JohnPrint();
+	RiBegin(RI_NULL);
+		RiFormat(20,10,1);
+		JohnPrint();
+	RiEnd();
 }

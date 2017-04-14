@@ -20,6 +20,7 @@ typedef char *RtString;
 typedef void *RtPointer;
 typedef char *RtToken;
 #define RtVoid void
+#define RI_NULL NULL
 
 //I decided I would hold the various globally accessible things inside of of context object
 class RiContext {
