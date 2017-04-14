@@ -25,7 +25,10 @@ typedef char *RtToken;
 class RiContext {
 	public:
 	RtMatrix CurrentTransform;
-	RtInt* FrameBuffer;
+	RtInt** FrameBuffer;
+	RtInt XResolution;
+	RtInt YResolution;
+	RtFloat PixelAspectRation;
 };
 
 //Global Variables
@@ -34,6 +37,7 @@ extern RiContext *RiCurrentContext;
 //Graphics States
 RtVoid RiBegin(RtToken name);
 RtVoid RiEnd();
+RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration);
 
 //Transforms
 RtVoid RiIdentity();
