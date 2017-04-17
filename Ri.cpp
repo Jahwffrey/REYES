@@ -50,13 +50,25 @@ RtVoid RiIdentity(){
 	return;
 }
 
+RtVoid RiTranslate(RtFloat dx,RtFloat dy,RtFloat dz){
+	RtMatrix tmp = {1,0,0,dx,
+			0,1,0,dy,
+			0,0,1,dz,
+			0,0,0,1};
+	RiConcatTransform(tmp);
+	return;
+}
+
 RtVoid RiConcatTransform(RtMatrix trans){
-	RtMatrix tmp;
+	RtMatrix tmp = {0,0,0,0,
+			0,0,0,0,
+			0,0,0,0,
+			0,0,0,0};
 	for(int j = 0;j < 4;j++){
 		for(int i = 0;i < 4;i++){
-			tmp[i][j] = 0.0;
 			for(int l = 0;l < 4;l++){
-				tmp[i][j] += RiCurrentContext -> CurrentTransform[l][j] * trans[i][l];
+				//tmp[i][j] += (RiCurrentContext -> CurrentTransform[l][j]) * trans[i][l];
+				tmp[i][j] += (RiCurrentContext -> CurrentTransform[l][j]) * trans[l][i];
 			}
 		}
 	}
@@ -70,8 +82,21 @@ RtVoid RiConcatTransform(RtMatrix trans){
 	return;
 }
 
+//Internal Stuff
+RtVoid RiMultHpoint(RtHpoint pt){
+	RtHpoint npt = {0,0,0,0};
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			//std::cout << "Mult: " << RiCurrentContext -> CurrentTransform[i][j] << " * " << pt[i] << "\n"; 
+			npt[j] += RiCurrentContext -> CurrentTransform[i][j] * pt[i];
+		}
+	}
 
-
+	for(int i = 0;i < 4;i++){
+		pt[i] = npt[i];
+	}
+	return;	
+}
 
 void JohnPrint(){
 	for(int j = 0;j < RiCurrentContext -> YResolution;j++){
@@ -90,4 +115,23 @@ void JohnPrintMat(){
 		}
 		std::cout << "\n";
 	}
+	return;
+}
+
+void JohnPrintHpoint(RtHpoint pt){
+	for(int i = 0;i < 4;i++){
+		std::cout << pt[i] << "|";
+	}
+	std::cout << "\n";
+	return;
+}
+
+void JohnPoint(RtHpoint pt){
+	JohnPrintHpoint(pt);
+	RiMultHpoint(pt);
+	JohnPrintHpoint(pt);
+	if((RtInt)pt[0] < RiCurrentContext -> XResolution && (RtInt)pt[1] < RiCurrentContext -> YResolution){
+		RiCurrentContext -> FrameBuffer[(RtInt)pt[0]][(RtInt)pt[1]] = 1;
+	}
+	return;
 }
