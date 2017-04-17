@@ -39,10 +39,16 @@ extern RiContext *RiCurrentContext;
 RtVoid RiBegin(RtToken name);
 RtVoid RiEnd();
 RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration);
+RtVoid RiTransformBegin();
+RtVoid RiTransformEnd();
+RtVoid RiScale(RtFloat dx,RtFloat dy,RtFloat dz);
+RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz);
+//RtVoid RiPerspective
 
 //Transforms
 RtVoid RiIdentity();
 RtVoid RiTranslate(RtFloat dx,RtFloat dy,RtFloat dz);
+RtVoid RiTransform(RtMatrix mat);
 RtVoid RiConcatTransform(RtMatrix trans);
 
 //Internal Stuff

@@ -25,7 +25,7 @@ int main(){
 		RiTranslate(2,0,0);
 		JohnPrintMat();*/
 		
-		RtHpoint p1 = {5.0,5.0,2.0,1.0};
+		/*RtHpoint p1 = {5.0,5.0,2.0,1.0};
 		RtHpoint p2 = {5.0,5.0,2.0,1.0};
 		RtHpoint p3 = {5.0,5.0,2.0,1.0};
 		JohnPoint(p1);
@@ -44,6 +44,14 @@ int main(){
 		JohnPrint();
 		std::cout << "\n";
 		JohnPrintMat();
-		std::cout << "\n";
+		std::cout << "\n";*/
+	
+		/*for(RtFloat i = 0.0;i < 6.15;i+=0.01){
+			RtHpoint p1 = {5,5,2,1};
+			RiRotate(0.1,0,0,1);
+			JohnPoint(p1);
+		}
+		JohnPrint();*/
+
 	RiEnd();
 }

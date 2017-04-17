@@ -3,6 +3,7 @@
 
 #include "Ri.h"
 #include <iostream>
+#include <math.h>
 
 RiContext* RiCurrentContext;
 
@@ -36,6 +37,17 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration){
 	return;
 }
 
+RtVoid RiTransformBegin(){
+	//With no stack, just reset transform;
+	RiIdentity();
+	return;
+}
+
+RtVoid RiTransformEnd(){
+	//With no stack, do nothing
+	return;
+}
+
 //Transformation Stuff
 RtVoid RiIdentity(){
 	for(int j = 0;j < 4;j++){
@@ -56,6 +68,16 @@ RtVoid RiTranslate(RtFloat dx,RtFloat dy,RtFloat dz){
 			0,0,1,dz,
 			0,0,0,1};
 	RiConcatTransform(tmp);
+	return;
+}
+
+
+RtVoid RiTransform(RtMatrix mat){
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			RiCurrentContext -> CurrentTransform[i][j] = mat[i][j];
+		}
+	}
 	return;
 }
 
@@ -82,6 +104,33 @@ RtVoid RiConcatTransform(RtMatrix trans){
 	return;
 }
 
+RtVoid RiScale(RtFloat dx,RtFloat dy,RtFloat dz){
+	RtMatrix tmp = {dx,0 ,0 ,0,
+			0 ,dy,0 ,0,
+			0 ,0 ,dz,0,
+			0 ,0 ,0 ,1};
+	RiConcatTransform(tmp);
+	return;
+}
+
+RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
+	RtFloat len = sqrt(pow(dx,2) + pow(dy,2) + pow(dz,2));
+	dx = dx / len;
+	dy = dy / len;
+	dz = dz / len;
+	RtFloat co = cos(angle);
+	RtFloat si = sin(angle);
+	RtFloat t = 1 - co;
+
+	//http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
+	RtMatrix tmp = {t*dx*dx + co   ,t*dx*dy - dz*si,t*dx*dz + dy*si,0,
+			t*dx*dy + dz*si,t*dy*dy + co   ,t*dy*dz - dx*si,0,
+			t*dx*dz - dy*si,t*dy*dz + dx*si,t*dz*dz + co   ,0,
+			0	       ,0	       ,0	       ,1};
+	RiConcatTransform(tmp);
+	return;
+}
+
 //Internal Stuff
 RtVoid RiMultHpoint(RtHpoint pt){
 	RtHpoint npt = {0,0,0,0};
@@ -97,6 +146,12 @@ RtVoid RiMultHpoint(RtHpoint pt){
 	}
 	return;	
 }
+
+
+
+
+
+
 
 void JohnPrint(){
 	for(int j = 0;j < RiCurrentContext -> YResolution;j++){
@@ -127,10 +182,10 @@ void JohnPrintHpoint(RtHpoint pt){
 }
 
 void JohnPoint(RtHpoint pt){
-	JohnPrintHpoint(pt);
+	//JohnPrintHpoint(pt);
 	RiMultHpoint(pt);
-	JohnPrintHpoint(pt);
-	if((RtInt)pt[0] < RiCurrentContext -> XResolution && (RtInt)pt[1] < RiCurrentContext -> YResolution){
+	//JohnPrintHpoint(pt);
+	if(pt[0] > 0 && pt[1] > 0 && (RtInt)pt[0] < RiCurrentContext -> XResolution && (RtInt)pt[1] < RiCurrentContext -> YResolution){
 		RiCurrentContext -> FrameBuffer[(RtInt)pt[0]][(RtInt)pt[1]] = 1;
 	}
 	return;
