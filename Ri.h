@@ -22,14 +22,21 @@ typedef char *RtToken;
 #define RtVoid void
 #define RI_NULL NULL
 
+extern RtToken RI_PERSPECTIVE;
+extern RtToken RI_ORTHOGRAPHIC;
+extern RtToken RI_FOV;
+
 //I decided I would hold the various globally accessible things inside of of context object
 class RiContext {
 	public:
 	RtMatrix CurrentTransform;
+	RtMatrix ScreenTransform;
 	RtInt** FrameBuffer;
 	RtInt XResolution;
 	RtInt YResolution;
 	RtFloat PixelAspectRation;
+	RtFloat Near;
+	RtFloat Far;
 };
 
 //Global Variables
@@ -41,15 +48,17 @@ RtVoid RiEnd();
 RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration);
 RtVoid RiTransformBegin();
 RtVoid RiTransformEnd();
-RtVoid RiScale(RtFloat dx,RtFloat dy,RtFloat dz);
-RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz);
-//RtVoid RiPerspective
+RtVoid RiClipping(RtFloat near,RtFloat far);
+RtVoid RiProjection(RtToken name,RtToken paramname = RI_FOV,RtFloat fov = 90);
 
 //Transforms
 RtVoid RiIdentity();
 RtVoid RiTranslate(RtFloat dx,RtFloat dy,RtFloat dz);
 RtVoid RiTransform(RtMatrix mat);
 RtVoid RiConcatTransform(RtMatrix trans);
+RtVoid RiScale(RtFloat dx,RtFloat dy,RtFloat dz);
+RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz);
+RtVoid RiPerspective(RtFloat fov);
 
 //Internal Stuff
 RtVoid RiMultHpoint();

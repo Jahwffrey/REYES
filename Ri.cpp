@@ -4,9 +4,15 @@
 #include "Ri.h"
 #include <iostream>
 #include <math.h>
+#include <stdio.h>
+#include <string.h>
 
+const RtFloat PI_DIV_180 = M_PI/180.0;
+
+RtToken RI_PERSPECTIVE = "perspective";
+RtToken RI_ORTHOGRAPHIC = "orthographic";
+RtToken RI_FOV = "fov";
 RiContext* RiCurrentContext;
-
 
 //Graphics States
 RtVoid RiBegin(RtToken name){
@@ -46,6 +52,36 @@ RtVoid RiTransformBegin(){
 RtVoid RiTransformEnd(){
 	//With no stack, do nothing
 	return;
+}
+
+RtVoid RiClipping(RtFloat near,RtFloat far){
+	RiCurrentContext -> Near = near;
+	RiCurrentContext -> Far = far;
+	return;
+}
+
+RtVoid RiProjection(RtToken name,RtToken paramname,RtFloat fov){
+	if(strcmp(name,RI_PERSPECTIVE) == 0){
+		if(strcmp(paramname,RI_FOV) == 0){
+			RiPerspective(fov);
+		} else {
+			RiPerspective(90.0);
+		}
+	} else if(strcmp(name,RI_ORTHOGRAPHIC) == 0){
+		RtFloat ZScale = 1.0/(RiCurrentContext-> Far - RiCurrentContext -> Near);
+		RtMatrix ortho = {1,0,0,0,
+				  0,1,0,0,
+				  0,0,ZScale,-(RiCurrentContext -> Near),
+				  0,0,0,0};
+		RiConcatTransform(ortho);
+	} //else if (name == RI_NULL){
+	
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			RiCurrentContext -> ScreenTransform[i][j] = RiCurrentContext -> CurrentTransform[i][j];
+		}
+	}
+	//}
 }
 
 //Transformation Stuff
@@ -131,6 +167,21 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
 	return;
 }
 
+RtVoid RiPerspective(RtFloat fov){
+	//https://www.scratchapixel.com/lessons/3d-basic-rendering/perspective-and-orthographic-projection-matrix/building-basic-perspective-projection-matrix
+	RtFloat ScaleFactor = 1.0 /(tan(fov/2) * PI_DIV_180);
+	//RtFloat FocalLength = (RiCurrentContext -> XResolution/RiCurrentContext -> YResolution)/tan(fov/2);
+	RtFloat nr = RiCurrentContext -> Near;
+	RtFloat fr = RiCurrentContext -> Far;
+	RtMatrix tmp = {ScaleFactor,0          ,0		    	  ,0 ,
+			0	   ,ScaleFactor,0		    	  ,0 ,
+			0	   ,0	       ,(-1 * fr     ) / (fr - nr),-1,
+			0	   ,0	       ,(-1 * fr * nr) / (fr - nr),0 };
+	RiConcatTransform(tmp);
+}
+
+
+
 //Internal Stuff
 RtVoid RiMultHpoint(RtHpoint pt){
 	RtHpoint npt = {0,0,0,0};
@@ -146,9 +197,6 @@ RtVoid RiMultHpoint(RtHpoint pt){
 	}
 	return;	
 }
-
-
-
 
 
 
