@@ -7,14 +7,15 @@
 
 int main(){
 	RiBegin(RI_NULL);
-		RiFormat(80,40,0.8);
+		RiFormat(80,40,0.5);
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
 		RiClipping(0.1,0.2);
 		RiIdentity();
 		//RtFloat fov = M_PI/2;//90 degrees
-		RtFloat fov = 1.0472;//90 degrees
+		//RtFloat fov = 1.0472;//60 degrees
+		RtFloat fov = 0.174533/2;//10 degrees
 		
 		//Screen Transform	
 		RiTranslate(20,20,0);
@@ -23,7 +24,7 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,10);
+		RiTranslate(0,0,20);
 
 		RiWorldBegin();
 		RiIdentity();
