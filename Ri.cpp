@@ -130,7 +130,7 @@ RtVoid RiTransform(RtMatrix mat){
 }
 
 RtVoid RiConcatTransform(RtMatrix trans){
-	RtMatrix tmp/*,rgt*/ = {0,0,0,0,
+	RtMatrix tmp = {0,0,0,0,
 			0,0,0,0,
 			0,0,0,0,
 			0,0,0,0};
@@ -138,42 +138,11 @@ RtVoid RiConcatTransform(RtMatrix trans){
 	for(int j = 0;j < 4;j++){
 		for(int i = 0;i < 4;i++){
 			for(int l = 0;l < 4;l++){
-				//tmp[i][j] += (RiCurrentContext -> CurrentTransform[l][j]) * trans[i][l];
 				tmp[i][j] += (RiCurrentContext -> CurrentTransform[l][j]) * trans[l][i];
-				//tmp[i][j] += (RiCurrentContext -> CurrentTransform[l][i]) * trans[l][j];
 			}
 		}
 	}
 	
-	//RtMatrix rgt = RiCurrentContext -> CurrentTransform;
-
-	/*for(int j = 0;j < 4;j++){
-		for(int i = 0;i < 4;i++){
-			rgt[i][j] = RiCurrentContext -> CurrentTransform[i][j];// = tmp[i][j];
-		}
-	}
-
-	tmp[0][0] = lft[0][0]*rgt[0][0] + lft[1][0]*rgt[0][1] + lft[2][0]*rgt[0][2] + lft[3][0]*rgt[0][3];
-	tmp[0][1] = lft[0][0]*rgt[1][0] + lft[1][0]*rgt[1][1] + lft[2][0]*rgt[1][2] + lft[3][0]*rgt[1][3];
-	tmp[0][2] = lft[0][0]*rgt[2][0] + lft[1][0]*rgt[2][1] + lft[2][0]*rgt[2][2] + lft[3][0]*rgt[2][3];
-	tmp[0][3] = lft[0][0]*rgt[3][0] + lft[1][0]*rgt[3][1] + lft[2][0]*rgt[3][2] + lft[3][0]*rgt[3][3];
-	
-	tmp[1][0] = lft[0][1]*rgt[0][0] + lft[1][1]*rgt[0][1] + lft[2][1]*rgt[0][2] + lft[3][1]*rgt[0][3];
-	tmp[1][1] = lft[0][1]*rgt[1][0] + lft[1][1]*rgt[1][1] + lft[2][1]*rgt[1][2] + lft[3][1]*rgt[1][3];
-	tmp[1][2] = lft[0][1]*rgt[2][0] + lft[1][1]*rgt[2][1] + lft[2][1]*rgt[2][2] + lft[3][1]*rgt[2][3];
-	tmp[1][3] = lft[0][1]*rgt[3][0] + lft[1][1]*rgt[3][1] + lft[2][1]*rgt[3][2] + lft[3][1]*rgt[3][3];
-
-	tmp[2][0] = lft[0][2]*rgt[0][0] + lft[1][2]*rgt[0][1] + lft[2][2]*rgt[0][2] + lft[3][2]*rgt[0][3];
-	tmp[2][1] = lft[0][2]*rgt[1][0] + lft[1][2]*rgt[1][1] + lft[2][2]*rgt[1][2] + lft[3][2]*rgt[1][3];
-	tmp[2][2] = lft[0][2]*rgt[2][0] + lft[1][2]*rgt[2][1] + lft[2][2]*rgt[2][2] + lft[3][2]*rgt[2][3];
-	tmp[2][3] = lft[0][2]*rgt[3][0] + lft[1][2]*rgt[3][1] + lft[2][2]*rgt[3][2] + lft[3][2]*rgt[3][3];
-	
-	tmp[3][0] = lft[0][3]*rgt[0][0] + lft[1][3]*rgt[0][1] + lft[2][3]*rgt[0][2] + lft[3][3]*rgt[0][3];
-	tmp[3][1] = lft[0][3]*rgt[1][0] + lft[1][3]*rgt[1][1] + lft[2][3]*rgt[1][2] + lft[3][3]*rgt[1][3];
-	tmp[3][2] = lft[0][3]*rgt[2][0] + lft[1][3]*rgt[2][1] + lft[2][3]*rgt[2][2] + lft[3][3]*rgt[2][3];
-	tmp[3][3] = lft[0][3]*rgt[3][0] + lft[1][3]*rgt[3][1] + lft[2][3]*rgt[3][2] + lft[3][3]*rgt[3][3];
-	*/
-
 	for(int j = 0;j < 4;j++){
 		for(int i = 0;i < 4;i++){
 			RiCurrentContext -> CurrentTransform[i][j] = tmp[i][j];
@@ -201,11 +170,6 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
 	RtFloat si = sin(angle);
 	RtFloat t = 1 - co;
 
-	/*RtMatrix tmp = {1,0,0,0,
-			0,cos(angle),-1*sin(angle),0,
-			0,sin(angle),cos(angle),0,
-			0,0,0,1};*/
-	
 	//http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
 	RtMatrix tmp = {t*dx*dx + co   ,t*dx*dy - dz*si,t*dx*dz + dy*si,0,
 			t*dx*dy + dz*si,t*dy*dy + co   ,t*dy*dz - dx*si,0,
@@ -217,23 +181,11 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
 
 RtVoid RiPerspective(RtFloat fov){
 	RtFloat ScaleFactor = 1.0 /(tan(fov/2));
-	RtFloat ScaleFactorAspect = 1.0 /(tan(fov/(2*RiCurrentContext->PixelAspectRatio)));
-	RtHpoint tmp1 = {0,0,RiCurrentContext->Near,1};
-	RtHpoint tmp2 = {0,0,RiCurrentContext->Far,1};
-	RiMultHpoint(tmp1);
-	RiMultHpoint(tmp2);
-	//RtFloat nr = tmp1[2];
-	//RtFloat fr = tmp2[2];
+	RtFloat aspect = 1/(RiCurrentContext->PixelAspectRatio);
+	RtFloat ScaleFactorAspect = 1.0 /(tan((fov/2)*aspect));
 	RtFloat nr = RiCurrentContext -> Near;
 	RtFloat fr = RiCurrentContext -> Far;
 
-	std::cout << "fov: " << fov << "\n" << "near: " << nr << "\nfar: " << fr << "\n";
-	
-	/*RtMatrix tmp = {ScaleFactor * (1.0/RiCurrentContext -> PixelAspectRatio),0,0,0,
-			0,ScaleFactor,0,0,
-			0,0,fr/(fr - nr),(-1*nr*fr)/(fr - nr),
-			0,0,1,0};*/
-	
 	RtMatrix tmp = {ScaleFactor,0,0,0,
 			0,ScaleFactorAspect,0,0,
 			0,0,fr/(fr - nr),(-1*nr*fr)/(fr - nr),
@@ -269,10 +221,6 @@ RtVoid RiProjHpoint(RtHpoint pt){
 	for(int i = 0;i < 4;i++){
 		pt[i] = npt[i];
 	}
-
-	
-	//JohnPrintHpoint(pt);
-
 	
 	RtHpoint npt2 = {0,0,0,0};
 	for(int j = 0;j < 4;j++){
@@ -329,7 +277,6 @@ void JohnPrintHpoint(RtHpoint pt){
 void JohnPoint(RtHpoint pt){
 	RiMultHpoint(pt);
 	RiProjHpoint(pt);
-	JohnPrintHpoint(pt);
 	if(pt[3] < -(RiCurrentContext -> Near) && pt[0] >= 0 && pt[1] >= 0 && (RtInt)pt[0] < RiCurrentContext -> XResolution && (RtInt)pt[1] < RiCurrentContext -> YResolution){
 		RiCurrentContext -> FrameBuffer[(RtInt)pt[0]][(RtInt)pt[1]] = 1;
 	}

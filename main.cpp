@@ -7,13 +7,14 @@
 
 int main(){
 	RiBegin(RI_NULL);
-		RiFormat(80,40,1);
+		RiFormat(80,40,0.8);
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
-		RiClipping(0.1,10000);
+		RiClipping(0.1,0.2);
 		RiIdentity();
-		RtFloat fov = M_PI/2/2/2;//90 degrees
+		//RtFloat fov = M_PI/2;//90 degrees
+		RtFloat fov = 1.0472;//90 degrees
 		
 		//Screen Transform	
 		RiTranslate(20,20,0);
@@ -22,7 +23,7 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,20);
+		RiTranslate(0,0,10);
 
 		RiWorldBegin();
 		RiIdentity();
@@ -30,12 +31,11 @@ int main(){
 		//Rendering
 		for(int tm = 0;tm < 100000;tm++){
 		RiTransformBegin();
-		RiRotate(0.1,1,1,1);
 		//RiTranslate(-1,0,0);
-		for(int i = -3;i < 4;i++){
-			for(int j = -3;j < 4;j++){
-				for(int k = -2;k > -4;k--){
-					RtHpoint tmp = {5*(i + 0.5),5*(j + 0.5),k,1};
+		for(int i = -1;i < 3;i+=2){
+			for(int j = -1;j < 3;j+=2){
+				for(int k = -1;k < 3;k+=2){
+					RtHpoint tmp = {6*i,6*j,6*k,1};
 					JohnPoint(tmp);
 				}
 			}
@@ -50,6 +50,7 @@ int main(){
 		JohnPrint();
 		RiClearBuffer();
 		std::cin.get();
+		RiRotate(0.1,0,1,0);
 		}
 		RiWorldEnd();
 
