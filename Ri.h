@@ -4,6 +4,7 @@
 
 #ifndef _RI_H_
 #define _RI_H_
+#include <cstddef>
 typedef short RtBoolean;
 typedef int RtInt;
 typedef float RtFloat;
@@ -30,11 +31,12 @@ extern RtToken RI_FOV;
 class RiContext {
 	public:
 	RtMatrix CurrentTransform;
+	RtMatrix ViewTransform;
 	RtMatrix ScreenTransform;
 	RtInt** FrameBuffer;
 	RtInt XResolution;
 	RtInt YResolution;
-	RtFloat PixelAspectRation;
+	RtFloat PixelAspectRatio;
 	RtFloat Near;
 	RtFloat Far;
 };
@@ -49,7 +51,9 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectration);
 RtVoid RiTransformBegin();
 RtVoid RiTransformEnd();
 RtVoid RiClipping(RtFloat near,RtFloat far);
-RtVoid RiProjection(RtToken name,RtToken paramname = RI_FOV,RtFloat fov = 90);
+RtVoid RiProjection(RtToken name,RtToken paramname = RI_FOV,RtFloat *fov = RI_NULL);
+RtVoid RiWorldBegin();
+RtVoid RiWorldEnd();
 
 //Transforms
 RtVoid RiIdentity();
@@ -61,7 +65,9 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz);
 RtVoid RiPerspective(RtFloat fov);
 
 //Internal Stuff
-RtVoid RiMultHpoint();
+RtVoid RiMultHpoint(RtHpoint pt);
+RtVoid RiProjHpoint(RtHpoint pt);
+RtVoid RiClearBuffer();
 
 //Temp stuff
 RtVoid JohnPrint();

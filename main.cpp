@@ -3,55 +3,56 @@
 
 #include "Ri.h"
 #include <iostream>
+#include <math.h>
 
 int main(){
 	RiBegin(RI_NULL);
-		RiFormat(20,10,1);
-		//JohnPrint();
+		RiFormat(80,40,1);
+		//RiFrameAspectRatio(2.0/1.0);
+		//RiFrameBegin(0);
+		
+		RiClipping(0.1,10000);
 		RiIdentity();
-		//RtMatrix ident = {1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1};
-		//RtMatrix tmpmat = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-		//RtMatrix tmpmat2 = {1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1};
-		//RiConcatTransform(tmpmat2);	
-		//RiConcatTransform(tmpmat);	
-		//RiConcatTransform(ident);
-		//std::cout << "\n";
+		RtFloat fov = M_PI/2;//90 degrees
 		
-		/*JohnPrintMat();
-		std::cout << "\n";
-		RiTranslate(3,4,5);
-		JohnPrintMat();
-		std::cout << "\n";
-		RiTranslate(2,0,0);
-		JohnPrintMat();*/
+		//Screen Transform	
+		RiTranslate(20,20,0);
+		RiProjection(RI_PERSPECTIVE,"fov",&fov);
 		
-		/*RtHpoint p1 = {5.0,5.0,2.0,1.0};
-		RtHpoint p2 = {5.0,5.0,2.0,1.0};
-		RtHpoint p3 = {5.0,5.0,2.0,1.0};
-		JohnPoint(p1);
-		JohnPrint();
-		std::cout << "\n";
-		JohnPrintMat();
-		std::cout << "\n";
-		RiTranslate(2,0,0);
-		JohnPoint(p2);
-		JohnPrint();
-		std::cout << "\n";
-		JohnPrintMat();
-		std::cout << "\n";
-		RiTranslate(-3,-3,2);
-		JohnPoint(p3);
-		JohnPrint();
-		std::cout << "\n";
-		JohnPrintMat();
-		std::cout << "\n";*/
-	
-		/*for(RtFloat i = 0.0;i < 6.15;i+=0.01){
-			RtHpoint p1 = {5,5,2,1};
-			RiRotate(0.1,0,0,1);
-			JohnPoint(p1);
+		RiIdentity();
+
+		//Camera Transform
+		RiTranslate(0,0,5);
+
+		RiWorldBegin();
+		RiIdentity();
+		
+		//Rendering
+		for(int tm = 0;tm < 100000;tm++){
+		RiTransformBegin();
+		//RiRotate(0.1,0,1,0);
+		RiTranslate(-1,0,0);
+		for(int i = -3;i < 4;i++){
+			for(int j = -3;j < 4;j++){
+				for(int k = -2;k > -4;k--){
+					RtHpoint tmp = {4*(i + 0.5),4*(j + 0.5),k,1};
+					JohnPoint(tmp);
+				}
+			}
 		}
-		JohnPrint();*/
+		
+		RiTransformEnd();
+		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
+		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
+		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
+		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
+		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
+		JohnPrint();
+		RiClearBuffer();
+		std::cin.get();
+		}
+		RiWorldEnd();
+
 
 	RiEnd();
 }
