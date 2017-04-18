@@ -201,16 +201,16 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
 	RtFloat si = sin(angle);
 	RtFloat t = 1 - co;
 
-	RtMatrix tmp = {1,0,0,0,
+	/*RtMatrix tmp = {1,0,0,0,
 			0,cos(angle),-1*sin(angle),0,
 			0,sin(angle),cos(angle),0,
-			0,0,0,1};
+			0,0,0,1};*/
 	
 	//http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
-	//RtMatrix tmp = {t*dx*dx + co   ,t*dx*dy - dz*si,t*dx*dz + dy*si,0,
-	//		t*dx*dy + dz*si,t*dy*dy + co   ,t*dy*dz - dx*si,0,
-	//		t*dx*dz - dy*si,t*dy*dz + dx*si,t*dz*dz + co   ,0,
-	//		0	       ,0	       ,0	       ,1};
+	RtMatrix tmp = {t*dx*dx + co   ,t*dx*dy - dz*si,t*dx*dz + dy*si,0,
+			t*dx*dy + dz*si,t*dy*dy + co   ,t*dy*dz - dx*si,0,
+			t*dx*dz - dy*si,t*dy*dz + dx*si,t*dz*dz + co   ,0,
+			0	       ,0	       ,0	       ,1};
 	RiConcatTransform(tmp);
 	return;
 }

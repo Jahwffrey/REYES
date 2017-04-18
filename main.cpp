@@ -13,7 +13,7 @@ int main(){
 		
 		RiClipping(0.1,10000);
 		RiIdentity();
-		RtFloat fov = M_PI/2;//90 degrees
+		RtFloat fov = M_PI/2/2/2;//90 degrees
 		
 		//Screen Transform	
 		RiTranslate(20,20,0);
@@ -22,7 +22,7 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,5);
+		RiTranslate(0,0,20);
 
 		RiWorldBegin();
 		RiIdentity();
@@ -30,12 +30,12 @@ int main(){
 		//Rendering
 		for(int tm = 0;tm < 100000;tm++){
 		RiTransformBegin();
-		//RiRotate(0.1,0,1,0);
-		RiTranslate(-1,0,0);
+		RiRotate(0.1,1,1,1);
+		//RiTranslate(-1,0,0);
 		for(int i = -3;i < 4;i++){
 			for(int j = -3;j < 4;j++){
 				for(int k = -2;k > -4;k--){
-					RtHpoint tmp = {4*(i + 0.5),4*(j + 0.5),k,1};
+					RtHpoint tmp = {5*(i + 0.5),5*(j + 0.5),k,1};
 					JohnPoint(tmp);
 				}
 			}
