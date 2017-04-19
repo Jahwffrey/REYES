@@ -39,8 +39,9 @@ int main(){
 		for(int i = -1;i < 3;i+=2){
 			for(int j = -1;j < 3;j+=2){
 				for(int k = -1;k < 3;k+=2){
-					RtHpoint tmp = {6*i,6*j,6*k,1};
-					JohnPoint(tmp);
+					JRiPoint tmp = JRiPoint(3*i,6*j,6*k,1);	
+					tmp.MoveToScreen();
+					tmp.DumpToScreen();
 				}
 			}
 		}

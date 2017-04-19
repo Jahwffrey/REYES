@@ -196,46 +196,6 @@ RtVoid RiPerspective(RtFloat fov){
 
 
 //Internal Stuff
-RtVoid RiMultHpoint(RtHpoint pt){
-	RtHpoint npt = {0,0,0,0};
-	for(int j = 0;j < 4;j++){
-		for(int i = 0;i < 4;i++){
-			npt[j] += RiCurrentContext -> CurrentTransform[i][j] * pt[i];
-		}
-	}
-
-	for(int i = 0;i < 4;i++){
-		pt[i] = npt[i];
-	}
-	return;	
-}
-
-RtVoid RiProjHpoint(RtHpoint pt){
-	RtHpoint npt = {0,0,0,0};
-	for(int j = 0;j < 4;j++){
-		for(int i = 0;i < 4;i++){
-			npt[j] += RiCurrentContext -> ViewTransform[i][j] * pt[i];
-		}
-	}
-	
-	for(int i = 0;i < 4;i++){
-		pt[i] = npt[i];
-	}
-	
-	RtHpoint npt2 = {0,0,0,0};
-	for(int j = 0;j < 4;j++){
-		for(int i = 0;i < 4;i++){
-			npt2[j] += RiCurrentContext -> ScreenTransform[i][j] * pt[i];
-		}
-	}
-
-	pt[3] = npt2[3];	
-	for(int i = 0;i < 3;i++){
-		pt[i] = npt2[i]/(npt2[3] + 0.000001);
-	}	
-
-	return;	
-}
 
 RtVoid RiClearBuffer(){
 	for(int i = 0;i < RiCurrentContext -> XResolution;i++){
@@ -252,33 +212,6 @@ void JohnPrint(){
 			std::cout << RiCurrentContext -> FrameBuffer[i][j];
 		}
 		std::cout << "\n";
-	}
-	return;
-}
-
-void JohnPrintMat(){
-	for(int j = 0;j < 4;j++){
-		for(int i = 0;i < 4;i++){
-			std::cout << RiCurrentContext -> CurrentTransform[i][j] << "|";
-		}
-		std::cout << "\n";
-	}
-	return;
-}
-
-void JohnPrintHpoint(RtHpoint pt){
-	for(int i = 0;i < 4;i++){
-		std::cout << pt[i] << "|";
-	}
-	std::cout << "\n";
-	return;
-}
-
-void JohnPoint(RtHpoint pt){
-	RiMultHpoint(pt);
-	RiProjHpoint(pt);
-	if(pt[3] < -(RiCurrentContext -> Near) && pt[0] >= 0 && pt[1] >= 0 && (RtInt)pt[0] < RiCurrentContext -> XResolution && (RtInt)pt[1] < RiCurrentContext -> YResolution){
-		RiCurrentContext -> FrameBuffer[(RtInt)pt[0]][(RtInt)pt[1]] = 1;
 	}
 	return;
 }

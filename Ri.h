@@ -65,13 +65,8 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz);
 RtVoid RiPerspective(RtFloat fov);
 
 //Internal Stuff
-RtVoid RiMultHpoint(RtHpoint pt);
-RtVoid RiProjHpoint(RtHpoint pt);
 RtVoid RiClearBuffer();
 
 //Temp stuff
 RtVoid JohnPrint();
-void JohnPrintMat();
-void JohnPrintHpoint(RtHpoint pt);
-void JohnPoint(RtHpoint pt);
 #endif
