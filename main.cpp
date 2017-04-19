@@ -2,6 +2,7 @@
 //ID 3058344
 
 #include "Ri.h"
+#include "JRiPoint.h"
 #include <iostream>
 #include <math.h>
 
@@ -11,7 +12,7 @@ int main(){
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
-		RiClipping(0.1,0.2);
+		RiClipping(0.1,10000);
 		RiIdentity();
 		//RtFloat fov = M_PI/2;//90 degrees
 		//RtFloat fov = 1.0472;//60 degrees
@@ -22,6 +23,8 @@ int main(){
 		RiProjection(RI_PERSPECTIVE,"fov",&fov);
 		
 		RiIdentity();
+
+		JRiPoint* test = new JRiPoint(2,2,2,1);
 
 		//Camera Transform
 		RiTranslate(0,0,20);
@@ -43,11 +46,6 @@ int main(){
 		}
 		
 		RiTransformEnd();
-		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
-		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
-		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
-		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
-		//std::cout<<"\n\n\n\n\n\n\n\n\n\n\n\n";
 		JohnPrint();
 		RiClearBuffer();
 		std::cin.get();
