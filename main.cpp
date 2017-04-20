@@ -41,7 +41,7 @@ int main(){
 				for(int k = -1;k < 3;k+=2){
 					JRiPoint tmp = JRiPoint(6*i,6*j,6*k,1);	
 					tmp.MoveToScreen();
-					tmp.DumpToScreen();
+					tmp.DumpToScreen(0,1,0);
 				}
 			}
 		}

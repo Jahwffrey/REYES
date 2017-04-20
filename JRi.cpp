@@ -68,10 +68,10 @@ RtVoid JRiPoint::Mult(RtMatrix* mat){
 	}
 }
 
-RtVoid JRiPoint::DumpToScreen(){
+RtVoid JRiPoint::DumpToScreen(RtFloat r,RtFloat g,RtFloat b){
 	if(pt[3] < -(RiCurrentContext -> Near) && pt[0] >= 0 && pt[1] >= 0 && (RtInt)pt[0] < RiCurrentContext -> XResolution && (RtInt)pt[1] < RiCurrentContext -> YResolution){
 		//RiCurrentContext -> FrameBuffer[(RtInt)pt[0]][(RtInt)pt[1]].r = 255;
-		WriteFrameBuffer(pt[0],pt[1],255,255,255,0,pt[3]);
+		WriteFrameBuffer(pt[0],pt[1],r*255,g*255,b*255,0,pt[3]);
 	}
 }
 
@@ -115,6 +115,16 @@ RtVoid JRiVertex::set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloa
 	return;
 }
 
+RtVoid JRiVertex::MoveToScreen(){
+	pos->MoveToScreen();
+	return;
+}
+
+RtVoid JRiVertex::Draw(){
+	pos->DumpToScreen(col->r(),col->g(),col->b());
+	return;
+}
+
 //Mesh
 JRiMesh::JRiMesh(RtInt w,RtInt h){
 	width = 16;//w;
@@ -136,5 +146,15 @@ JRiMesh::~JRiMesh(){
 
 RtVoid JRiMesh::set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
 	mesh[mx][my] -> set(x,y,z,nx,ny,nz,r,g,b,a,tx,ty);
+	return;
+}
+
+RtVoid JRiMesh::Draw(){
+	for(int j = 0;j < height;j++){
+		for(int i = 0;i < height;i++){
+			mesh[i][j] -> MoveToScreen();
+			mesh[i][j] -> Draw();
+		}
+	}
 	return;
 }
