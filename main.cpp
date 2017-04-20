@@ -8,7 +8,7 @@
 
 int main(){
 	RiBegin(RI_NULL);
-		RiFormat(80,40,0.5);
+		RiFormat(640,480,1);
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
@@ -19,7 +19,7 @@ int main(){
 		RtFloat fov = 0.174533/2;//10 degrees
 		
 		//Screen Transform	
-		RiTranslate(20,20,0);
+		RiTranslate(320,240,0);
 		RiProjection(RI_PERSPECTIVE,"fov",&fov);
 		
 		RiIdentity();
@@ -27,32 +27,31 @@ int main(){
 		JRiPoint* test = new JRiPoint(2,2,2,1);
 
 		//Camera Transform
-		RiTranslate(0,0,20);
+		RiTranslate(0,0,5);
 
 		RiWorldBegin();
 		RiIdentity();
 		
 		//Rendering
-		for(int tm = 0;tm < 100000;tm++){
 		RiTransformBegin();
+		JRiMesh* testmesh = new JRiMesh(16,16);
 		//RiTranslate(-1,0,0);
-		for(int i = -1;i < 3;i+=2){
-			for(int j = -1;j < 3;j+=2){
-				for(int k = -1;k < 3;k+=2){
-					JRiPoint tmp = JRiPoint(6*i,6*j,6*k,1);	
-					tmp.MoveToScreen();
-					tmp.DumpToScreen(0,1,0);
-				}
+		//RiTranslate(20,20,0);
+		RiRotate(0.25,1,1,0);
+		for(int j = 0;j < 16;j++){
+			for(int i = 0;i < 16;i++){
+				testmesh->set(i,j,
+					      i,j,0,
+					      1,1,1,	
+					      i/16.0,j/16.0,1,0,
+					      0,0);
 			}
 		}
-		
+		testmesh->Draw();
 		RiTransformEnd();
-		JohnPrint();
+		delete(testmesh);
+		//JohnPrint();
 		RiDisplay("tmp.ppm","file","rgb");	
-		RiClearBuffer();
-		std::cin.get();
-		RiRotate(0.1,0,1,0);
-		}
 		RiWorldEnd();
 
 

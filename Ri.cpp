@@ -50,11 +50,11 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectratio){
 	for(int i = 0;i < xresolution;i++){
 		RiCurrentContext -> FrameBuffer[i] = new JRiPixel[yresolution];	
 		for(int j = 0;j < yresolution;j++){
-			RiCurrentContext -> FrameBuffer[i][j].r = 0;
-			RiCurrentContext -> FrameBuffer[i][j].g = 0;
-			RiCurrentContext -> FrameBuffer[i][j].b = 0;
-			RiCurrentContext -> FrameBuffer[i][j].a = 0;
-			RiCurrentContext -> FrameBuffer[i][j].z = 0;
+			RiCurrentContext -> FrameBuffer[i][j].r = 255;
+			RiCurrentContext -> FrameBuffer[i][j].g = 255;
+			RiCurrentContext -> FrameBuffer[i][j].b = 255;
+			RiCurrentContext -> FrameBuffer[i][j].a = 255;
+			RiCurrentContext -> FrameBuffer[i][j].z = 255;
 		}
 	}
 	return;
