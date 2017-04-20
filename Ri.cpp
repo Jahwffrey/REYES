@@ -321,7 +321,7 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 			mesh->Set(	i,j,
 					x,y,z,
 					x,y,z,
-					1,1,1,1,
+					u,1,v,1,
 					u,v);
 		}
 	}

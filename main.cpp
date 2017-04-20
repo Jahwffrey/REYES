@@ -8,6 +8,7 @@
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //My Coordinate system reversed! Why and how do i fix it?
+//RiColor!!
 
 int main(){
 	RiBegin(RI_NULL);
@@ -38,7 +39,7 @@ int main(){
 			RiRotate(1.5,1,0,0);	
 			//Rendering
 			RiTransformBegin();
-				RiSphere(3,-2,3,270.0,RI_NULL);
+				RiSphere(3,-3,3,360.0,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
