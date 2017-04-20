@@ -35,6 +35,18 @@ class JRiVertex {
 	public:
 		JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
 		~JRiVertex();
+		RtVoid set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
+};
+
+class JRiMesh {
+	private:
+		JRiVertex* mesh[16][16];
+		RtInt width;
+		RtInt height;
+	public:
+		JRiMesh(RtInt w,RtInt h);
+		~JRiMesh();
+		RtVoid set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
 };
 
 #endif

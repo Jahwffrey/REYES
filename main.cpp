@@ -2,7 +2,7 @@
 //ID 3058344
 
 #include "Ri.h"
-#include "JRiPoint.h"
+#include "JRi.h"
 #include <iostream>
 #include <math.h>
 

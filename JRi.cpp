@@ -1,7 +1,7 @@
 //John Thomason
 //ID 3058344
 
-#include "JRiPoint.h"
+#include "JRi.h"
 #include "Ri.h"
 #include <math.h>
 
@@ -104,4 +104,37 @@ JRiVertex::~JRiVertex(){
 	delete(norm);
 	delete(col);
 	delete(texpos);
+}
+
+RtVoid JRiVertex::set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
+	pos->set(x,y,z,1);	
+	norm->set(nx,ny,nz,1);
+	norm->normalize();	
+	col->set(r,g,b,a);	
+	texpos->set(tx,ty,0,0);	
+	return;
+}
+
+//Mesh
+JRiMesh::JRiMesh(RtInt w,RtInt h){
+	width = 16;//w;
+	height = 16;//h;
+	for(int j = 0;j < height;j++){
+		for(int i = 0;i < width;i++){
+			mesh[i][j] = new JRiVertex(0,0,0,0,0,0,0,0,0,0,0,0);
+		}
+	}
+}
+
+JRiMesh::~JRiMesh(){
+	for(int j = 0;j < height;j++){
+		for(int i = 0;i < width;i++){
+			delete(mesh[i][j]);
+		}
+	}
+}
+
+RtVoid JRiMesh::set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
+	mesh[mx][my] -> set(x,y,z,nx,ny,nz,r,g,b,a,tx,ty);
+	return;
 }
