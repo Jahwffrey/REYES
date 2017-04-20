@@ -31,6 +31,7 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectratio){
 	RiCurrentContext -> XResolution = xresolution;
 	RiCurrentContext -> YResolution = yresolution;
 	RiCurrentContext -> PixelAspectRatio = pixelaspectratio;
+	RiCurrentContext -> FrameAspectRatio = (xresolution * pixelaspectratio)/yresolution;
 	RiCurrentContext -> FrameBuffer = new RtInt*[xresolution];
 	for(int i = 0;i < xresolution;i++){
 		RiCurrentContext -> FrameBuffer[i] = new RtInt[yresolution];	
@@ -44,11 +45,13 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectratio){
 RtVoid RiTransformBegin(){
 	//With no stack, so nothing
 	//RiIdentity();
+	RiCurrentContext -> TransBegun = 1;
 	return;
 }
 
 RtVoid RiTransformEnd(){
 	//With no stack, do nothing
+	RiCurrentContext -> TransBegun = 0;
 	return;
 }
 
@@ -84,6 +87,7 @@ RtVoid RiProjection(RtToken name,RtToken paramname,RtFloat *fov){
 }
 
 RtVoid RiWorldBegin(){
+	RiCurrentContext -> WorldBegun = 1;
 	for(int j = 0;j < 4;j++){
 		for(int i = 0;i < 4;i++){
 			RiCurrentContext -> ViewTransform[i][j] = RiCurrentContext -> CurrentTransform[i][j];
@@ -93,6 +97,31 @@ RtVoid RiWorldBegin(){
 }
 
 RtVoid RiWorldEnd(){
+	RiCurrentContext -> WorldBegun = 0;
+	return;
+}
+
+RtVoid RiFrameAspectRatio(RtFloat rat){
+	RiCurrentContext -> FrameAspectRatio = rat;
+	return;
+}
+
+RtVoid RiPixelSamples(RtFloat xsamples,RtFloat ysamples){
+	RiCurrentContext -> XSamples = xsamples;
+	RiCurrentContext -> YSamples = ysamples;
+	return;
+}
+
+RtVoid RiFrameBegin(RtInt frame){
+	//NOT DONE! NOT DONE AT ALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	RiCurrentContext -> FrameBegun = 1;
+	RiCurrentContext -> CurrentFrame = frame;
+	return;
+}
+
+RtVoid RiFrameEnd(){
+	RiCurrentContext -> FrameBegun = 0;
+	RiCurrentContext -> CurrentFrame = -1;
 	return;
 }
 

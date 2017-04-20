@@ -36,9 +36,16 @@ class RiContext {
 	RtInt** FrameBuffer;
 	RtInt XResolution;
 	RtInt YResolution;
+	RtFloat XSamples;
+	RtFloat YSamples;
 	RtFloat PixelAspectRatio;
+	RtFloat FrameAspectRatio;
 	RtFloat Near;
 	RtFloat Far;
+	RtInt TransBegun;
+	RtInt WorldBegun;
+	RtInt FrameBegun;
+	RtInt CurrentFrame;
 };
 
 //Global Variables
@@ -54,6 +61,11 @@ RtVoid RiClipping(RtFloat near,RtFloat far);
 RtVoid RiProjection(RtToken name,RtToken paramname = RI_FOV,RtFloat *fov = RI_NULL);
 RtVoid RiWorldBegin();
 RtVoid RiWorldEnd();
+RtVoid RiFrameAspectRatio(RtFloat rat);
+RtVoid RiPixelSamples(RtFloat xsamples,RtFloat ysamples);
+RtVoid RiFrameBegin(RtInt frame);
+RtVoid RiFrameEnd();
+
 
 //Transforms
 RtVoid RiIdentity();
