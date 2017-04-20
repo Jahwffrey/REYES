@@ -48,7 +48,7 @@ int main(){
 		
 		RiTransformEnd();
 		JohnPrint();
-		RiDisplay("tmp","","");	
+		RiDisplay("tmp.ppm","file","rgb");	
 		RiClearBuffer();
 		std::cin.get();
 		RiRotate(0.1,0,1,0);

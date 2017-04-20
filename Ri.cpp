@@ -143,19 +143,63 @@ RtVoid RiFrameEnd(){
 	return;
 }
 
-RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode){
+RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPointer orig){
+	//I NEED TO IMPLEMENT SUPPORT FOR ORIGIN!!
 	std::stringstream fname;
-	fname << "" << name << ".ppm";
-	FILE *ofile = fopen("test.ppm","wb");
-	fprintf(ofile,"P6\n%d %d\n255\n",RiCurrentContext -> XResolution,RiCurrentContext -> YResolution);
-	for(int j = 0;j < RiCurrentContext -> YResolution;j++){
-		for(int i = 0;i < RiCurrentContext -> XResolution;i++){
-			JRiPixel px = RiCurrentContext -> FrameBuffer[i][j];
-			unsigned char col[3] = {px.r,px.g,px.b};
-			fwrite(col,1,3,ofile);
+	//If writing to file
+	if(strcmp(type,"file") == 0){
+		FILE *ofile = fopen(name,"wb");
+		fprintf(ofile,"P6\n%d %d\n255\n",RiCurrentContext -> XResolution,RiCurrentContext -> YResolution);
+		for(int j = 0;j < RiCurrentContext -> YResolution;j++){
+			for(int i = 0;i < RiCurrentContext -> XResolution;i++){
+				int nm = 0;
+				unsigned char col[5];
+				JRiPixel px = RiCurrentContext -> FrameBuffer[i][j];
+				if(strcmp(mode,"rgb") == 0){	
+					nm = 3;
+					col[0] = px.r;
+					col[1] = px.g;
+					col[2] = px.b;
+				} else if(strcmp(mode,"rgba") == 0){
+					nm = 4;
+					col[0] = px.r;
+					col[1] = px.g;
+					col[2] = px.b;
+					col[3] = px.a;
+				} else if(strcmp(mode,"rgbaz") == 0){
+					nm = 5;
+					col[0] = px.r;
+					col[1] = px.g;
+					col[2] = px.b;
+					col[3] = px.a;
+					col[4] = px.z;
+				} else if(strcmp(mode,"rgbz") == 0){
+					nm = 4;
+					col[0] = px.r;
+					col[1] = px.g;
+					col[2] = px.b;
+					col[3] = px.z;
+				} else if(strcmp(mode,"a") == 0){
+					nm = 1;
+					col[0] = px.a;
+				} else if(strcmp(mode,"az") == 0){
+					nm = 2;
+					col[0] = px.a;
+					col[1] = px.z;
+				} else if(strcmp(mode,"z") == 0){
+					nm = 1;
+					col[0] = px.z;
+				}
+				fwrite(col,1,nm,ofile);
+			}
 		}
+		fclose(ofile);
+	} else if (strcmp(type,"framebuffer") == 0){
+		//NOT DONE! NOT DONE AT ALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		//???????
 	}
-	fclose(ofile);
+
+	return;
 }
 
 //Transformation Stuff
