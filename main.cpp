@@ -19,7 +19,7 @@ int main(){
 		RiIdentity();
 		//RtFloat fov = M_PI/2;//90 degrees
 		//RtFloat fov = 1.0472;//60 degrees
-		RtFloat fov = 0.174533/2;//10 degrees
+		RtFloat fov = 0.174533/2/2/2/2;//10 degrees
 		
 		//Screen Transform	
 		RiTranslate(320,240,0);
@@ -34,10 +34,11 @@ int main(){
 
 		RiWorldBegin();
 			RiIdentity();
-		
+	
+			RiRotate(1.5,1,0,0);	
 			//Rendering
 			RiTransformBegin();
-				RiSphere(3,-3,3,360,RI_NULL);
+				RiSphere(3,-2,3,270.0,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();

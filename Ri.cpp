@@ -308,6 +308,23 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 	if(zmin > -radius) phimin = asin(zmin/radius);
 	RtFloat phimax = M_PI/2.0;
 	if(zmax < radius) phimax = asin(zmax/radius);
+	RtFloat tm = (thetamax * M_PI)/180.0;
+	for(RtInt j = 0;j < mesh->GetHeight();j++){
+		for(RtInt i = 0;i < mesh->GetWidth();i++){
+			RtFloat u = (RtFloat)i/(RtFloat)mesh->GetWidth();
+			RtFloat v = (RtFloat)j/(RtFloat)mesh->GetHeight();
+			RtFloat phi = phimin + v * (phimax - phimin);
+			RtFloat theta = tm*u;
+			RtFloat x = radius * cos(theta) * cos(phi);
+			RtFloat y = radius * sin(theta) * cos(phi);
+			RtFloat z = radius * sin(phi);
+			mesh->Set(	i,j,
+					x,y,z,
+					x,y,z,
+					1,1,1,1,
+					u,v);
+		}
+	}
 	mesh->Draw();
 	delete(mesh);
 	return;
