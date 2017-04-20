@@ -1,5 +1,5 @@
 //John Thomason
-//
+//ID 3058344
 
 #ifndef _JRIPOINT_H_
 #define _JRIPOINT_H_
@@ -19,5 +19,6 @@ class JRiPoint{
 		RtVoid MoveToScreen();
 		RtVoid DumpToScreen();
 };
+
 
 #endif

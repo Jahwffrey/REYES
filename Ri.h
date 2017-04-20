@@ -4,7 +4,9 @@
 
 #ifndef _RI_H_
 #define _RI_H_
+
 #include <cstddef>
+
 typedef short RtBoolean;
 typedef int RtInt;
 typedef float RtFloat;
@@ -27,13 +29,22 @@ extern RtToken RI_PERSPECTIVE;
 extern RtToken RI_ORTHOGRAPHIC;
 extern RtToken RI_FOV;
 
+class JRiPixel {
+	public:
+	RtFloat r;
+	RtFloat g;
+	RtFloat b;
+	RtFloat a;
+	RtFloat z;
+};
+
 //I decided I would hold the various globally accessible things inside of of context object
 class RiContext {
 	public:
 	RtMatrix CurrentTransform;
 	RtMatrix ViewTransform;
 	RtMatrix ScreenTransform;
-	RtInt** FrameBuffer;
+	JRiPixel** FrameBuffer;
 	RtInt XResolution;
 	RtInt YResolution;
 	RtFloat XSamples;

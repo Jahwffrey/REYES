@@ -9,7 +9,7 @@ main.o: main.cpp Ri.h JRiPoint.h
 Ri.o: Ri.cpp Ri.h
 	g++ -c Ri.cpp
 
-JRiPoint.o: JRiPoint.cpp JRiPoint.h
+JRiPoint.o: JRiPoint.cpp JRiPoint.h Ri.h
 	g++ -c JRiPoint.cpp
 
 clean:
