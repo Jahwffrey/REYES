@@ -76,6 +76,7 @@ RtVoid RiFrameAspectRatio(RtFloat rat);
 RtVoid RiPixelSamples(RtFloat xsamples,RtFloat ysamples);
 RtVoid RiFrameBegin(RtInt frame);
 RtVoid RiFrameEnd();
+RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode);
 
 
 //Transforms

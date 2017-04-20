@@ -48,6 +48,7 @@ int main(){
 		
 		RiTransformEnd();
 		JohnPrint();
+		RiDisplay("tmp","","");	
 		RiClearBuffer();
 		std::cin.get();
 		RiRotate(0.1,0,1,0);

@@ -6,6 +6,9 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include <string>
+#include <sstream>
+#include <stdlib.h>
 
 RtToken RI_PERSPECTIVE = "perspective";
 RtToken RI_ORTHOGRAPHIC = "orthographic";
@@ -127,6 +130,21 @@ RtVoid RiFrameEnd(){
 	RiCurrentContext -> FrameBegun = 0;
 	RiCurrentContext -> CurrentFrame = -1;
 	return;
+}
+
+RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode){
+	std::stringstream fname;
+	fname << "" << name << ".ppm";
+	FILE *ofile = fopen("test.ppm","wb");
+	fprintf(ofile,"P6\n%d %d\n255\n",RiCurrentContext -> XResolution,RiCurrentContext -> YResolution);
+	for(int j = 0;j < RiCurrentContext -> YResolution;j++){
+		for(int i = 0;i < RiCurrentContext -> XResolution;i++){
+			JRiPixel px = RiCurrentContext -> FrameBuffer[i][j];
+			unsigned char col[3] = {px.r,px.g,px.b};
+			fwrite(col,1,3,ofile);
+		}
+	}
+	fclose(ofile);
 }
 
 //Transformation Stuff
