@@ -51,11 +51,11 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectratio){
 	for(int i = 0;i < xresolution;i++){
 		RiCurrentContext -> FrameBuffer[i] = new JRiPixel[yresolution];	
 		for(int j = 0;j < yresolution;j++){
-			RiCurrentContext -> FrameBuffer[i][j].r = 255;
-			RiCurrentContext -> FrameBuffer[i][j].g = 255;
-			RiCurrentContext -> FrameBuffer[i][j].b = 255;
-			RiCurrentContext -> FrameBuffer[i][j].a = 255;
-			RiCurrentContext -> FrameBuffer[i][j].z = 255;
+			RiCurrentContext -> FrameBuffer[i][j].r = 0;
+			RiCurrentContext -> FrameBuffer[i][j].g = 0;
+			RiCurrentContext -> FrameBuffer[i][j].b = 0;
+			RiCurrentContext -> FrameBuffer[i][j].a = 0;
+			RiCurrentContext -> FrameBuffer[i][j].z = 0;
 		}
 	}
 	return;
@@ -304,6 +304,10 @@ RtVoid RiPerspective(RtFloat fov){
 RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPointer param){
 	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
 	JRiMesh* mesh = new JRiMesh(64,64);
+	RtFloat phimin = -M_PI/2.0;
+	if(zmin > -radius) phimin = asin(zmin/radius);
+	RtFloat phimax = M_PI/2.0;
+	if(zmax < radius) phimax = asin(zmax/radius);
 	mesh->Draw();
 	delete(mesh);
 	return;

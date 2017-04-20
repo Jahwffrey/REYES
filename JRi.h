@@ -22,8 +22,8 @@ class JRiPoint{
 		RtVoid Mult(RtMatrix* mat);
 		RtVoid MoveToScreen();
 		RtVoid DumpToScreen(RtFloat r,RtFloat g,RtFloat b);
-		RtVoid set(RtFloat a,RtFloat b,RtFloat c,RtFloat d);
-		RtVoid normalize();
+		RtVoid Set(RtFloat a,RtFloat b,RtFloat c,RtFloat d);
+		RtVoid Normalize();
 };
 
 class JRiVertex {
@@ -35,7 +35,7 @@ class JRiVertex {
 	public:
 		JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
 		~JRiVertex();
-		RtVoid set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
+		RtVoid Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
 		RtVoid MoveToScreen();
 		RtVoid Draw();
 };
@@ -48,8 +48,10 @@ class JRiMesh {
 	public:
 		JRiMesh(RtInt w,RtInt h);
 		~JRiMesh();
-		RtVoid set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
+		RtVoid Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
 		RtVoid Draw();
+		RtInt GetWidth();
+		RtInt GetHeight();
 };
 
 #endif

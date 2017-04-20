@@ -75,14 +75,14 @@ RtVoid JRiPoint::DumpToScreen(RtFloat r,RtFloat g,RtFloat b){
 	}
 }
 
-RtVoid JRiPoint::set(RtFloat a,RtFloat b,RtFloat c,RtFloat d){
+RtVoid JRiPoint::Set(RtFloat a,RtFloat b,RtFloat c,RtFloat d){
 	pt[0] = a;
 	pt[1] = b;
 	pt[2] = c;
 	pt[3] = d;
 	return;
 }
-RtVoid JRiPoint::normalize(){
+RtVoid JRiPoint::Normalize(){
 	RtFloat len = sqrt(pow(pt[0],2) + pow(pt[1],2) + pow(pt[2],2));
 	pt[0] = pt[0]/len;
 	pt[1] = pt[1]/len;
@@ -94,7 +94,7 @@ RtVoid JRiPoint::normalize(){
 JRiVertex::JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
 	pos = new JRiPoint(x,y,z,1);	
 	norm = new JRiPoint(nx,ny,nz,1);
-	norm->normalize();	
+	norm->Normalize();	
 	col = new JRiPoint(r,g,b,a);	
 	texpos = new JRiPoint(tx,ty,0,0);	
 }
@@ -106,12 +106,12 @@ JRiVertex::~JRiVertex(){
 	delete(texpos);
 }
 
-RtVoid JRiVertex::set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
-	pos->set(x,y,z,1);	
-	norm->set(nx,ny,nz,1);
-	norm->normalize();	
-	col->set(r,g,b,a);	
-	texpos->set(tx,ty,0,0);	
+RtVoid JRiVertex::Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
+	pos->Set(x,y,z,1);	
+	norm->Set(nx,ny,nz,1);
+	norm->Normalize();	
+	col->Set(r,g,b,a);	
+	texpos->Set(tx,ty,0,0);	
 	return;
 }
 
@@ -144,17 +144,26 @@ JRiMesh::~JRiMesh(){
 	}
 }
 
-RtVoid JRiMesh::set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
-	mesh[mx][my] -> set(x,y,z,nx,ny,nz,r,g,b,a,tx,ty);
+RtVoid JRiMesh::Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){
+	mesh[mx][my] -> Set(x,y,z,nx,ny,nz,r,g,b,a,tx,ty);
 	return;
 }
 
 RtVoid JRiMesh::Draw(){
 	for(int j = 0;j < height;j++){
-		for(int i = 0;i < height;i++){
+		for(int i = 0;i < width;i++){
 			mesh[i][j] -> MoveToScreen();
 			mesh[i][j] -> Draw();
 		}
 	}
 	return;
+}
+
+
+RtInt JRiMesh::GetWidth(){
+	return width;
+}
+
+RtInt JRiMesh::GetHeight(){
+	return height;
 }
