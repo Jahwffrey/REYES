@@ -15,6 +15,17 @@ RtToken RI_ORTHOGRAPHIC = "orthographic";
 RtToken RI_FOV = "fov";
 RiContext* RiCurrentContext;
 
+//RiContext Stuff
+RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat z){
+			RtInt i = (RtInt)x;
+			RtInt j = (RtInt)y;
+			RiCurrentContext -> FrameBuffer[i][j].r = r;
+			RiCurrentContext -> FrameBuffer[i][j].g = g;
+			RiCurrentContext -> FrameBuffer[i][j].b = b;
+			RiCurrentContext -> FrameBuffer[i][j].a = a;
+			RiCurrentContext -> FrameBuffer[i][j].z = z;
+}	
+
 //Graphics States
 RtVoid RiBegin(RtToken name){
 	RiCurrentContext = new RiContext();
@@ -249,13 +260,9 @@ RtVoid RiPerspective(RtFloat fov){
 //Internal Stuff
 
 RtVoid RiClearBuffer(){
-	for(int i = 0;i < RiCurrentContext -> XResolution;i++){
-		for(int j = 0;j < RiCurrentContext -> YResolution;j++){
-			RiCurrentContext -> FrameBuffer[i][j].r = 0;
-			RiCurrentContext -> FrameBuffer[i][j].g = 0;
-			RiCurrentContext -> FrameBuffer[i][j].b = 0;
-			RiCurrentContext -> FrameBuffer[i][j].a = 0;
-			RiCurrentContext -> FrameBuffer[i][j].z = 0;
+	for(RtFloat j = 0;j < RiCurrentContext -> YResolution;j++){
+		for(RtFloat i = 0;i < RiCurrentContext -> XResolution;i++){
+			WriteFrameBuffer(i,j,0,0,0,0,0);
 		}
 	}
 }
