@@ -127,8 +127,8 @@ RtVoid JRiVertex::Draw(){
 
 //Mesh
 JRiMesh::JRiMesh(RtInt w,RtInt h){
-	width = 16;//w;
-	height = 16;//h;
+	width = 64;//w;
+	height = 64;//h;
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){
 			mesh[i][j] = new JRiVertex(0,0,0,0,0,0,0,0,0,0,0,0);

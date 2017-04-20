@@ -6,6 +6,9 @@
 #include <iostream>
 #include <math.h>
 
+//THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//My Coordinate system reversed! Why and how do i fix it?
+
 int main(){
 	RiBegin(RI_NULL);
 		RiFormat(640,480,1);
@@ -30,30 +33,13 @@ int main(){
 		RiTranslate(0,0,5);
 
 		RiWorldBegin();
-		RiIdentity();
+			RiIdentity();
 		
-		//Rendering
-		RiTransformBegin();
-		JRiMesh* testmesh = new JRiMesh(16,16);
-		//RiTranslate(-1,0,0);
-		//RiTranslate(20,20,0);
-		RiRotate(0.25,1,1,0);
-		for(int j = 0;j < 16;j++){
-			for(int i = 0;i < 16;i++){
-				testmesh->set(i,j,
-					      i,j,0,
-					      1,1,1,	
-					      i/16.0,j/16.0,1,0,
-					      0,0);
-			}
-		}
-		testmesh->Draw();
-		RiTransformEnd();
-		delete(testmesh);
-		//JohnPrint();
-		RiDisplay("tmp.ppm","file","rgb");	
+			//Rendering
+			RiTransformBegin();
+				RiSphere(3,-3,3,360,RI_NULL);
+			RiTransformEnd();
+			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
-
-
 	RiEnd();
 }

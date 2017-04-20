@@ -6,7 +6,7 @@ main: main.o Ri.o JRi.o
 main.o: main.cpp Ri.h JRi.h
 	g++ -c main.cpp
 
-Ri.o: Ri.cpp Ri.h
+Ri.o: Ri.cpp Ri.h JRi.h
 	g++ -c Ri.cpp
 
 JRi.o: JRi.cpp JRi.h Ri.h

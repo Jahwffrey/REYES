@@ -2,6 +2,7 @@
 //ID 3058344
 
 #include "Ri.h"
+#include "JRi.h"
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
@@ -299,25 +300,21 @@ RtVoid RiPerspective(RtFloat fov){
 	RiConcatTransform(tmp);
 }
 
+//Primitives
+RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPointer param){
+	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	JRiMesh* mesh = new JRiMesh(64,64);
+	mesh->Draw();
+	delete(mesh);
+	return;
+}
 
 
 //Internal Stuff
-
 RtVoid RiClearBuffer(){
 	for(RtFloat j = 0;j < RiCurrentContext -> YResolution;j++){
 		for(RtFloat i = 0;i < RiCurrentContext -> XResolution;i++){
 			WriteFrameBuffer(i,j,0,0,0,0,0);
 		}
 	}
-}
-
-
-void JohnPrint(){
-	for(int j = 0;j < RiCurrentContext -> YResolution;j++){
-		for(int i = 0;i < RiCurrentContext -> XResolution;i++){
-			std::cout << RiCurrentContext -> FrameBuffer[i][j].r;
-		}
-		std::cout << "\n";
-	}
-	return;
 }

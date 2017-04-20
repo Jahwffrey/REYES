@@ -91,9 +91,9 @@ RtVoid RiScale(RtFloat dx,RtFloat dy,RtFloat dz);
 RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz);
 RtVoid RiPerspective(RtFloat fov);
 
+//Primitives
+RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPointer param = RI_NULL);
+
 //Internal Stuff
 RtVoid RiClearBuffer();
-
-//Temp stuff
-RtVoid JohnPrint();
 #endif
