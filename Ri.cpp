@@ -24,7 +24,7 @@ RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloa
 			RiCurrentContext -> FrameBuffer[i][j].b = b;
 			RiCurrentContext -> FrameBuffer[i][j].a = a;
 			RiCurrentContext -> FrameBuffer[i][j].z = z;
-}	
+}
 
 //Graphics States
 RtVoid RiBegin(RtToken name){
