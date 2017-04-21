@@ -10,6 +10,7 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include <time.h>
 
 RtToken RI_PERSPECTIVE = "perspective";
 RtToken RI_ORTHOGRAPHIC = "orthographic";
@@ -40,7 +41,9 @@ RtVoid RiContext::AllocateFrameBuffer(){
 			for(int k = 0;k < XSamples;k++){
 				FrameBuffer[i][j][k] = new JRiPixel* [(RtInt)YSamples];
 				for(int l = 0;l < YSamples;l++){
-					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,0);
+					RtFloat du = (RtFloat)k/XSamples;
+					RtFloat dv = (RtFloat)l/XSamples;
+					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,0,(RtFloat)i + du,(RtFloat)j + dv);
 				}
 			}
 		}
@@ -63,20 +66,27 @@ RtVoid RiContext::DeleteFrameBuffer(){
 	delete(RiCurrentContext -> FrameBuffer);
 };
 
-JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz){
+JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloat uu,RtFloat vv){
 	r = rr;
 	g = gg;
 	b = bb;
 	a = aa;
 	z = zz;
+	//Set the u and v coordinate of this pixel on the screen
+	//The one received by the constructor is that of it without jitter, so i should jitter it within
+	RtFloat maxdu = 1.0/(RiCurrentContext -> XSamples);
+	RtFloat maxdv = 1.0/(RiCurrentContext -> YSamples);
+	u = uu + maxdu * ((RtFloat)(rand() % 1000))/1000.0;
+	v = vv + maxdv * ((RtFloat)(rand() % 1000))/1000.0;
 }
 
 //Graphics States
 RtVoid RiBegin(RtToken name){
 	RiCurrentContext = new RiContext();
 	RiIdentity();
-	RiCurrentContext -> XSamples = 4;
-	RiCurrentContext -> YSamples = 4;	
+	RiCurrentContext -> XSamples = 2;
+	RiCurrentContext -> YSamples = 2;	
+	srand(time(NULL));
 	return;
 }
 RtVoid RiEnd(){
@@ -189,7 +199,7 @@ RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPoin
 			for(int i = 0;i < RiCurrentContext -> XResolution;i++){
 				int nm = 0;
 				unsigned char col[5];
-				JRiPixel px(0,0,0,0,0);
+				JRiPixel px(0,0,0,0,0,0,0);
 				RiGetSampledPixel(i,j,&px);
 				if(strcmp(mode,"rgb") == 0){	
 					nm = 3;
@@ -386,10 +396,10 @@ RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col){
 		}
 	}
 	RtFloat div =(RtFloat)RiCurrentContext -> XSamples * (RtFloat)RiCurrentContext -> YSamples;
-	col->r = col->r/div;
-	col->g = col->g/div;
-	col->b = col->b/div;
-	col->a = col->a/div;
-	col->z = col->z/div;
+	col->r = (col->r/div)*255;
+	col->g = (col->g/div)*255;
+	col->b = (col->b/div)*255;
+	col->a = (col->a/div)*255;
+	col->z = (col->z/div)*255;
 	return;
 }

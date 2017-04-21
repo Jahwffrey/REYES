@@ -121,7 +121,8 @@ RtVoid JRiVertex::MoveToScreen(){
 }
 
 RtVoid JRiVertex::Draw(){
-	pos->DumpToScreen(col->r(),col->g(),col->b());
+	//pos->DumpToScreen(col->r(),col->g(),col->b());
+	//Loop over All vertextes
 	return;
 }
 

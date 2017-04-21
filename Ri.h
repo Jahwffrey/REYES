@@ -36,8 +36,9 @@ class JRiPixel {
 	RtFloat b;
 	RtFloat a;
 	RtFloat z;
-	
-	JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz);
+	RtFloat u;
+	RtFloat v;	
+	JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloat uu,RtFloat vv);
 };
 
 //I decided I would hold the various globally accessible things inside of of context object
