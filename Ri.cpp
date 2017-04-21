@@ -84,8 +84,8 @@ JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloa
 RtVoid RiBegin(RtToken name){
 	RiCurrentContext = new RiContext();
 	RiIdentity();
-	RiCurrentContext -> XSamples = 2;
-	RiCurrentContext -> YSamples = 2;	
+	RiCurrentContext -> XSamples = 4;
+	RiCurrentContext -> YSamples = 4;	
 	srand(time(NULL));
 	return;
 }
