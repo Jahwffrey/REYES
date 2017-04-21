@@ -140,8 +140,8 @@ JRiPoint* JRiVertex::GetTexPos(){
 }
 //Mesh
 JRiMesh::JRiMesh(RtInt w,RtInt h){
-	width = 64;//w;
-	height = 64;//h;
+	width = 4;//w;
+	height = 4;//h;
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){
 			mesh[i][j] = new JRiVertex(0,0,0,0,0,0,0,0,0,0,0,0);
@@ -208,14 +208,17 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 			//Loop over samples
 			for(RtInt l = 0;l < RiCurrentContext -> YSamples;l++){
 				for(RtInt k = 0;k < RiCurrentContext -> XSamples;k++){
-					bool sampled = false;
+					//Check if sample is in quad
 					JRiPixel* px = RiCurrentContext -> FrameBuffer[i][j][k][l];
 					if(SampleInsideMicrotriangle(px,ul->GetPos(),ur->GetPos(),ll->GetPos()) || SampleInsideMicrotriangle(px,ur->GetPos(),ll->GetPos(),lr->GetPos())){
-						px->r = ul->GetCol()->r();
-						px->g = ul->GetCol()->g();
-						px->b = ul->GetCol()->b();
-						px->a = ul->GetCol()->a();
-						px->z = ul->GetPos()->w();
+						//Color the sample
+						if(px->z > (ul->GetPos()->w()) ){
+							px->r = ul->GetCol()->r();
+							px->g = ul->GetCol()->g();
+							px->b = ul->GetCol()->b();
+							px->a = ul->GetCol()->a();
+							px->z = ul->GetPos()->w();
+						}
 					}
 
 				}

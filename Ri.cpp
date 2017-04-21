@@ -25,7 +25,7 @@ RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloa
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->g = g;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->b = b;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->a = a;
-			RiCurrentContext -> FrameBuffer[i][j][0][0]->z = z;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->z = RiCurrentContext -> Far;
 }
 
 RiContext::~RiContext(){
