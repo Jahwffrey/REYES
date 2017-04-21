@@ -38,6 +38,10 @@ class JRiVertex {
 		RtVoid Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
 		RtVoid MoveToScreen();
 		RtVoid Draw();
+		JRiPoint* GetPos();
+		JRiPoint* GetNorm();
+		JRiPoint* GetCol();
+		JRiPoint* GetTexPos();
 };
 
 class JRiMesh {
@@ -52,6 +56,7 @@ class JRiMesh {
 		RtVoid Draw();
 		RtInt GetWidth();
 		RtInt GetHeight();
+		RtVoid DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVertex* lr);
 };
 
 #endif

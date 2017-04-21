@@ -121,11 +121,22 @@ RtVoid JRiVertex::MoveToScreen(){
 }
 
 RtVoid JRiVertex::Draw(){
-	pos->DumpToScreen(col->r(),col->g(),col->b());
-	//Loop over All vertextes
+	//pos->DumpToScreen(col->r(),col->g(),col->b());
+	
 	return;
 }
-
+JRiPoint* JRiVertex::GetPos(){
+	return pos;
+}
+JRiPoint* JRiVertex::GetNorm(){
+	return norm;
+}
+JRiPoint* JRiVertex::GetCol(){
+	return col;
+}
+JRiPoint* JRiVertex::GetTexPos(){
+	return texpos;
+}
 //Mesh
 JRiMesh::JRiMesh(RtInt w,RtInt h){
 	width = 64;//w;
@@ -150,11 +161,21 @@ RtVoid JRiMesh::Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,R
 	return;
 }
 
+RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVertex* lr){
+	RtFloat minx = ul->GetPos()->x();
+	return;
+}
+
 RtVoid JRiMesh::Draw(){
+	//Project all vertices to screen space
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){
 			mesh[i][j] -> MoveToScreen();
-			mesh[i][j] -> Draw();
+		}
+	}
+	for(int j = 0;j < height;j++){
+		for(int i = 0;i < width;i++){
+			DrawMicropolygon(mesh[i][j],mesh[(i + 1)%width][j],mesh[i][(j + 1)%height],mesh[(i + 1)%width][(j + 1)%height]);
 		}
 	}
 	return;
