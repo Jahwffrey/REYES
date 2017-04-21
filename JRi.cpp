@@ -208,7 +208,7 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 			//Loop over samples
 			for(RtInt l = 0;l < RiCurrentContext -> YSamples;l++){
 				for(RtInt k = 0;k < RiCurrentContext -> XSamples;k++){
-
+					bool sampled = false;
 					JRiPixel* px = RiCurrentContext -> FrameBuffer[i][j][k][l];
 					if(SampleInsideMicrotriangle(px,ul->GetPos(),ur->GetPos(),ll->GetPos()) || SampleInsideMicrotriangle(px,ur->GetPos(),ll->GetPos(),lr->GetPos())){
 						px->r = ul->GetCol()->r();

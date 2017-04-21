@@ -14,7 +14,7 @@
 
 int main(){
 	RiBegin(RI_NULL);
-		RiFormat(640,480,1);
+		RiFormat(320,240,1);
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
@@ -25,7 +25,7 @@ int main(){
 		RtFloat fov = 0.174533/2/2/2/2;//10 degrees
 		
 		//Screen Transform	
-		RiTranslate(320,240,0);
+		RiTranslate(320/2,240/2,0);
 		RiProjection(RI_PERSPECTIVE,"fov",&fov);
 		
 		RiIdentity();
@@ -41,7 +41,7 @@ int main(){
 			RiRotate(1.5,1,0,0);	
 			//Rendering
 			RiTransformBegin();
-				RiSphere(3,-3,3,360.0,RI_NULL);
+				RiSphere(1,-1,1,360.0,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
