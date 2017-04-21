@@ -9,6 +9,8 @@
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //My Coordinate system reversed! Why and how do i fix it?
 //RiColor!!
+//make sure RiBegin correclty sets all defaults
+//Make sure not leaking any memory
 
 int main(){
 	RiBegin(RI_NULL);

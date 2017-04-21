@@ -20,24 +20,66 @@ RiContext* RiCurrentContext;
 RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat z){
 			RtInt i = (RtInt)x;
 			RtInt j = (RtInt)y;
-			RiCurrentContext -> FrameBuffer[i][j].r = r;
-			RiCurrentContext -> FrameBuffer[i][j].g = g;
-			RiCurrentContext -> FrameBuffer[i][j].b = b;
-			RiCurrentContext -> FrameBuffer[i][j].a = a;
-			RiCurrentContext -> FrameBuffer[i][j].z = z;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->r = r;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->g = g;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->b = b;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->a = a;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->z = z;
+}
+
+RiContext::~RiContext(){
+	DeleteFrameBuffer();
+}
+
+RtVoid RiContext::AllocateFrameBuffer(){
+	FrameBuffer = new JRiPixel**** [XResolution];
+	for(int i = 0;i < XResolution;i++){
+		FrameBuffer[i] = new JRiPixel*** [YResolution];	
+		for(int j = 0;j < YResolution;j++){
+			FrameBuffer[i][j] = new JRiPixel** [(RtInt)XSamples];
+			for(int k = 0;k < XSamples;k++){
+				FrameBuffer[i][j][k] = new JRiPixel* [(RtInt)YSamples];
+				for(int l = 0;l < YSamples;l++){
+					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,0);
+				}
+			}
+		}
+	}
+}
+
+RtVoid RiContext::DeleteFrameBuffer(){
+	for(int i = 0;i < XResolution;i++){
+		for(int j = 0;j < YResolution;j++){
+			for(int k = 0;k < XSamples;k++){
+				for(int l = 0;l < YSamples;l++){
+					delete(FrameBuffer[i][j][k][l]);
+				}
+				delete(FrameBuffer[i][j][k]);
+			}
+			delete(FrameBuffer[i][j]);
+		}	
+		delete(FrameBuffer[i]);
+	}
+	delete(RiCurrentContext -> FrameBuffer);
+};
+
+JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz){
+	r = rr;
+	g = gg;
+	b = bb;
+	a = aa;
+	z = zz;
 }
 
 //Graphics States
 RtVoid RiBegin(RtToken name){
 	RiCurrentContext = new RiContext();
 	RiIdentity();
+	RiCurrentContext -> XSamples = 4;
+	RiCurrentContext -> YSamples = 4;	
 	return;
 }
 RtVoid RiEnd(){
-	for(int i = 0;i < RiCurrentContext -> XResolution;i++){
-		delete(RiCurrentContext -> FrameBuffer[i]);	
-	}
-	delete(RiCurrentContext -> FrameBuffer);
 	delete(RiCurrentContext);
 	return;
 }
@@ -47,17 +89,7 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectratio){
 	RiCurrentContext -> YResolution = yresolution;
 	RiCurrentContext -> PixelAspectRatio = pixelaspectratio;
 	RiCurrentContext -> FrameAspectRatio = (xresolution * pixelaspectratio)/yresolution;
-	RiCurrentContext -> FrameBuffer = new JRiPixel* [xresolution];
-	for(int i = 0;i < xresolution;i++){
-		RiCurrentContext -> FrameBuffer[i] = new JRiPixel[yresolution];	
-		for(int j = 0;j < yresolution;j++){
-			RiCurrentContext -> FrameBuffer[i][j].r = 0;
-			RiCurrentContext -> FrameBuffer[i][j].g = 0;
-			RiCurrentContext -> FrameBuffer[i][j].b = 0;
-			RiCurrentContext -> FrameBuffer[i][j].a = 0;
-			RiCurrentContext -> FrameBuffer[i][j].z = 0;
-		}
-	}
+	RiCurrentContext -> AllocateFrameBuffer();
 	return;
 }
 
@@ -126,8 +158,10 @@ RtVoid RiFrameAspectRatio(RtFloat rat){
 }
 
 RtVoid RiPixelSamples(RtFloat xsamples,RtFloat ysamples){
+	RiCurrentContext -> DeleteFrameBuffer();
 	RiCurrentContext -> XSamples = xsamples;
 	RiCurrentContext -> YSamples = ysamples;
+	RiCurrentContext -> AllocateFrameBuffer();
 	return;
 }
 
@@ -155,7 +189,8 @@ RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPoin
 			for(int i = 0;i < RiCurrentContext -> XResolution;i++){
 				int nm = 0;
 				unsigned char col[5];
-				JRiPixel px = RiCurrentContext -> FrameBuffer[i][j];
+				JRiPixel px(0,0,0,0,0);
+				RiGetSampledPixel(i,j,&px);
 				if(strcmp(mode,"rgb") == 0){	
 					nm = 3;
 					col[0] = px.r;
@@ -338,4 +373,23 @@ RtVoid RiClearBuffer(){
 			WriteFrameBuffer(i,j,0,0,0,0,0);
 		}
 	}
+}
+
+RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col){
+	for(RtInt j = 0;j < RiCurrentContext -> YSamples;j++){
+		for(RtInt i = 0;i < RiCurrentContext -> XSamples;i++){
+			col->r += RiCurrentContext -> FrameBuffer[u][v][i][j]->r;
+			col->g += RiCurrentContext -> FrameBuffer[u][v][i][j]->g;
+			col->b += RiCurrentContext -> FrameBuffer[u][v][i][j]->b;
+			col->a += RiCurrentContext -> FrameBuffer[u][v][i][j]->a;
+			col->z += RiCurrentContext -> FrameBuffer[u][v][i][j]->z;
+		}
+	}
+	RtFloat div =(RtFloat)RiCurrentContext -> XSamples * (RtFloat)RiCurrentContext -> YSamples;
+	col->r = col->r/div;
+	col->g = col->g/div;
+	col->b = col->b/div;
+	col->a = col->a/div;
+	col->z = col->z/div;
+	return;
 }

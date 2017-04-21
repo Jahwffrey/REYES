@@ -36,27 +36,33 @@ class JRiPixel {
 	RtFloat b;
 	RtFloat a;
 	RtFloat z;
+	
+	JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz);
 };
 
 //I decided I would hold the various globally accessible things inside of of context object
 class RiContext {
 	public:
-	RtMatrix CurrentTransform;
-	RtMatrix ViewTransform;
-	RtMatrix ScreenTransform;
-	JRiPixel** FrameBuffer;
-	RtInt XResolution;
-	RtInt YResolution;
-	RtFloat XSamples;
-	RtFloat YSamples;
-	RtFloat PixelAspectRatio;
-	RtFloat FrameAspectRatio;
-	RtFloat Near;
-	RtFloat Far;
-	RtInt TransBegun;
-	RtInt WorldBegun;
-	RtInt FrameBegun;
-	RtInt CurrentFrame;
+		RtMatrix CurrentTransform;
+		RtMatrix ViewTransform;
+		RtMatrix ScreenTransform;
+		JRiPixel***** FrameBuffer;
+		RtInt XResolution;
+		RtInt YResolution;
+		RtFloat XSamples;
+		RtFloat YSamples;
+		RtFloat PixelAspectRatio;
+		RtFloat FrameAspectRatio;
+		RtFloat Near;
+		RtFloat Far;
+		RtInt TransBegun;
+		RtInt WorldBegun;
+		RtInt FrameBegun;
+		RtInt CurrentFrame;
+	
+		~RiContext();
+		RtVoid DeleteFrameBuffer();
+		RtVoid AllocateFrameBuffer();
 };
 
 //RiContext functions
@@ -96,4 +102,5 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 
 //Internal Stuff
 RtVoid RiClearBuffer();
+RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col);
 #endif
