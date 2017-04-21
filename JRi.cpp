@@ -4,6 +4,7 @@
 #include "JRi.h"
 #include "Ri.h"
 #include <math.h>
+#include <algorithm>
 
 JRiPoint::JRiPoint(RtFloat x,RtFloat y,RtFloat z,RtFloat w){
 	pt[0] = x;
@@ -161,8 +162,67 @@ RtVoid JRiMesh::Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,R
 	return;
 }
 
+bool JRiMesh::SampleInsideMicrotriangle(JRiPixel* px,JRiPoint* a,JRiPoint* b,JRiPoint* c){
+	//Determine if a point is in the triangle via barycentric coords
+	//2d Vectors
+	RtFloat vx_x = b->x() - a->x();
+	RtFloat vx_y = b->y() - a->y();
+	RtFloat vy_x = c->x() - a->x();
+	RtFloat vy_y = c->y() - a->y();
+	RtFloat vp_x = px->u - a->x();
+	RtFloat vp_y = px->v - a->y();
+
+	//Dot Products
+	RtFloat dotxx = vx_x * vx_x + vx_y * vx_y;	
+	RtFloat dotxy = vx_x * vy_x + vx_y * vy_y;	
+	RtFloat dotxp = vx_x * vp_x + vx_y * vp_y;	
+	RtFloat dotyy = vy_x * vy_x + vy_y * vy_y;	
+	RtFloat dotyp = vy_x * vp_x + vy_y * vp_y;
+
+	//Compute new coords
+	RtFloat divisor = dotxx * dotyy - dotxy*dotxy;
+	RtFloat nu = (dotyy*dotxp - dotxy*dotyp)/divisor;
+	RtFloat nv = (dotxx*dotyp - dotxy*dotxp)/divisor;
+		
+	//Do the check
+	return ((nu >= 0) && (nv >= 0) && (nu + nv < 1));
+}
+
 RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVertex* lr){
-	RtFloat minx = ul->GetPos()->x();
+	RtFloat uarr[4] = {ul->GetPos()->x(),ur->GetPos()->x(),ll->GetPos()->x(),lr->GetPos()->x()};
+	RtFloat varr[4] = {ul->GetPos()->y(),ur->GetPos()->y(),ll->GetPos()->y(),lr->GetPos()->y()};
+
+	//Bound	
+	RtFloat minu,maxu = uarr[0];	
+	RtFloat minv,maxv = varr[0];
+	for(int i = 1;i < 4;i++){
+		if(uarr[i] < minu) minu = uarr[i];
+		if(uarr[i] > maxu) maxu = uarr[i];
+		if(varr[i] < minv) minv = varr[i];
+		if(varr[i] > maxv) maxv = varr[i];
+	}
+
+	//Loop over relevant screen pixels
+	for(int j = std::max(0,(int)minv);j <= std::min(RiCurrentContext -> YResolution - 1,(int)maxv);j++){
+		for(RtInt i = std::max(0,(RtInt)minu);i <= std::min(RiCurrentContext -> XResolution - 1,(RtInt)maxu);i++){
+			//Loop over samples
+			for(RtInt l = 0;l < RiCurrentContext -> YSamples;l++){
+				for(RtInt k = 0;k < RiCurrentContext -> XSamples;k++){
+
+					JRiPixel* px = RiCurrentContext -> FrameBuffer[i][j][k][l];
+					if(SampleInsideMicrotriangle(px,ul->GetPos(),ur->GetPos(),ll->GetPos()) || SampleInsideMicrotriangle(px,ur->GetPos(),ll->GetPos(),lr->GetPos())){
+						px->r = ul->GetCol()->r();
+						px->g = ul->GetCol()->g();
+						px->b = ul->GetCol()->b();
+						px->a = ul->GetCol()->a();
+						px->z = ul->GetPos()->w();
+					}
+
+				}
+			}
+		}
+	}
+
 	return;
 }
 
@@ -173,6 +233,7 @@ RtVoid JRiMesh::Draw(){
 			mesh[i][j] -> MoveToScreen();
 		}
 	}
+	//Draw each micropolygon
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){
 			DrawMicropolygon(mesh[i][j],mesh[(i + 1)%width][j],mesh[i][(j + 1)%height],mesh[(i + 1)%width][(j + 1)%height]);

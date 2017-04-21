@@ -57,6 +57,7 @@ class JRiMesh {
 		RtInt GetWidth();
 		RtInt GetHeight();
 		RtVoid DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVertex* lr);
+		bool SampleInsideMicrotriangle(JRiPixel* px,JRiPoint* a,JRiPoint* b,JRiPoint* c);
 };
 
 #endif
