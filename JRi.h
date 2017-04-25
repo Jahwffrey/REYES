@@ -46,7 +46,7 @@ class JRiVertex {
 
 class JRiMesh {
 	private:
-		JRiVertex* mesh[64][64];
+		JRiVertex*** mesh;
 		RtInt width;
 		RtInt height;
 	public:

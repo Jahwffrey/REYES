@@ -14,6 +14,7 @@
 //Make sure not leaking any memory
 //Make everything work by degrees as opposed to radians
 //implement near culling
+//too large meshes will cause segmentation fault
 
 int main(){
 	RiBegin(RI_NULL);
@@ -36,7 +37,7 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,2);
+		RiTranslate(0,0,1.1);
 
 		RiWorldBegin();
 			RiIdentity();

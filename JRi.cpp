@@ -141,21 +141,25 @@ JRiPoint* JRiVertex::GetTexPos(){
 }
 //Mesh
 JRiMesh::JRiMesh(RtInt w,RtInt h){
-	width = 64;//w;
-	height = 64;//h;
-	for(int j = 0;j < height;j++){
-		for(int i = 0;i < width;i++){
+	width = w;//w;
+	height = h;//h;
+	mesh = new JRiVertex**[width];
+	for(int i = 0;i < width;i++){
+		mesh[i] = new JRiVertex*[height];
+		for(int j = 0;j < height;j++){
 			mesh[i][j] = new JRiVertex(0,0,0,0,0,0,0,0,0,0,0,0);
 		}
 	}
 }
 
 JRiMesh::~JRiMesh(){
-	for(int j = 0;j < height;j++){
-		for(int i = 0;i < width;i++){
+	for(int i = 0;i < width;i++){
+		for(int j = 0;j < height;j++){
 			delete(mesh[i][j]);
 		}
+		delete(mesh[i]);
 	}
+	delete(mesh);
 }
 
 RtVoid JRiMesh::Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty){

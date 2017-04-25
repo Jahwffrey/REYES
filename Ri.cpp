@@ -345,10 +345,44 @@ RtVoid RiPerspective(RtFloat fov){
 	RiConcatTransform(tmp);
 }
 
+RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals){
+	//umin,umax,vmin,vmax
+	RtFloat radius = diameter/2;
+	JRiPoint p1 = JRiPoint(-radius,-radius,-radius,1);
+	p1.MoveToScreen();
+	vals[0] = p1.x();
+	vals[1] = p1.x();
+	vals[2] = p1.y();
+	vals[3] = p1.y();
+	for(RtInt i = -1;i < 2;i++){
+		for(RtInt j = -1;j < 2;j++){
+			for(RtInt k = -1;k < 2;k++){
+				JRiPoint pt = JRiPoint(i*radius,j*radius,k*radius,1);
+				pt.MoveToScreen();
+				if(pt.x() < vals[0]) vals[0] = pt.x();
+				if(pt.x() > vals[1]) vals[1] = pt.x();
+				if(pt.y() < vals[2]) vals[2] = pt.y();
+				if(pt.y() > vals[3]) vals[3] = pt.y();
+			}
+		}
+	}
+	return;
+}
+
 //Primitives
 RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPointer param){
 	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-	JRiMesh* mesh = new JRiMesh(64,64);
+	
+	//First find bounding box
+	RtFloat bbox[4];
+	FindBoundingBox(radius*2,bbox);
+	RtFloat screenwidth = std::max(bbox[1] - bbox[0],bbox[3] - bbox[2]);
+
+	std::cout << (RtInt)(screenwidth/10.0) << "\n";
+
+	//Then create the mesh
+	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/5.0),(RtInt)(screenwidth/10.0));
+	//JRiMesh* mesh = new JRiMesh(36,36);//(RtInt)(screenwidth/10.0),(RtInt)(screenwidth/10.0));
 	RtFloat phimin = -M_PI/2.0;
 	if(zmin > -radius) phimin = asin(zmin/radius);
 	RtFloat phimax = M_PI/2.0;
@@ -372,7 +406,9 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 					u,v);//texture coord
 		}
 	}
+	//Draw the mesh
 	mesh->Draw();
+	//Delete the mesh
 	delete(mesh);
 	return;
 }

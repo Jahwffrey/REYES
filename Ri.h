@@ -104,4 +104,5 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 //Internal Stuff
 RtVoid RiClearBuffer();
 RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col);
+RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals);
 #endif
