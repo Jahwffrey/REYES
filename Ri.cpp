@@ -341,7 +341,7 @@ RtVoid RiPerspective(RtFloat fov){
 	RtMatrix tmp = {ScaleFactor,0,0,0,
 			0,ScaleFactorAspect,0,0,
 			0,0,fr/(fr - nr),(-1*nr*fr)/(fr - nr),
-			0,0,-1,0};
+			0,0,1,0};
 	RiConcatTransform(tmp);
 }
 

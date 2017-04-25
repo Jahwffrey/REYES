@@ -7,12 +7,11 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//My Coordinate system reversed! Why and how do i fix it?
 //RiColor!!
 //Worry about transforming normals
 //make sure RiBegin correclty sets all defaults
 //Make sure not leaking any memory
-//Make everything work by degrees
+//Make everything work by degrees as opposed to radians
 
 int main(){
 	RiBegin(RI_NULL);
@@ -37,11 +36,11 @@ int main(){
 		JRiPoint* test = new JRiPoint(2,2,2,1);
 
 		//Camera Transform
-		RiTranslate(0,0,5);
+		RiTranslate(0,0,2);
 
 		RiWorldBegin();
 			RiIdentity();
-	
+			//RiTranslate(0,0,-8);	
 			//RiRotate(0.2,1,0,0);	
 			//Rendering
 			RiTransformBegin();
