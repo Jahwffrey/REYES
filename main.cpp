@@ -37,16 +37,16 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,2);
+		RiTranslate(0,0,4);
 
 		RiWorldBegin();
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
-			RiRotate(1.57/1.1,1,0,0);	
-			RiRotate(1.57,0,0,1);	
+			RiRotate(1.57/2,1,0,0);	
+			//RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();
-				RiCylinder(1,-1,1,225.0,RI_NULL);
+				RiTorus(2,1,0,360,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
