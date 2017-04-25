@@ -14,7 +14,7 @@
 //Make sure not leaking any memory
 //Make everything work by degrees as opposed to radians
 //implement near culling
-//too large meshes will cause segmentation fault
+//make things with normals pointing away not try to be rendered
 
 int main(){
 	RiBegin(RI_NULL);
@@ -42,11 +42,11 @@ int main(){
 		RiWorldBegin();
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
-			RiRotate(1.57,1,0,0);	
+			RiRotate(1.57/1.1,1,0,0);	
 			RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();
-				RiSphere(1,-1,1,360.0,RI_NULL);
+				RiCone(1,1,180.0,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();

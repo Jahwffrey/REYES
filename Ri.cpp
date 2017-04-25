@@ -345,29 +345,6 @@ RtVoid RiPerspective(RtFloat fov){
 	RiConcatTransform(tmp);
 }
 
-RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals){
-	//umin,umax,vmin,vmax
-	RtFloat radius = diameter/2;
-	JRiPoint p1 = JRiPoint(-radius,-radius,-radius,1);
-	p1.MoveToScreen();
-	vals[0] = p1.x();
-	vals[1] = p1.x();
-	vals[2] = p1.y();
-	vals[3] = p1.y();
-	for(RtInt i = -1;i < 2;i++){
-		for(RtInt j = -1;j < 2;j++){
-			for(RtInt k = -1;k < 2;k++){
-				JRiPoint pt = JRiPoint(i*radius,j*radius,k*radius,1);
-				pt.MoveToScreen();
-				if(pt.x() < vals[0]) vals[0] = pt.x();
-				if(pt.x() > vals[1]) vals[1] = pt.x();
-				if(pt.y() < vals[2]) vals[2] = pt.y();
-				if(pt.y() > vals[3]) vals[3] = pt.y();
-			}
-		}
-	}
-	return;
-}
 
 //Primitives
 RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPointer param){
@@ -411,6 +388,41 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 }
 
 
+RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param){
+	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	
+	//First find bounding box
+	RtFloat bbox[4];
+	FindBoundingBox(std::max(height,radius*2),bbox);
+	RtFloat screenwidth = std::max(bbox[1] - bbox[0],bbox[3] - bbox[2]);
+
+	//Then create the mesh
+	RtFloat tm = (thetamax * M_PI)/180.0;
+	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/10),(RtInt)(screenwidth/10));
+	for(RtInt j = 0;j < mesh->GetHeight();j++){
+		RtFloat VInd = (RtFloat)j;
+		for(RtInt i = 0;i < mesh->GetWidth();i++){
+			RtFloat UInd = (RtFloat)i;
+			RtFloat u = UInd/(RtFloat)(mesh->GetWidth() - 1);
+			RtFloat v = VInd/(RtFloat)(mesh->GetHeight() - 1);
+			
+			RtFloat theta = u * tm;
+			RtFloat x = radius * (1 - v) * cos(theta);
+			RtFloat y = radius * (1 - v) * sin(theta);
+			RtFloat z = v * height;
+
+			mesh->Set(	i,j, //index
+					x,y,z, //world pos
+					x,y,z, //normal                               //THIS IS INCORRECT!!!!
+					(rand()%1000)/1000.0,(rand()%1000)/1000.0,(rand()%1000)/1000.0,1,//color
+					u,v);//texture coord
+		}
+	}
+	mesh->Draw();
+	delete(mesh);
+	return;
+}
+
 //Internal Stuff
 RtVoid RiClearBuffer(){
 	for(RtFloat j = 0;j < RiCurrentContext -> YResolution;j++){
@@ -436,5 +448,29 @@ RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col){
 	col->b = (col->b/div)*255;
 	col->a = (col->a/div)*255;
 	col->z = (col->z/div)*255;
+	return;
+}
+
+RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals){
+	//umin,umax,vmin,vmax
+	RtFloat radius = diameter/2;
+	JRiPoint p1 = JRiPoint(-radius,-radius,-radius,1);
+	p1.MoveToScreen();
+	vals[0] = p1.x();
+	vals[1] = p1.x();
+	vals[2] = p1.y();
+	vals[3] = p1.y();
+	for(RtInt i = -1;i < 2;i++){
+		for(RtInt j = -1;j < 2;j++){
+			for(RtInt k = -1;k < 2;k++){
+				JRiPoint pt = JRiPoint(i*radius,j*radius,k*radius,1);
+				pt.MoveToScreen();
+				if(pt.x() < vals[0]) vals[0] = pt.x();
+				if(pt.x() > vals[1]) vals[1] = pt.x();
+				if(pt.y() < vals[2]) vals[2] = pt.y();
+				if(pt.y() > vals[3]) vals[3] = pt.y();
+			}
+		}
+	}
 	return;
 }
