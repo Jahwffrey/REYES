@@ -398,7 +398,7 @@ RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param){
 
 	//Then create the mesh
 	RtFloat tm = (thetamax * M_PI)/180.0;
-	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/10),(RtInt)(screenwidth/10));
+	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*4),(RtInt)(screenwidth*2));
 	for(RtInt j = 0;j < mesh->GetHeight();j++){
 		RtFloat VInd = (RtFloat)j;
 		for(RtInt i = 0;i < mesh->GetWidth();i++){
@@ -410,6 +410,41 @@ RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param){
 			RtFloat x = radius * (1 - v) * cos(theta);
 			RtFloat y = radius * (1 - v) * sin(theta);
 			RtFloat z = v * height;
+
+			mesh->Set(	i,j, //index
+					x,y,z, //world pos
+					x,y,z, //normal                               //THIS IS INCORRECT!!!!
+					(rand()%1000)/1000.0,(rand()%1000)/1000.0,(rand()%1000)/1000.0,1,//color
+					u,v);//texture coord
+		}
+	}
+	mesh->Draw();
+	delete(mesh);
+	return;
+}
+
+RtVoid RiCylinder(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax, RtPointer param){
+	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
+	
+	//First find bounding box
+	RtFloat bbox[4];
+	FindBoundingBox(std::max(radius * 2,zmax - zmin),bbox);
+	RtFloat screenwidth = std::max(bbox[1] - bbox[0],bbox[3] - bbox[2]);
+
+	//Then create the mesh
+	RtFloat tm = (thetamax * M_PI)/180.0;
+	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/10),(RtInt)(screenwidth/10));
+	for(RtInt j = 0;j < mesh->GetHeight();j++){
+		RtFloat VInd = (RtFloat)j;
+		for(RtInt i = 0;i < mesh->GetWidth();i++){
+			RtFloat UInd = (RtFloat)i;
+			RtFloat u = UInd/(RtFloat)(mesh->GetWidth() - 1);
+			RtFloat v = VInd/(RtFloat)(mesh->GetHeight() - 1);
+			
+			RtFloat theta = u * tm;
+			RtFloat x = radius * cos(theta);
+			RtFloat y = radius * sin(theta);
+			RtFloat z = v * (zmax - zmin);
 
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos

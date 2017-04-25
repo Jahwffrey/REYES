@@ -46,7 +46,7 @@ int main(){
 			RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();
-				RiCone(1,1,180.0,RI_NULL);
+				RiCylinder(1,-1,1,225.0,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
