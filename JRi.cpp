@@ -240,10 +240,10 @@ RtVoid JRiMesh::Draw(){
 		}
 	}
 	//Draw each micropolygon
-	for(int j = 0;j < height;j++){
-		for(int i = 0;i < width;i++){
-			DrawMicropolygon(mesh[i][j],mesh[(i + 1)%width][j],mesh[i][(j + 1)%height],mesh[(i + 1)%width][(j + 1)%height]);
-			//DrawMicropolygon(mesh[i][j],mesh[(i + 1)][j],mesh[i][(j + 1)],mesh[(i + 1)][(j + 1)]);
+	for(int j = 0;j < height - 1;j++){
+		for(int i = 0;i < width - 1;i++){
+			//DrawMicropolygon(mesh[i][j],mesh[(i + 1)%width][j],mesh[i][(j + 1)%height],mesh[(i + 1)%width][(j + 1)%height]);
+			DrawMicropolygon(mesh[i][j],mesh[(i + 1)][j],mesh[i][(j + 1)],mesh[(i + 1)][(j + 1)]);
 		}
 	}
 	return;

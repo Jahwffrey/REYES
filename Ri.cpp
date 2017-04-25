@@ -355,19 +355,21 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 	if(zmax < radius) phimax = asin(zmax/radius);
 	RtFloat tm = (thetamax * M_PI)/180.0;
 	for(RtInt j = 0;j < mesh->GetHeight();j++){
+		RtFloat VInd = (RtFloat)j;//(j % mesh->GetHeight());
 		for(RtInt i = 0;i < mesh->GetWidth();i++){
-			RtFloat u = (RtFloat)i/(RtFloat)mesh->GetWidth();
-			RtFloat v = (RtFloat)j/(RtFloat)mesh->GetHeight();
+			RtFloat UInd = (RtFloat)i;//(i % mesh->GetWidth());
+			RtFloat u = UInd/(RtFloat)(mesh->GetWidth() - 1);
+			RtFloat v = VInd/(RtFloat)(mesh->GetHeight() - 1);
 			RtFloat phi = phimin + v * (phimax - phimin);
 			RtFloat theta = tm*u;
 			RtFloat x = radius * cos(theta) * cos(phi);
 			RtFloat y = radius * sin(theta) * cos(phi);
 			RtFloat z = radius * sin(phi);
-			mesh->Set(	i,j,
-					x,y,z,
-					x,y,z,
-					u,1,v,1,
-					u,v);
+			mesh->Set(	i,j, //index
+					x,y,z, //world pos
+					x,y,z, //normal
+					(rand()%1000)/1000.0,(rand()%1000)/1000.0,(rand()%1000)/1000.0,1,//color
+					u,v);//texture coord
 		}
 	}
 	mesh->Draw();

@@ -7,9 +7,10 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//I think my coords are still weird
 //RiColor!!
 //Worry about transforming normals
-//make sure RiBegin correclty sets all defaults
+//make sure RiBegin correclty sets all defaults including clipping planes
 //Make sure not leaking any memory
 //Make everything work by degrees as opposed to radians
 //implement near culling
@@ -34,15 +35,14 @@ int main(){
 		
 		RiIdentity();
 
-		JRiPoint* test = new JRiPoint(2,2,2,1);
-
 		//Camera Transform
 		RiTranslate(0,0,2);
 
 		RiWorldBegin();
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
-			//RiRotate(0.2,1,0,0);	
+			RiRotate(1.57,1,0,0);	
+			RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();
 				RiSphere(1,-1,1,360.0,RI_NULL);
