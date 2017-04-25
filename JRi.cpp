@@ -215,13 +215,13 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 					JRiPixel* px = RiCurrentContext -> FrameBuffer[i][j][k][l];
 					if(SampleInsideMicrotriangle(px,ul->GetPos(),ur->GetPos(),ll->GetPos()) || SampleInsideMicrotriangle(px,ur->GetPos(),ll->GetPos(),lr->GetPos())){
 						//Color the sample
-						//if(px->z > (ul->GetPos()->w()) ){
+						if(px->z > (ul->GetPos()->w())){
 							px->r = ul->GetCol()->r();
 							px->g = ul->GetCol()->g();
 							px->b = ul->GetCol()->b();
 							px->a = ul->GetCol()->a();
 							px->z = ul->GetPos()->w();
-						//}
+						}
 					}
 
 				}

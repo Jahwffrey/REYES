@@ -12,15 +12,16 @@
 //make sure RiBegin correclty sets all defaults
 //Make sure not leaking any memory
 //Make everything work by degrees as opposed to radians
+//implement near culling
 
 int main(){
 	RiBegin(RI_NULL);
 		//RiFormat(320/2,240/2,1);
+		RiClipping(0.1,10000);
 		RiFormat(640,480,1);
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
-		RiClipping(0.1,10000);
 		RiIdentity();
 		//RtFloat fov = M_PI/2;//90 degrees
 		//RtFloat fov = 1.0472;//60 degrees

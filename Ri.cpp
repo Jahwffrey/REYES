@@ -25,7 +25,7 @@ RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloa
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->g = g;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->b = b;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->a = a;
-			RiCurrentContext -> FrameBuffer[i][j][0][0]->z = RiCurrentContext -> Far;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->z = z;
 }
 
 RiContext::~RiContext(){
@@ -43,7 +43,7 @@ RtVoid RiContext::AllocateFrameBuffer(){
 				for(int l = 0;l < YSamples;l++){
 					RtFloat du = (RtFloat)k/XSamples;
 					RtFloat dv = (RtFloat)l/XSamples;
-					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,0,(RtFloat)i + du,(RtFloat)j + dv);
+					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,Far,(RtFloat)i + du,(RtFloat)j + dv);
 				}
 			}
 		}
