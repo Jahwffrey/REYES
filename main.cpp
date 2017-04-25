@@ -37,7 +37,7 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,1.1);
+		RiTranslate(0,0,2);
 
 		RiWorldBegin();
 			RiIdentity();

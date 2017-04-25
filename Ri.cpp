@@ -378,11 +378,8 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 	FindBoundingBox(radius*2,bbox);
 	RtFloat screenwidth = std::max(bbox[1] - bbox[0],bbox[3] - bbox[2]);
 
-	std::cout << (RtInt)(screenwidth/10.0) << "\n";
-
 	//Then create the mesh
-	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/5.0),(RtInt)(screenwidth/10.0));
-	//JRiMesh* mesh = new JRiMesh(36,36);//(RtInt)(screenwidth/10.0),(RtInt)(screenwidth/10.0));
+	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*4.0),(RtInt)(screenwidth*2.0));
 	RtFloat phimin = -M_PI/2.0;
 	if(zmin > -radius) phimin = asin(zmin/radius);
 	RtFloat phimax = M_PI/2.0;
