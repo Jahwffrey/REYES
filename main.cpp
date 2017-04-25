@@ -9,13 +9,15 @@
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //My Coordinate system reversed! Why and how do i fix it?
 //RiColor!!
+//Worry about transforming normals
 //make sure RiBegin correclty sets all defaults
 //Make sure not leaking any memory
 //Make everything work by degrees
 
 int main(){
 	RiBegin(RI_NULL);
-		RiFormat(320/2,240/2,1);
+		//RiFormat(320/2,240/2,1);
+		RiFormat(640,480,1);
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
@@ -26,7 +28,8 @@ int main(){
 		RtFloat fov = 0.174533/2/2/2/2;//10 degrees
 		
 		//Screen Transform	
-		RiTranslate(320/4,240/4,0);
+		//RiTranslate(320/4,240/4,0);
+		RiTranslate(320,240,0);
 		RiProjection(RI_PERSPECTIVE,"fov",&fov);
 		
 		RiIdentity();

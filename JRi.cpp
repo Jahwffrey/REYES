@@ -5,6 +5,7 @@
 #include "Ri.h"
 #include <math.h>
 #include <algorithm>
+#include <iostream>
 
 JRiPoint::JRiPoint(RtFloat x,RtFloat y,RtFloat z,RtFloat w){
 	pt[0] = x;
@@ -140,8 +141,8 @@ JRiPoint* JRiVertex::GetTexPos(){
 }
 //Mesh
 JRiMesh::JRiMesh(RtInt w,RtInt h){
-	width = 4;//w;
-	height = 4;//h;
+	width = 4;//64;//w;
+	height = 4;//64;//h;
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){
 			mesh[i][j] = new JRiVertex(0,0,0,0,0,0,0,0,0,0,0,0);
@@ -193,8 +194,10 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 	RtFloat varr[4] = {ul->GetPos()->y(),ur->GetPos()->y(),ll->GetPos()->y(),lr->GetPos()->y()};
 
 	//Bound	
-	RtFloat minu,maxu = uarr[0];	
-	RtFloat minv,maxv = varr[0];
+	RtFloat minu = uarr[0];
+	RtFloat maxu = uarr[0];	
+	RtFloat minv = varr[0];
+	RtFloat maxv = varr[0];
 	for(int i = 1;i < 4;i++){
 		if(uarr[i] < minu) minu = uarr[i];
 		if(uarr[i] > maxu) maxu = uarr[i];
@@ -240,6 +243,7 @@ RtVoid JRiMesh::Draw(){
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){
 			DrawMicropolygon(mesh[i][j],mesh[(i + 1)%width][j],mesh[i][(j + 1)%height],mesh[(i + 1)%width][(j + 1)%height]);
+			//DrawMicropolygon(mesh[i][j],mesh[(i + 1)][j],mesh[i][(j + 1)],mesh[(i + 1)][(j + 1)]);
 		}
 	}
 	return;
