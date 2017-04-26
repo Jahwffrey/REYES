@@ -93,11 +93,12 @@ RtVoid JRiPoint::Normalize(){
 }
 
 //Vertex
-JRiVertex::JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv){
+JRiVertex::JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag,RtFloat ab,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv){
 	pos = new JRiPoint(x,y,z,1);	
 	norm = new JRiPoint(nx,ny,nz,1);
 	norm->Normalize();	
-	col = new JRiPoint(r,g,b,a);	
+	col = new JRiPoint(r,g,b,1);	
+	opa = new JRiPoint(ar,ag,ab,1);	
 	texpos = new JRiPoint(tx,ty,du,dv);	
 }
 
@@ -105,14 +106,16 @@ JRiVertex::~JRiVertex(){
 	delete(pos);
 	delete(norm);
 	delete(col);
+	delete(opa);
 	delete(texpos);
 }
 
-RtVoid JRiVertex::Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv){
+RtVoid JRiVertex::Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag,RtFloat ab,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv){
 	pos->Set(x,y,z,1);	
 	norm->Set(nx,ny,nz,1);
 	norm->Normalize();	
-	col->Set(r,g,b,a);	
+	col->Set(r,g,b,1);	
+	opa->Set(ar,ag,ab,1);	
 	texpos->Set(tx,ty,du,dv);	
 	return;
 }
@@ -136,6 +139,9 @@ JRiPoint* JRiVertex::GetNorm(){
 JRiPoint* JRiVertex::GetCol(){
 	return col;
 }
+JRiPoint* JRiVertex::GetOpa(){
+	return opa;
+}
 JRiPoint* JRiVertex::GetTexPos(){
 	return texpos;
 }
@@ -153,7 +159,7 @@ JRiMesh::JRiMesh(RtInt w,RtInt h){
 	for(int i = 0;i < width;i++){
 		mesh[i] = new JRiVertex*[height];
 		for(int j = 0;j < height;j++){
-			mesh[i][j] = new JRiVertex(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+			mesh[i][j] = new JRiVertex(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
 		}
 	}
 }
@@ -168,8 +174,8 @@ JRiMesh::~JRiMesh(){
 	delete(mesh);
 }
 
-RtVoid JRiMesh::Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv){
-	mesh[mx][my] -> Set(x,y,z,nx,ny,nz,r,g,b,a,tx,ty,du,dv);
+RtVoid JRiMesh::Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag,RtFloat ab,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv){
+	mesh[mx][my] -> Set(x,y,z,nx,ny,nz,r,g,b,ar,ag,ab,tx,ty,du,dv);
 	return;
 }
 
@@ -309,9 +315,9 @@ RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){
 	_Cs[0] = mesh[x][y]->GetCol()->r();
 	_Cs[1] = mesh[x][y]->GetCol()->g();
 	_Cs[2] = mesh[x][y]->GetCol()->b();
-	_Os[0] = mesh[x][y]->GetCol()->a();
-	_Os[1] = mesh[x][y]->GetCol()->a();
-	_Os[2] = mesh[x][y]->GetCol()->a();
+	_Os[0] = mesh[x][y]->GetOpa()->ar();
+	_Os[1] = mesh[x][y]->GetOpa()->ag();
+	_Os[2] = mesh[x][y]->GetOpa()->ab();
 	_P[0] = mesh[x][y]->GetPos()->x();
 	_P[1] = mesh[x][y]->GetPos()->y();
 	_P[2] = mesh[x][y]->GetPos()->z();
@@ -339,13 +345,13 @@ RtVoid JRiMesh::SetVertexFromShaderVals(RtInt x,RtInt y){
 	//RtFloat x,RtFloat y,RtFloat z,
 	//RtFloat nx,RtFloat ny,RtFloat nz,
 	//RtFloat r,RtFloat g,RtFloat b,
-	//RtFloat a,
+	//RtFloat ar,RtFloat ag,RtFloat ab,
 	//RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv)
 	Set(	x,y,
 		_P[0],_P[1],_P[2],
 		_N[0],_N[1],_N[2],
 		_Cs[0],_Cs[1],_Cs[2],
-		_Os[0],
+		_Os[0],_Os[1],_Os[2],
 		_U,_V,_dU,_dV);
 	
 	return;

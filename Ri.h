@@ -46,13 +46,15 @@ class JRiPixel {
 	RtFloat r;
 	RtFloat g;
 	RtFloat b;
-	RtFloat a;
+	RtFloat ar;
+	RtFloat ag;
+	RtFloat ab;
 	RtFloat z;
 	RtFloat u;
 	RtFloat v;	
 	RtFloat du;
 	RtFloat dv;	
-	JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloat uu,RtFloat vv,RtFloat duu,RtFloat dvv);
+	JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aar,RtFloat aag,RtFloat aab, RtFloat zz,RtFloat uu,RtFloat vv,RtFloat duu,RtFloat dvv);
 };
 
 //I decided I would hold the various globally accessible things inside of of context object
@@ -75,6 +77,7 @@ class RiContext {
 		RtInt FrameBegun;
 		RtInt CurrentFrame;
 		RtColor CurrentColor;
+		RtColor CurrentOpacity;
 		void(*DisplacementShaderFunction)(void);
 		void(*SurfaceShaderFunction)(void);
 	
@@ -123,6 +126,7 @@ RtVoid RiTorus(RtFloat majorradius,RtFloat minorradius,RtFloat phimin,RtFloat ph
 
 //Shading
 RtVoid RiColor(RtFloat* col);
+RtVoid RiOpacity(RtFloat* col);
 RtVoid RiSurface(void(*f)(void));
 RtVoid RiDisplacement(void(*f)(void));
 

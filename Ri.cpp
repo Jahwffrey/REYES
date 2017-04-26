@@ -58,7 +58,7 @@ RtVoid RiContext::AllocateFrameBuffer(){
 				for(int l = 0;l < YSamples;l++){
 					RtFloat du = (RtFloat)k/XSamples;
 					RtFloat dv = (RtFloat)l/XSamples;
-					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,Far,(RtFloat)i + du,(RtFloat)j + dv,du,dv);
+					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,0,0,Far,(RtFloat)i + du,(RtFloat)j + dv,du,dv);
 				}
 			}
 		}
@@ -538,6 +538,13 @@ RtVoid RiSurface(void(*f)(void)){
 
 RtVoid RiDisplacement(void(*f)(void)){
 	RiCurrentContext -> DisplacementShaderFunction = f;
+}
+
+RtVoid RiOpacity(RtFloat* col){
+	RiCurrentContext -> CurrentOpacity[0] = col[0];	
+	RiCurrentContext -> CurrentOpacity[1] = col[1];	
+	RiCurrentContext -> CurrentOpacity[2] = col[2];
+	return;	
 }
 
 //Internal Stuff

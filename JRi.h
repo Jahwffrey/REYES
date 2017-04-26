@@ -31,16 +31,18 @@ class JRiVertex {
 		JRiPoint* pos;//Position
 		JRiPoint* norm;//Normal
 		JRiPoint* col;//Color
+		JRiPoint* opa;//Opacity
 		JRiPoint* texpos;//texture coord
 	public:
-		JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
+		JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag,RtFloat ab,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
 		~JRiVertex();
-		RtVoid Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
+		RtVoid Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag,RtFloat ab,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
 		RtVoid MoveToScreen();
 		RtVoid Draw();
 		JRiPoint* GetPos();
 		JRiPoint* GetNorm();
 		JRiPoint* GetCol();
+		JRiPoint* GetOpa();
 		JRiPoint* GetTexPos();
 		RtVoid CopyNorm(JRiPoint* onorm);
 };
@@ -53,7 +55,7 @@ class JRiMesh {
 	public:
 		JRiMesh(RtInt w,RtInt h);
 		~JRiMesh();
-		RtVoid Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
+		RtVoid Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag, RtFloat ab,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
 		RtVoid Draw();
 		RtInt GetWidth();
 		RtInt GetHeight();
