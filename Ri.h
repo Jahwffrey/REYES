@@ -29,6 +29,18 @@ extern RtToken RI_PERSPECTIVE;
 extern RtToken RI_ORTHOGRAPHIC;
 extern RtToken RI_FOV;
 
+//Predefined variables used in shaders
+extern RtColor _Cs;//color of a point
+extern RtColor _Os;//opacity of a point
+extern RtPoint _P;//3d position of a point
+extern RtVector _dPfu;//Derivative of position of a point along u
+extern RtVector _dPdv;//Derivative of position of a point along v
+extern RtNormal _N;//The normal of point
+extern RtFloat _U;//texture coord x
+extern RtFloat _V;//texture coord v
+extern RtFloat _dU;//derivative of surface params
+extern RtFloat _dV;//derivative of surface params
+
 class JRiPixel {
 	public:
 	RtFloat r;
@@ -63,6 +75,8 @@ class RiContext {
 		RtInt FrameBegun;
 		RtInt CurrentFrame;
 		RtColor CurrentColor;
+		void(*DisplacementShaderFunction);
+		void(*SurfaceShaderFunction);
 	
 		~RiContext();
 		RtVoid DeleteFrameBuffer();
@@ -114,4 +128,6 @@ RtVoid RiColor(RtFloat* col);
 RtVoid RiClearBuffer();
 RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col);
 RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals);
+RtVoid RunDisplacementShader();
+RtVoid RunSurfaceShader();
 #endif

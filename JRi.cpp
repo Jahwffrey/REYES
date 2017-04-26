@@ -235,8 +235,37 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 
 	return;
 }
+RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
+
+}
+
+RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){
+
+}
+
+RtVoid JRiMesh::SetVertexFromShaderVals(RtInt x,RtInt y){
+
+}
 
 RtVoid JRiMesh::Draw(){
+	//Run displacement shader
+	for(int j = 0;j < height;j++){
+		for(int i = 0;i < width;i++){
+			CalcVertexValsForShader(i,j);
+			SetShaderVals(i,j);
+			RunDisplacementShader();
+			SetVertexFromShaderVals(i,j);
+		}
+	}
+	//Run surface shader
+	for(int j = 0;j < height;j++){
+		for(int i = 0;i < width;i++){
+			CalcVertexValsForShader(i,j);
+			SetShaderVals(i,j);
+			RunSurfaceShader();
+			SetVertexFromShaderVals(i,j);
+		}
+	}
 	//Project all vertices to screen space
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){

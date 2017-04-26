@@ -565,3 +565,11 @@ RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals){
 	}
 	return;
 }
+
+RtVoid RunDisplacementShader(){
+
+}
+
+RtVoid RunSurfaceShader(){
+
+}
