@@ -51,7 +51,8 @@ int main(){
 			RiSurface(phong_lighting);
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
-			RiRotate(1.57/2,1,0,0);	
+			//RiRotate(1.57/2,1,0,0);	
+			RiRotate(1.57,0,1,0);
 			//RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();

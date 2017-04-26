@@ -17,7 +17,7 @@
 //extern RtFloat _dU;//derivative of surface params
 //extern RtFloat _dV;//derivative of surface params
 
-RtFloat l_pos[3] = {0,-2,5};
+RtFloat l_pos[3] = {0,0,4};
 
 void checkerboard(void){
 	RtInt val = (((RtInt)(_U * 100) % 10) > 4) xor (((RtInt)(_V * 100) % 10) > 4);
@@ -33,6 +33,8 @@ void phong_lighting(void){
 	l_dir[1] = l_dir[1]/l_dir_mag;
 	l_dir[2] = l_dir[1]/l_dir_mag;
 	RtFloat dot = _N[0]*l_dir[0] + _N[1]*l_dir[1] * _N[2]*l_dir[2];
+	if(dot < 0) dot *= -1;
+	//std::cout << dot << "\n";
 	_Cs[0] = _Cs[0] * dot;
 	_Cs[1] = _Cs[1] * dot;
 	_Cs[2] = _Cs[2] * dot;

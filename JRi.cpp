@@ -275,7 +275,7 @@ RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
 		RtFloat a[3] = {p1->x() - p2->x(),p1->y() - p2->y(),p1->z() - p2->z()};	
 		RtFloat b[3] = {p1->x() - p3->x(),p1->y() - p3->y(),p1->z() - p3->z()};
 		
-		mesh[x][y]->GetNorm()->Set(a[1]*b[2] - a[2]*b[1],a[2]*b[0] - a[0]*b[2],a[0]*b[1] - a[1]*b[0],1);
+		mesh[x][y]->GetNorm()->Set(-(a[1]*b[2] - a[2]*b[1]),-(a[2]*b[0] - a[0]*b[2]),-(a[0]*b[1] - a[1]*b[0]),1);
 		mesh[x][y]->GetNorm()->Normalize();	
 	}
 }
