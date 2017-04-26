@@ -33,9 +33,9 @@ class JRiVertex {
 		JRiPoint* col;//Color
 		JRiPoint* texpos;//texture coord
 	public:
-		JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
+		JRiVertex(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
 		~JRiVertex();
-		RtVoid Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
+		RtVoid Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
 		RtVoid MoveToScreen();
 		RtVoid Draw();
 		JRiPoint* GetPos();
@@ -52,7 +52,7 @@ class JRiMesh {
 	public:
 		JRiMesh(RtInt w,RtInt h);
 		~JRiMesh();
-		RtVoid Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty);
+		RtVoid Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloat nz,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv);
 		RtVoid Draw();
 		RtInt GetWidth();
 		RtInt GetHeight();

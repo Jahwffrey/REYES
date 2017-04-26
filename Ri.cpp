@@ -43,7 +43,7 @@ RtVoid RiContext::AllocateFrameBuffer(){
 				for(int l = 0;l < YSamples;l++){
 					RtFloat du = (RtFloat)k/XSamples;
 					RtFloat dv = (RtFloat)l/XSamples;
-					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,Far,(RtFloat)i + du,(RtFloat)j + dv);
+					FrameBuffer[i][j][k][l] = new JRiPixel(0,0,0,0,Far,(RtFloat)i + du,(RtFloat)j + dv,du,dv);
 				}
 			}
 		}
@@ -66,7 +66,7 @@ RtVoid RiContext::DeleteFrameBuffer(){
 	delete(RiCurrentContext -> FrameBuffer);
 };
 
-JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloat uu,RtFloat vv){
+JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloat uu,RtFloat vv,RtFloat duu,RtFloat dvv){
 	r = rr;
 	g = gg;
 	b = bb;
@@ -78,6 +78,8 @@ JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloa
 	RtFloat maxdv = 1.0/(RiCurrentContext -> YSamples);
 	u = uu + maxdu * ((RtFloat)(rand() % 1000))/1000.0;
 	v = vv + maxdv * ((RtFloat)(rand() % 1000))/1000.0;
+	du = duu;
+	dv = dvv;
 }
 
 //Graphics States
@@ -202,7 +204,7 @@ RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPoin
 			for(int i = 0;i < RiCurrentContext -> XResolution;i++){
 				int nm = 0;
 				unsigned char col[5];
-				JRiPixel px(0,0,0,0,0,0,0);
+				JRiPixel px(0,0,0,0,0,0,0,0,0);
 				RiGetSampledPixel(i,j,&px);
 				if(strcmp(mode,"rgb") == 0){	
 					nm = 3;
@@ -380,7 +382,8 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 					x,y,z, //world pos
 					x,y,z, //normal
 					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
-					u,v);//texture coord
+					u,v,//Texture coords
+					0,0);//derivatives
 		}
 	}
 	//Draw the mesh
@@ -417,8 +420,9 @@ RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param){
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal                               //THIS IS INCORRECT!!!!
-					(rand()%1000)/1000.0,(rand()%1000)/1000.0,(rand()%1000)/1000.0,1,//color
-					u,v);//texture coord
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
+					u,v,//Texture coords
+					0,0);//derivatives
 		}
 	}
 	mesh->Draw();
@@ -452,8 +456,9 @@ RtVoid RiCylinder(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax, RtP
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal                               //THIS IS INCORRECT!!!!
-					(rand()%1000)/1000.0,(rand()%1000)/1000.0,(rand()%1000)/1000.0,1,//color
-					u,v);//texture coord
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
+					u,v,//Texture coords
+					0,0);//derivatives
 		}
 	}
 	mesh->Draw();
@@ -491,8 +496,9 @@ RtVoid RiTorus(RtFloat majorradius,RtFloat minorradius,RtFloat phimin,RtFloat ph
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal                               //THIS IS INCORRECT!!!!
-					(rand()%1000)/1000.0,(rand()%1000)/1000.0,(rand()%1000)/1000.0,1,//color
-					u,v);//texture coord
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
+					u,v,//Texture coords
+					0,0);//derivatives
 		}
 	}
 	mesh->Draw();

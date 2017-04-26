@@ -8,7 +8,6 @@
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //I think my coords are still weird
-//RiColor!!
 //Worry about transforming normals
 //make sure RiBegin correclty sets all defaults including clipping planes
 //Make sure not leaking any memory
