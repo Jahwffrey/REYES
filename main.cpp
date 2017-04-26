@@ -43,7 +43,7 @@ int main(){
 		RiTranslate(0,0,4);
 
 		RiWorldBegin();
-			RtColor col = {1,0,0};
+			RtColor col = {0,1,0};
 			RiColor(col);
 			RiIdentity();
 			//RiTranslate(0,0,-8);	

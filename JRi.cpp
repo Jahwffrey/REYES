@@ -279,11 +279,24 @@ RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){
 	_dPdv[1] = 0;
 	_dPdv[2] = 0;
 
-
+	return;
 }
 
 RtVoid JRiMesh::SetVertexFromShaderVals(RtInt x,RtInt y){
-
+	//Set(RtInt mx,RtInt my,
+	//RtFloat x,RtFloat y,RtFloat z,
+	//RtFloat nx,RtFloat ny,RtFloat nz,
+	//RtFloat r,RtFloat g,RtFloat b,
+	//RtFloat a,
+	//RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv)
+	Set(	x,y,
+		_P[0],_P[1],_P[2],
+		_N[0],_N[1],_N[2],
+		_Cs[0],_Cs[1],_Cs[2],
+		_Os[0],
+		_U,_V,_dU,_dV);
+	
+	return;
 }
 
 RtVoid JRiMesh::Draw(){
