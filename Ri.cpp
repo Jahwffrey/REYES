@@ -17,6 +17,10 @@ RtToken RI_ORTHOGRAPHIC = "orthographic";
 RtToken RI_FOV = "fov";
 RiContext* RiCurrentContext;
 
+void default_shader(void){
+	return;
+}
+
 //RiContext Stuff
 RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat z){
 			RtInt i = (RtInt)x;
@@ -91,6 +95,8 @@ RtVoid RiBegin(RtToken name){
 	RiCurrentContext -> CurrentColor[0] = 0;
 	RiCurrentContext -> CurrentColor[1] = 0;
 	RiCurrentContext -> CurrentColor[2] = 0;
+	RiCurrentContext -> DisplacementShaderFunction = &default_shader;
+	RiCurrentContext -> SurfaceShaderFunction = &default_shader;
 	srand(time(NULL));
 	return;
 }
@@ -567,9 +573,11 @@ RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals){
 }
 
 RtVoid RunDisplacementShader(){
-
+	RiCurrentContext -> DisplacementShaderFunction();
+	return;
 }
 
 RtVoid RunSurfaceShader(){
-
+	RiCurrentContext -> SurfaceShaderFunction();
+	return;
 }

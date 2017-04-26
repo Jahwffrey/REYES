@@ -75,8 +75,8 @@ class RiContext {
 		RtInt FrameBegun;
 		RtInt CurrentFrame;
 		RtColor CurrentColor;
-		void(*DisplacementShaderFunction);
-		void(*SurfaceShaderFunction);
+		void(*DisplacementShaderFunction)(void);
+		void(*SurfaceShaderFunction)(void);
 	
 		~RiContext();
 		RtVoid DeleteFrameBuffer();
