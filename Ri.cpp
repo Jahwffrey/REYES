@@ -86,6 +86,9 @@ RtVoid RiBegin(RtToken name){
 	RiIdentity();
 	RiCurrentContext -> XSamples = 4;
 	RiCurrentContext -> YSamples = 4;	
+	RiCurrentContext -> CurrentColor[0] = 0;
+	RiCurrentContext -> CurrentColor[1] = 0;
+	RiCurrentContext -> CurrentColor[2] = 0;
 	srand(time(NULL));
 	return;
 }
@@ -376,7 +379,7 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal
-					(rand()%1000)/1000.0,(rand()%1000)/1000.0,(rand()%1000)/1000.0,1,//color
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
 					u,v);//texture coord
 		}
 	}
@@ -495,6 +498,14 @@ RtVoid RiTorus(RtFloat majorradius,RtFloat minorradius,RtFloat phimin,RtFloat ph
 	mesh->Draw();
 	delete(mesh);
 	return;
+}
+
+//Shading
+RtVoid RiColor(RtFloat* col){
+	RiCurrentContext -> CurrentColor[0] = col[0];	
+	RiCurrentContext -> CurrentColor[1] = col[1];	
+	RiCurrentContext -> CurrentColor[2] = col[2];
+	return;	
 }
 
 //Internal Stuff

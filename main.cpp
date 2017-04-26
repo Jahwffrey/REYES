@@ -15,6 +15,7 @@
 //Make everything work by degrees as opposed to radians
 //implement near culling
 //make things with normals pointing away not try to be rendered
+//bounding box finding must depend on displacement shaders!
 
 int main(){
 	RiBegin(RI_NULL);
@@ -40,13 +41,16 @@ int main(){
 		RiTranslate(0,0,4);
 
 		RiWorldBegin();
+			RtColor col = {1,0,0};
+			RiColor(col);
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
 			RiRotate(1.57/2,1,0,0);	
 			//RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();
-				RiTorus(2,1,0,360,360,RI_NULL);
+				RiSphere(2,-2,2,360,RI_NULL);
+				//RiTorus(2,1,0,360,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();

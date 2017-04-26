@@ -60,6 +60,7 @@ class RiContext {
 		RtInt WorldBegun;
 		RtInt FrameBegun;
 		RtInt CurrentFrame;
+		RtColor CurrentColor;
 	
 		~RiContext();
 		RtVoid DeleteFrameBuffer();
@@ -103,6 +104,9 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param = RI_NULL);
 RtVoid RiCylinder(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax, RtPointer param = RI_NULL);
 RtVoid RiTorus(RtFloat majorradius,RtFloat minorradius,RtFloat phimin,RtFloat phimax,RtFloat thetamax, RtPointer param = RI_NULL);
+
+//Shading
+RtVoid RiColor(RtFloat* col);
 
 //Internal Stuff
 RtVoid RiClearBuffer();
