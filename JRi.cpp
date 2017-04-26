@@ -139,6 +139,12 @@ JRiPoint* JRiVertex::GetCol(){
 JRiPoint* JRiVertex::GetTexPos(){
 	return texpos;
 }
+
+RtVoid JRiVertex::CopyNorm(JRiPoint* onorm){
+	norm->Set(onorm->x(),onorm->y(),onorm->z(),onorm->w());
+	return;
+}
+
 //Mesh
 JRiMesh::JRiMesh(RtInt w,RtInt h){
 	width = w;//w;
@@ -251,6 +257,27 @@ extern RtFloat _dV;//derivative of surface params
 
 RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
 	//calculate normals and everything
+	//normals at every point ill be normal of triangle of it and point to right and down
+	//normals of right and bottom edge points will be the same as opposite edge
+	if(x == width - 1){
+		if(y == height - 1){
+			mesh[x][y]->CopyNorm(mesh[0][0]->GetNorm());
+		} else {
+			mesh[x][y]->CopyNorm(mesh[0][y]->GetNorm());
+		}
+	} else if(y == height - 1){
+		mesh[x][y]->CopyNorm(mesh[x][0]->GetNorm());
+	} else {
+		JRiPoint *p1 = mesh[x][y]->GetPos();
+		JRiPoint *p2 = mesh[x+1][y]->GetPos();
+		JRiPoint *p3 = mesh[x][y+1]->GetPos();
+		
+		RtFloat a[3] = {p1->x() - p2->x(),p1->y() - p2->y(),p1->z() - p2->z()};	
+		RtFloat b[3] = {p1->x() - p3->x(),p1->y() - p3->y(),p1->z() - p3->z()};
+		
+		mesh[x][y]->GetNorm()->Set(a[1]*b[2] - a[2]*b[1],a[2]*b[0] - a[0]*b[2],a[0]*b[1] - a[1]*b[0],1);
+		mesh[x][y]->GetNorm()->Normalize();	
+	}
 }
 
 RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){

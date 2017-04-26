@@ -20,6 +20,7 @@
 //i already know i didnt do derivatives of position
 //each channel can have its own alpha??
 //bumpy shader via perlin noise
+//what was that strange matrix math for normals??
 
 int main(){
 	RiBegin(RI_NULL);
@@ -45,7 +46,7 @@ int main(){
 		RiTranslate(0,0,4);
 
 		RiWorldBegin();
-			RtColor col = {0,1,0};
+			RtColor col = {1,1,1};
 			RiColor(col);
 			RiSurface(phong_lighting);
 			RiIdentity();

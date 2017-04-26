@@ -42,6 +42,7 @@ class JRiVertex {
 		JRiPoint* GetNorm();
 		JRiPoint* GetCol();
 		JRiPoint* GetTexPos();
+		RtVoid CopyNorm(JRiPoint* onorm);
 };
 
 class JRiMesh {

@@ -32,8 +32,8 @@ void phong_lighting(void){
 	l_dir[0] = l_dir[0]/l_dir_mag;
 	l_dir[1] = l_dir[1]/l_dir_mag;
 	l_dir[2] = l_dir[1]/l_dir_mag;
-	RtFloat cross = _N[0]*l_dir[0] + _N[1]*l_dir[1] * _N[2]*l_dir[2];
-	_Cs[0] = _Cs[0] * cross;
-	_Cs[1] = _Cs[1] * cross;
-	_Cs[2] = _Cs[2] * cross;
+	RtFloat dot = _N[0]*l_dir[0] + _N[1]*l_dir[1] * _N[2]*l_dir[2];
+	_Cs[0] = _Cs[0] * dot;
+	_Cs[1] = _Cs[1] * dot;
+	_Cs[2] = _Cs[2] * dot;
 }
