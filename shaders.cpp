@@ -39,3 +39,12 @@ void phong_lighting(void){
 	_Cs[1] = _Cs[1] * dot;
 	_Cs[2] = _Cs[2] * dot;
 }
+
+void random_shader(void){
+	_Cs[0] = (rand() % 10000)/10000.0;
+	_Cs[1] = (rand() % 10000)/10000.0;
+	_Cs[2] = (rand() % 10000)/10000.0;
+	//_P[0] += (-2 + rand()%5)/20.0;
+	//_P[1] += (-2 + rand()%5)/20.0;
+	//_P[2] += (-2 + rand()%5)/20.0;
+}

@@ -173,8 +173,7 @@ RtVoid JRiMesh::Set(RtInt mx,RtInt my,RtFloat x,RtFloat y,RtFloat z,RtFloat nx,R
 	return;
 }
 
-bool JRiMesh::SampleInsideMicrotriangle(JRiPixel* px,JRiPoint* a,JRiPoint* b,JRiPoint* c){
-	//Determine if a point is in the triangle via barycentric coords
+RtVoid JRiMesh::GetBarycentricCoords(JRiPixel* px,JRiPoint* a,JRiPoint* b,JRiPoint* c,RtFloat* uv){
 	//2d Vectors
 	RtFloat vx_x = b->x() - a->x();
 	RtFloat vx_y = b->y() - a->y();
@@ -192,11 +191,9 @@ bool JRiMesh::SampleInsideMicrotriangle(JRiPixel* px,JRiPoint* a,JRiPoint* b,JRi
 
 	//Compute new coords
 	RtFloat divisor = dotxx * dotyy - dotxy*dotxy;
-	RtFloat nu = (dotyy*dotxp - dotxy*dotyp)/divisor;
-	RtFloat nv = (dotxx*dotyp - dotxy*dotxp)/divisor;
-		
-	//Do the check
-	return ((nu >= 0) && (nv >= 0) && (nu + nv < 1));
+	uv[0] = (dotyy*dotxp - dotxy*dotyp)/divisor;
+	uv[1] = (dotxx*dotyp - dotxy*dotxp)/divisor;
+	return;
 }
 
 RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVertex* lr){
@@ -223,17 +220,45 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 				for(RtInt k = 0;k < RiCurrentContext -> XSamples;k++){
 					//Check if sample is in quad
 					JRiPixel* px = RiCurrentContext -> FrameBuffer[i][j][k][l];
-					if(SampleInsideMicrotriangle(px,ul->GetPos(),ur->GetPos(),ll->GetPos()) || SampleInsideMicrotriangle(px,ur->GetPos(),ll->GetPos(),lr->GetPos())){
-						//Color the sample
+					RtFloat uv1[2];
+					RtFloat uv2[2];
+					GetBarycentricCoords(px,ul->GetPos(),ur->GetPos(),ll->GetPos(),uv1);
+					GetBarycentricCoords(px,ur->GetPos(),ll->GetPos(),lr->GetPos(),uv2);
+					bool inside = false;
+					JRiVertex* a;
+					JRiVertex* b;
+					JRiVertex* c;
+					RtFloat uu;
+					RtFloat vv;
+					RtFloat ww;
+					
+					if((uv1[0] >= 0) && (uv1[1] >= 0) && (uv1[0] + uv1[1] < 1)){
+						inside = true;
+						c = ul;
+						a = ur;
+						b = ll;
+						uu = uv1[0];
+						vv = uv1[1];
+					} else if((uv2[0] >= 0) && (uv2[1] >= 0) && (uv2[0] + uv2[1] < 1)){
+						inside = true;
+						c = ur;
+						a = ll;
+						b = lr;
+						uu = uv2[0];
+						vv = uv2[1];
+					}
+					ww = 1 - uu - vv;
+
+					if(inside){
+					//Color the sample
 						if(px->z > (ul->GetPos()->w())){
-							px->r = ul->GetCol()->r();
-							px->g = ul->GetCol()->g();
-							px->b = ul->GetCol()->b();
-							px->a = ul->GetCol()->a();
-							px->z = ul->GetPos()->w();
+							px->r = a->GetCol()->r() * uu + b->GetCol()->r() * vv + c->GetCol()->r() * ww;
+							px->g = a->GetCol()->g() * uu + b->GetCol()->g() * vv + c->GetCol()->g() * ww;
+							px->b = a->GetCol()->b() * uu + b->GetCol()->b() * vv + c->GetCol()->b() * ww;
+							px->a = a->GetCol()->a() * uu + b->GetCol()->a() * vv + c->GetCol()->a() * ww;
+							px->z = a->GetPos()->w() * uu + b->GetPos()->w() * vv + c->GetPos()->w() * ww;
 						}
 					}
-
 				}
 			}
 		}

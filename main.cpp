@@ -21,6 +21,7 @@
 //what was that strange matrix math for normals??
 //phong lighting specular component!!
 //make sure not leaking any memory
+//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 int main(){
 	RiBegin(RI_NULL);
@@ -43,16 +44,17 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,4);
+		RiTranslate(0,0,2.5);
 
 		RiWorldBegin();
 			RtColor col = {1,1,1};
 			RiColor(col);
-			RiSurface(phong_lighting);
+			RiSurface(random_shader);
+			//RiSurface(phong_lighting);
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
 			//RiRotate(1.57/2,1,0,0);	
-			RiRotate(1.57,0,1,0);
+			RiRotate(1.57,1,0,0);
 			//RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();
