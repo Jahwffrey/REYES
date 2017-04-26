@@ -15,6 +15,9 @@
 //implement near culling
 //make things with normals pointing away not try to be rendered
 //bounding box finding must depend on displacement shaders!
+//make sure am using all necessary shader global vars
+//i already know i didnt do derivatives of position
+//each channel can have its own alpha??
 
 int main(){
 	RiBegin(RI_NULL);

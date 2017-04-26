@@ -33,7 +33,7 @@ extern RtToken RI_FOV;
 extern RtColor _Cs;//color of a point
 extern RtColor _Os;//opacity of a point
 extern RtPoint _P;//3d position of a point
-extern RtVector _dPfu;//Derivative of position of a point along u
+extern RtVector _dPdu;//Derivative of position of a point along u
 extern RtVector _dPdv;//Derivative of position of a point along v
 extern RtNormal _N;//The normal of point
 extern RtFloat _U;//texture coord x

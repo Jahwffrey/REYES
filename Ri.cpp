@@ -16,6 +16,17 @@ RtToken RI_PERSPECTIVE = "perspective";
 RtToken RI_ORTHOGRAPHIC = "orthographic";
 RtToken RI_FOV = "fov";
 RiContext* RiCurrentContext;
+RtColor _Cs;//color of a point
+RtColor _Os;//opacity of a point
+RtPoint _P;//3d position of a point
+RtVector _dPdu;//Derivative of position of a point along u
+RtVector _dPdv;//Derivative of position of a point along v
+RtNormal _N;//The normal of point
+RtFloat _U;//texture coord x
+RtFloat _V;//texture coord v
+RtFloat _dU;//derivative of surface params
+RtFloat _dV;//derivative of surface params
+
 
 void default_shader(void){
 	return;

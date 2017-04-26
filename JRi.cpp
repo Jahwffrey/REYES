@@ -235,11 +235,50 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 
 	return;
 }
-RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
 
+/*
+extern RtColor _Cs;//color of a point
+extern RtColor _Os;//opacity of a point
+extern RtPoint _P;//3d position of a point
+extern RtVector _dPdu;//Derivative of position of a point along u
+extern RtVector _dPdv;//Derivative of position of a point along v
+extern RtNormal _N;//The normal of point
+extern RtFloat _U;//texture coord x
+extern RtFloat _V;//texture coord v
+extern RtFloat _dU;//derivative of surface params
+extern RtFloat _dV;//derivative of surface params
+*/
+
+RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
+	//calculate normals and everything
 }
 
 RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){
+	_Cs[0] = mesh[x][y]->GetCol()->r();
+	_Cs[1] = mesh[x][y]->GetCol()->g();
+	_Cs[2] = mesh[x][y]->GetCol()->b();
+	_Os[0] = mesh[x][y]->GetCol()->a();
+	_Os[1] = mesh[x][y]->GetCol()->a();
+	_Os[2] = mesh[x][y]->GetCol()->a();
+	_P[0] = mesh[x][y]->GetPos()->x();
+	_P[1] = mesh[x][y]->GetPos()->y();
+	_P[2] = mesh[x][y]->GetPos()->z();
+	_N[0] = mesh[x][y]->GetNorm()->x();
+	_N[1] = mesh[x][y]->GetNorm()->y();
+	_N[2] = mesh[x][y]->GetNorm()->z();
+	_U = mesh[x][y]->GetTexPos()->x();	
+	_V = mesh[x][y]->GetTexPos()->y();	
+	_dU = mesh[x][y]->GetTexPos()->z();	
+	_dV = mesh[x][y]->GetTexPos()->w();	
+
+
+	_dPdu[0] = 0;
+	_dPdu[1] = 0;
+	_dPdu[2] = 0;
+	_dPdv[0] = 0;
+	_dPdv[1] = 0;
+	_dPdv[2] = 0;
+
 
 }
 
