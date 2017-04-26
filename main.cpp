@@ -9,9 +9,7 @@
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //I think my coords are still weird
-//Worry about transforming normals
 //make sure RiBegin correclty sets all defaults including clipping planes
-//Make sure not leaking any memory
 //Make everything work by degrees as opposed to radians
 //implement near culling
 //make things with normals pointing away not try to be rendered
@@ -21,6 +19,8 @@
 //each channel can have its own alpha??
 //bumpy shader via perlin noise
 //what was that strange matrix math for normals??
+//phong lighting specular component!!
+//make sure not leaking any memory
 
 int main(){
 	RiBegin(RI_NULL);
