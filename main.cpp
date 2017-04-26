@@ -19,6 +19,7 @@
 //make sure am using all necessary shader global vars
 //i already know i didnt do derivatives of position
 //each channel can have its own alpha??
+//bumpy shader via perlin noise
 
 int main(){
 	RiBegin(RI_NULL);
@@ -46,7 +47,7 @@ int main(){
 		RiWorldBegin();
 			RtColor col = {0,1,0};
 			RiColor(col);
-			RiSurface(checkerboard);
+			RiSurface(phong_lighting);
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
 			RiRotate(1.57/2,1,0,0);	
