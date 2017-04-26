@@ -3,6 +3,7 @@
 
 #include "Ri.h"
 #include "JRi.h"
+#include "shaders.h"
 #include <iostream>
 #include <math.h>
 
@@ -45,6 +46,7 @@ int main(){
 		RiWorldBegin();
 			RtColor col = {0,1,0};
 			RiColor(col);
+			RiSurface(checkerboard);
 			RiIdentity();
 			//RiTranslate(0,0,-8);	
 			RiRotate(1.57/2,1,0,0);	

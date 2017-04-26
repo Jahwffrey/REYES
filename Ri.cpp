@@ -531,6 +531,14 @@ RtVoid RiColor(RtFloat* col){
 	return;	
 }
 
+RtVoid RiSurface(void(*f)(void)){
+	RiCurrentContext -> SurfaceShaderFunction = f;
+}
+
+RtVoid RiDisplacement(void(*f)(void)){
+	RiCurrentContext -> DisplacementShaderFunction = f;
+}
+
 //Internal Stuff
 RtVoid RiClearBuffer(){
 	for(RtFloat j = 0;j < RiCurrentContext -> YResolution;j++){

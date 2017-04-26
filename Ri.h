@@ -123,6 +123,8 @@ RtVoid RiTorus(RtFloat majorradius,RtFloat minorradius,RtFloat phimin,RtFloat ph
 
 //Shading
 RtVoid RiColor(RtFloat* col);
+RtVoid RiSurface(void(*f)(void));
+RtVoid RiDisplacement(void(*f)(void));
 
 //Internal Stuff
 RtVoid RiClearBuffer();
