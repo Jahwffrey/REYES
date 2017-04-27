@@ -130,14 +130,13 @@ RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectratio){
 }
 
 RtVoid RiTransformBegin(){
-	//With no stack, so nothing
-	//RiIdentity();
 	RiCurrentContext -> TransBegun = 1;
 	return;
 }
 
 RtVoid RiTransformEnd(){
-	//With no stack, do nothing
+	//pretending to pop stack
+	RiIdentity();
 	RiCurrentContext -> TransBegun = 0;
 	return;
 }
