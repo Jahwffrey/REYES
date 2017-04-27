@@ -260,15 +260,16 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 
 					if(inside){
 					//Color the sample
-						if(px->z > (ul->GetPos()->w())){
-							px->r = a->GetCol()->r() * uu + b->GetCol()->r() * vv + c->GetCol()->r() * ww;
-							px->g = a->GetCol()->g() * uu + b->GetCol()->g() * vv + c->GetCol()->g() * ww;
-							px->b = a->GetCol()->b() * uu + b->GetCol()->b() * vv + c->GetCol()->b() * ww;
-							px->ar = a->GetOpa()->r() * uu + b->GetOpa()->r() * vv + c->GetOpa()->r() * ww;
-							px->ag = a->GetOpa()->g() * uu + b->GetOpa()->g() * vv + c->GetOpa()->g() * ww;
-							px->ab = a->GetOpa()->b() * uu + b->GetOpa()->b() * vv + c->GetOpa()->b() * ww;
-							px->z = a->GetPos()->w() * uu + b->GetPos()->w() * vv + c->GetPos()->w() * ww;
-						}
+						//if(px->z > (ul->GetPos()->w())){
+							RtFloat sr = a->GetCol()->r() * uu + b->GetCol()->r() * vv + c->GetCol()->r() * ww;
+							RtFloat sg = a->GetCol()->g() * uu + b->GetCol()->g() * vv + c->GetCol()->g() * ww;
+							RtFloat sb = a->GetCol()->b() * uu + b->GetCol()->b() * vv + c->GetCol()->b() * ww;
+							RtFloat sar = a->GetOpa()->r() * uu + b->GetOpa()->r() * vv + c->GetOpa()->r() * ww;
+							RtFloat sag = a->GetOpa()->g() * uu + b->GetOpa()->g() * vv + c->GetOpa()->g() * ww;
+							RtFloat sab = a->GetOpa()->b() * uu + b->GetOpa()->b() * vv + c->GetOpa()->b() * ww;
+							RtFloat sz = a->GetPos()->w() * uu + b->GetPos()->w() * vv + c->GetPos()->w() * ww;
+							px->AddSample(sr,sg,sb,sar,sag,sab,sz);
+						//}
 					}
 				}
 			}

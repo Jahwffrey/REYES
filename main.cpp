@@ -59,16 +59,19 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,2.5);
+		RiTranslate(0,0,5);
 
 		RiWorldBegin();
 			RtColor col = {1,1,1};
+			RtColor opa = {0.5,0.5,0.5};
 			RiColor(col);
-			RiSurface(random_shader);
+			RiOpacity(opa);
+			RiSurface(checkerboard);
+			//RiSurface(random_shader);
 			//RiSurface(phong_lighting);
 			RiIdentity();
-			RiTranslate(2,0,5);	
-			//RiRotate(1.57/2,1,0,0);	
+			//RiTranslate(2,0,5);	
+			RiRotate(1.57/2,1,0,0);	
 			//RiRotate(1.57,1,0,0);
 			//RiRotate(1.57,0,0,1);	
 			//Rendering

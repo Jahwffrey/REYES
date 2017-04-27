@@ -53,8 +53,12 @@ class JRiPixel {
 	RtFloat u;
 	RtFloat v;	
 	RtFloat du;
-	RtFloat dv;	
+	RtFloat dv;
+	JRiPixel* next;
 	JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aar,RtFloat aag,RtFloat aab, RtFloat zz,RtFloat uu,RtFloat vv,RtFloat duu,RtFloat dvv);
+	~JRiPixel();
+
+	RtVoid AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat sag,RtFloat sab,RtFloat sz);
 };
 
 //I decided I would hold the various globally accessible things inside of of context object

@@ -99,6 +99,15 @@ JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aar,RtFloat aag,RtFl
 	v = vv + maxdv * ((RtFloat)(rand() % 1000))/1000.0;
 	du = duu;
 	dv = dvv;
+	next = RI_NULL;
+}
+
+JRiPixel::~JRiPixel(){
+	if(next != RI_NULL) delete(next);
+}
+
+RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat sag,RtFloat sab,RtFloat sz){
+
 }
 
 //Graphics States
@@ -381,8 +390,8 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 	RtFloat screenwidth = std::max(bbox[1] - bbox[0],bbox[3] - bbox[2]);
 
 	//Then create the mesh
-	//JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*4.0),(RtInt)(screenwidth*2.0));
-	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/20.0),(RtInt)(screenwidth/40.0));
+	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*4.0),(RtInt)(screenwidth*2.0));
+	//JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/20.0),(RtInt)(screenwidth/40.0));
 	RtFloat phimin = -M_PI/2.0;
 	if(zmin > -radius) phimin = asin(zmin/radius);
 	RtFloat phimax = M_PI/2.0;
