@@ -39,6 +39,8 @@
 //Look through for various alarmed messages
 //full non-opacity has annoying noisy errors
 //write out actual image types, not ppm
+//frame begin and frame end correctly!
+//PORT TO CIMAGE
 
 int main(){
 	RiBegin(RI_NULL);

@@ -67,4 +67,18 @@ class JRiMesh {
 		RtVoid CalcVertexValsForShader(RtInt x,RtInt y);
 };
 
+class JRiImage {
+	private: 
+		RtFloat*** img;
+		RtInt width;
+		RtInt height;
+	public:
+		RtVoid GetUVPoint(RtFloat u,RtFloat v,RtFloat* vals);
+		RtInt GetWidth();
+		RtInt GetHeight();
+		RtVoid SetImageVal(RtInt x,RtInt y,RtFloat* vals);
+		JRiImage(RtInt w,RtInt h);
+		~JRiImage();
+};
+
 #endif

@@ -648,6 +648,10 @@ RtVoid RiOpacity(RtFloat* col){
 	return;	
 }
 
+RtVoid RiMakeTexture(RtToken file,RtInt slot){
+	
+}
+
 //Internal Stuff
 RtVoid RiClearBuffer(){
 	for(RtFloat j = 0;j < RiCurrentContext -> YResolution;j++){

@@ -423,3 +423,63 @@ RtInt JRiMesh::GetWidth(){
 RtInt JRiMesh::GetHeight(){
 	return height;
 }
+
+
+//Image
+/*class JRiImage {
+	private: 
+		RtFloat*** img;
+		RtInt width;
+		RtInt height;
+	public:
+		RtVoid GetUVPoint(RtFloat u,RtFloat v,RtFloat* vals);
+		RtInt GetWidth();
+		RtInt GetHeight();
+		RtVoid SetImageVal(RtInt x,RtInt y,RtFloat* vals);
+		JRiImage(int w,int h);
+		~JRiImage();
+}*/
+
+RtVoid JRiImage::GetUVPoint(RtFloat u,RtFloat v,RtFloat* vals){
+	RtFloat* pt = img[(int)(u*width)][(int)(v*height)];
+	for(int i = 0;i < 6;i++){
+		vals[i] = pt[i];
+	}	
+	return;
+}
+
+RtInt JRiImage::GetWidth(){
+	return width;
+}
+
+RtInt JRiImage::GetHeight(){
+	return height;
+}
+
+RtVoid JRiImage::SetImageVal(RtInt x,RtInt y,RtFloat *vals){
+	for(int i = 0;i < 6;i++){
+		img[x][y][i] = vals[i];
+	}
+}
+
+JRiImage::JRiImage(RtInt w,RtInt h){
+	width = w;
+	height = h;
+	img = new RtFloat**[w];
+	for(RtInt i = 0;i < w;i++){
+		img[i] = new RtFloat*[h];
+		for(RtInt j = 0;j < h;j++){
+			img[i][j] = new RtFloat[6];
+		}
+	}
+}
+
+JRiImage::~JRiImage(){
+	for(RtInt i = 0;i < width;i++){
+		for(RtInt j = 0;j < height;j++){
+			delete(img[i][j]);
+		}
+		delete(img[i]);
+	}
+	delete(img);
+}

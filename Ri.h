@@ -7,6 +7,7 @@
 
 #include <cstddef>
 
+
 typedef short RtBoolean;
 typedef int RtInt;
 typedef float RtFloat;
@@ -139,6 +140,7 @@ RtVoid RiColor(RtFloat* col);
 RtVoid RiOpacity(RtFloat* col);
 RtVoid RiSurface(void(*f)(void));
 RtVoid RiDisplacement(void(*f)(void));
+RtVoid RiMakeTexture(RtToken file,RtInt slot);
 
 //Internal Stuff
 RtVoid RiClearBuffer();
