@@ -8,39 +8,19 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //I think my coords are still weird -> z is still backwards!!
 //make sure RiBegin correclty sets all defaults including clipping planes
 //Make everything work by degrees as opposed to radians
 //implement near culling
-//make things with normals pointing away not try to be rendered
-//bounding box finding must depend on displacement shaders!
-//make sure am using all necessary shader global vars
-//i already know i didnt do derivatives of position
-//each channel can have its own alpha??
 //bumpy shader via perlin noise
 //what was that strange matrix math for normals??
 //phong lighting specular component!!
 //make sure not leaking any memory
-//TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//Look through for various alarmed messages
-//full non-opacity has annoying noisy errors
-//write out actual image types, not ppm
 //frame begin and frame end correctly!
-//PORT TO CIMAGE
+//Look through for various alarmed messages
+//PORT TO CIMAGE and windows!!
+//write out actual image types, not ppm
+//try all the render scenes!
 
 int main(){
 	RiBegin(RI_NULL);
