@@ -38,6 +38,7 @@
 //TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //Look through for various alarmed messages
 //full non-opacity has annoying noisy errors
+//write out actual image types, not ppm
 
 int main(){
 	RiBegin(RI_NULL);
@@ -65,19 +66,25 @@ int main(){
 		RiWorldBegin();
 			RtColor col = {1,1,1};
 			//RtColor opa = {1,1,1};
-			RtColor opa = {0.5,0.5,0.5};
+			RtColor opa = {0.4,0.4,0.4};
 			RiColor(col);
 			RiOpacity(opa);
 			RiSurface(checkerboard);
 			//RiSurface(random_shader);
 			//RiSurface(phong_lighting);
 			RiIdentity();
-			//RiTranslate(2,0,5);	
-			RiRotate(1.57/2,1,0,0);	
-			//RiRotate(1.57,1,0,0);
+			//RiRotate(1.57/2,1,0,0);	
 			//RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();
+				RiRotate(1.57,1,0,0);
+				RiTranslate(1,0,0);	
+				RiSphere(2,-2,2,360,RI_NULL);
+				//RiTorus(2,1,0,360,360,RI_NULL);
+			RiTransformEnd();
+			RiTransformBegin();
+				RiRotate(1.57,1,0,0);
+				RiTranslate(-1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);
 				//RiTorus(2,1,0,360,360,RI_NULL);
 			RiTransformEnd();
