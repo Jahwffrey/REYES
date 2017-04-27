@@ -321,16 +321,25 @@ RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){
 	_N[2] = mesh[x][y]->GetNorm()->z();
 	_U = mesh[x][y]->GetTexPos()->x();	
 	_V = mesh[x][y]->GetTexPos()->y();	
-	_dU = mesh[x][y]->GetTexPos()->z();	
-	_dV = mesh[x][y]->GetTexPos()->w();	
+	
+	RtInt right_ind = (x + 1) % width;
+	RtInt left_ind = x - 1;
+	if(left_ind == -1) left_ind = width - 1;
+	RtInt down_ind = (y + 1) % height;
+	RtInt up_ind = y - 1;
+	if(up_ind == -1) up_ind = height - 1;
+	
+	//Central Difference
+	_dU = mesh[right_ind][y]->GetTexPos()->x() - mesh[left_ind][y]->GetTexPos()->x();	
+	_dV = mesh[x][down_ind]->GetTexPos()->y() - mesh[x][up_ind]->GetTexPos()->y();	
 
 
-	_dPdu[0] = 0;
-	_dPdu[1] = 0;
-	_dPdu[2] = 0;
-	_dPdv[0] = 0;
-	_dPdv[1] = 0;
-	_dPdv[2] = 0;
+	_dPdu[0] = mesh[right_ind][y]->GetPos()->x() - mesh[left_ind][y]->GetPos()->x();
+	_dPdu[1] = mesh[right_ind][y]->GetPos()->y() - mesh[left_ind][y]->GetPos()->y();
+	_dPdu[2] = mesh[right_ind][y]->GetPos()->z() - mesh[left_ind][y]->GetPos()->z();
+	_dPdv[0] = mesh[x][down_ind]->GetPos()->x() - mesh[x][up_ind]->GetPos()->x();
+	_dPdv[1] = mesh[x][down_ind]->GetPos()->y() - mesh[x][up_ind]->GetPos()->y();
+	_dPdv[2] = mesh[x][down_ind]->GetPos()->z() - mesh[x][up_ind]->GetPos()->z();
 
 	return;
 }
