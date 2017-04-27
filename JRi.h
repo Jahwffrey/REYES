@@ -23,6 +23,7 @@ class JRiPoint{
 		RtVoid MoveToScreen();
 		RtVoid Set(RtFloat a,RtFloat b,RtFloat c,RtFloat d);
 		RtVoid Normalize();
+		RtVoid Transform();
 };
 
 class JRiVertex {
@@ -44,6 +45,7 @@ class JRiVertex {
 		JRiPoint* GetOpa();
 		JRiPoint* GetTexPos();
 		RtVoid CopyNorm(JRiPoint* onorm);
+		RtVoid Transform();
 };
 
 class JRiMesh {

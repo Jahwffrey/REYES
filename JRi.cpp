@@ -46,8 +46,12 @@ RtFloat JRiPoint::a(){
 	return pt[3];
 }
 
-RtVoid JRiPoint::MoveToScreen(){
+RtVoid JRiPoint::Transform(){
 	Mult(&(RiCurrentContext -> CurrentTransform));
+	return;
+}
+
+RtVoid JRiPoint::MoveToScreen(){
 	Mult(&(RiCurrentContext -> ViewTransform));
 	Mult(&(RiCurrentContext -> ScreenTransform));
 
@@ -110,6 +114,12 @@ RtVoid JRiVertex::Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloa
 	col->Set(r,g,b,1);	
 	opa->Set(ar,ag,ab,1);	
 	texpos->Set(tx,ty,du,dv);	
+	return;
+}
+
+RtVoid JRiVertex::Transform(){
+	pos->Transform();
+	//DO THE SAME TO THE NORMALS?????????????????????????????????????????????????????????????????????????NOT DONE!!!!!
 	return;
 }
 
@@ -362,6 +372,14 @@ RtVoid JRiMesh::SetVertexFromShaderVals(RtInt x,RtInt y){
 }
 
 RtVoid JRiMesh::Draw(){
+
+	//Move Points to the correct place in world
+	for(int j = 0;j < height;j++){
+		for(int i = 0;i < width;i++){
+			mesh[i][j]->Transform();
+		}
+	}
+
 	//Run displacement shader
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){

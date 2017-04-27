@@ -22,7 +22,7 @@
 //TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//I think my coords are still weird
+//I think my coords are still weird -> z is still backwards!!
 //make sure RiBegin correclty sets all defaults including clipping planes
 //Make everything work by degrees as opposed to radians
 //implement near culling
@@ -67,9 +67,9 @@ int main(){
 			RiSurface(random_shader);
 			//RiSurface(phong_lighting);
 			RiIdentity();
-			//RiTranslate(0,0,-8);	
+			RiTranslate(2,0,5);	
 			//RiRotate(1.57/2,1,0,0);	
-			RiRotate(1.57,1,0,0);
+			//RiRotate(1.57,1,0,0);
 			//RiRotate(1.57,0,0,1);	
 			//Rendering
 			RiTransformBegin();

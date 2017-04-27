@@ -17,10 +17,13 @@
 //extern RtFloat _dU;//derivative of surface params
 //extern RtFloat _dV;//derivative of surface params
 
+int CHECK_SIZE_X = 10;
+int CHECK_SIZE_Y = 10;
+
 RtFloat l_pos[3] = {0,0,4};
 
 void checkerboard(void){
-	RtInt val = (((RtInt)(_U * 100) % 10) > 4) xor (((RtInt)(_V * 100) % 10) > 4);
+	RtInt val = (((RtInt)(_U * 100) % CHECK_SIZE_X) > 4) xor (((RtInt)(_V * 100) % CHECK_SIZE_Y) > 4);
 	_Cs[0] = val;
 	_Cs[1] = val;
 	_Cs[2] = val;
