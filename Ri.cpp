@@ -107,7 +107,22 @@ JRiPixel::~JRiPixel(){
 }
 
 RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat sag,RtFloat sab,RtFloat sz){
-
+						//if(px->z > (ul->GetPos()->w())){
+	if(sar >= 1 && sag >= 1 && sab >= 1){
+		//Full opaque
+		if(z > sz){
+			if(next != RI_NULL) delete(next);
+			r = sr;
+			g = sg;
+			b = sb;
+			ar = sar;
+			ag = sag;
+			ab = sab;
+			z = sz;
+		}
+	} else {
+	
+	}
 }
 
 //Graphics States
@@ -119,6 +134,9 @@ RtVoid RiBegin(RtToken name){
 	RiCurrentContext -> CurrentColor[0] = 0;
 	RiCurrentContext -> CurrentColor[1] = 0;
 	RiCurrentContext -> CurrentColor[2] = 0;
+	RiCurrentContext -> CurrentOpacity[0] = 1;
+	RiCurrentContext -> CurrentOpacity[1] = 1;
+	RiCurrentContext -> CurrentOpacity[2] = 1;
 	RiCurrentContext -> DisplacementShaderFunction = &default_shader;
 	RiCurrentContext -> SurfaceShaderFunction = &default_shader;
 	srand(time(NULL));

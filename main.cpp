@@ -63,7 +63,9 @@ int main(){
 
 		RiWorldBegin();
 			RtColor col = {1,1,1};
-			RtColor opa = {0.5,0.5,0.5};
+			//RtColor opa = {0.5,0.5,0.5};
+			RtColor opa = {1,1,1};
+			//RtColor opa = {0.5,0.5,0.5};
 			RiColor(col);
 			RiOpacity(opa);
 			RiSurface(checkerboard);
