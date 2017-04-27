@@ -33,13 +33,15 @@ void default_shader(void){
 }
 
 //RiContext Stuff
-RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat z){
+RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag,RtFloat ab,RtFloat z){
 			RtInt i = (RtInt)x;
 			RtInt j = (RtInt)y;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->r = r;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->g = g;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->b = b;
-			RiCurrentContext -> FrameBuffer[i][j][0][0]->a = a;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->ar = ar;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->ag = ag;
+			RiCurrentContext -> FrameBuffer[i][j][0][0]->ab = ab;
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->z = z;
 }
 
@@ -81,11 +83,13 @@ RtVoid RiContext::DeleteFrameBuffer(){
 	delete(RiCurrentContext -> FrameBuffer);
 };
 
-JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aa,RtFloat zz,RtFloat uu,RtFloat vv,RtFloat duu,RtFloat dvv){
+JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aar,RtFloat aag,RtFloat aab, RtFloat zz,RtFloat uu,RtFloat vv,RtFloat duu,RtFloat dvv){
 	r = rr;
 	g = gg;
 	b = bb;
-	a = aa;
+	ar = aar;
+	ag = aag;
+	ab = aab;
 	z = zz;
 	//Set the u and v coordinate of this pixel on the screen
 	//The one received by the constructor is that of it without jitter, so i should jitter it within
@@ -211,7 +215,7 @@ RtVoid RiFrameEnd(){
 }
 
 RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPointer orig){
-	//I NEED TO IMPLEMENT SUPPORT FOR ORIGIN!!
+	//I NEED TO IMPLEMENT SUPPORT FOR ORIGIN!!!!THIS ISNT DONE YET!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	std::stringstream fname;
 	//If writing to file
 	if(strcmp(type,"file") == 0){
@@ -221,7 +225,7 @@ RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPoin
 			for(int i = 0;i < RiCurrentContext -> XResolution;i++){
 				int nm = 0;
 				unsigned char col[5];
-				JRiPixel px(0,0,0,0,0,0,0,0,0);
+				JRiPixel px(0,0,0,0,0,0,0,0,0,0,0);
 				RiGetSampledPixel(i,j,&px);
 				if(strcmp(mode,"rgb") == 0){	
 					nm = 3;
@@ -233,13 +237,13 @@ RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPoin
 					col[0] = px.r;
 					col[1] = px.g;
 					col[2] = px.b;
-					col[3] = px.a;
+					col[3] = px.ar;
 				} else if(strcmp(mode,"rgbaz") == 0){
 					nm = 5;
 					col[0] = px.r;
 					col[1] = px.g;
 					col[2] = px.b;
-					col[3] = px.a;
+					col[3] = px.ar;
 					col[4] = px.z;
 				} else if(strcmp(mode,"rgbz") == 0){
 					nm = 4;
@@ -249,10 +253,10 @@ RtVoid RiDisplay(RtToken name,RtToken type,RtToken mode,RtToken paramlist,RtPoin
 					col[3] = px.z;
 				} else if(strcmp(mode,"a") == 0){
 					nm = 1;
-					col[0] = px.a;
+					col[0] = px.ar;
 				} else if(strcmp(mode,"az") == 0){
 					nm = 2;
-					col[0] = px.a;
+					col[0] = px.ar;
 					col[1] = px.z;
 				} else if(strcmp(mode,"z") == 0){
 					nm = 1;
@@ -399,7 +403,8 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal
-					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],//Color
+					RiCurrentContext -> CurrentOpacity[0],RiCurrentContext -> CurrentOpacity[1],RiCurrentContext -> CurrentOpacity[2],//Opacity
 					u,v,//Texture coords
 					0,0);//derivatives
 		}
@@ -438,7 +443,8 @@ RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param){
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal                               //THIS IS INCORRECT!!!!
-					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],//Color
+					RiCurrentContext -> CurrentOpacity[0],RiCurrentContext -> CurrentOpacity[1],RiCurrentContext -> CurrentOpacity[2],//Opacity
 					u,v,//Texture coords
 					0,0);//derivatives
 		}
@@ -474,7 +480,8 @@ RtVoid RiCylinder(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax, RtP
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal                               //THIS IS INCORRECT!!!!
-					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],//Color
+					RiCurrentContext -> CurrentOpacity[0],RiCurrentContext -> CurrentOpacity[1],RiCurrentContext -> CurrentOpacity[2],//Opacity
 					u,v,//Texture coords
 					0,0);//derivatives
 		}
@@ -514,7 +521,8 @@ RtVoid RiTorus(RtFloat majorradius,RtFloat minorradius,RtFloat phimin,RtFloat ph
 			mesh->Set(	i,j, //index
 					x,y,z, //world pos
 					x,y,z, //normal                               //THIS IS INCORRECT!!!!
-					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],1,//Color
+					RiCurrentContext -> CurrentColor[0],RiCurrentContext -> CurrentColor[1],RiCurrentContext -> CurrentColor[2],//Color
+					RiCurrentContext -> CurrentOpacity[0],RiCurrentContext -> CurrentOpacity[1],RiCurrentContext -> CurrentOpacity[2],//Opacity
 					u,v,//Texture coords
 					0,0);//derivatives
 		}
@@ -551,7 +559,7 @@ RtVoid RiOpacity(RtFloat* col){
 RtVoid RiClearBuffer(){
 	for(RtFloat j = 0;j < RiCurrentContext -> YResolution;j++){
 		for(RtFloat i = 0;i < RiCurrentContext -> XResolution;i++){
-			WriteFrameBuffer(i,j,0,0,0,0,0);
+			WriteFrameBuffer(i,j,0,0,0,0,0,0,0);
 		}
 	}
 }
@@ -562,7 +570,9 @@ RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col){
 			col->r += RiCurrentContext -> FrameBuffer[u][v][i][j]->r;
 			col->g += RiCurrentContext -> FrameBuffer[u][v][i][j]->g;
 			col->b += RiCurrentContext -> FrameBuffer[u][v][i][j]->b;
-			col->a += RiCurrentContext -> FrameBuffer[u][v][i][j]->a;
+			col->ar += RiCurrentContext -> FrameBuffer[u][v][i][j]->ar;
+			col->ag += RiCurrentContext -> FrameBuffer[u][v][i][j]->ag;
+			col->ab += RiCurrentContext -> FrameBuffer[u][v][i][j]->ab;
 			col->z += RiCurrentContext -> FrameBuffer[u][v][i][j]->z;
 		}
 	}
@@ -570,7 +580,9 @@ RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col){
 	col->r = (col->r/div)*255;
 	col->g = (col->g/div)*255;
 	col->b = (col->b/div)*255;
-	col->a = (col->a/div)*255;
+	col->ar = (col->ar/div)*255;
+	col->ag = (col->ag/div)*255;
+	col->ab = (col->ab/div)*255;
 	col->z = (col->z/div)*255;
 	return;
 }

@@ -70,13 +70,6 @@ RtVoid JRiPoint::Mult(RtMatrix* mat){
 	}
 }
 
-RtVoid JRiPoint::DumpToScreen(RtFloat r,RtFloat g,RtFloat b){
-	if(pt[3] < -(RiCurrentContext -> Near) && pt[0] >= 0 && pt[1] >= 0 && (RtInt)pt[0] < RiCurrentContext -> XResolution && (RtInt)pt[1] < RiCurrentContext -> YResolution){
-		//RiCurrentContext -> FrameBuffer[(RtInt)pt[0]][(RtInt)pt[1]].r = 255;
-		WriteFrameBuffer(pt[0],pt[1],r*255,g*255,b*255,0,pt[3]);
-	}
-}
-
 RtVoid JRiPoint::Set(RtFloat a,RtFloat b,RtFloat c,RtFloat d){
 	pt[0] = a;
 	pt[1] = b;
@@ -261,7 +254,9 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 							px->r = a->GetCol()->r() * uu + b->GetCol()->r() * vv + c->GetCol()->r() * ww;
 							px->g = a->GetCol()->g() * uu + b->GetCol()->g() * vv + c->GetCol()->g() * ww;
 							px->b = a->GetCol()->b() * uu + b->GetCol()->b() * vv + c->GetCol()->b() * ww;
-							px->a = a->GetCol()->a() * uu + b->GetCol()->a() * vv + c->GetCol()->a() * ww;
+							px->ar = a->GetOpa()->r() * uu + b->GetOpa()->r() * vv + c->GetOpa()->r() * ww;
+							px->ag = a->GetOpa()->g() * uu + b->GetOpa()->g() * vv + c->GetOpa()->g() * ww;
+							px->ab = a->GetOpa()->b() * uu + b->GetOpa()->b() * vv + c->GetOpa()->b() * ww;
 							px->z = a->GetPos()->w() * uu + b->GetPos()->w() * vv + c->GetPos()->w() * ww;
 						}
 					}
@@ -315,9 +310,9 @@ RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){
 	_Cs[0] = mesh[x][y]->GetCol()->r();
 	_Cs[1] = mesh[x][y]->GetCol()->g();
 	_Cs[2] = mesh[x][y]->GetCol()->b();
-	_Os[0] = mesh[x][y]->GetOpa()->ar();
-	_Os[1] = mesh[x][y]->GetOpa()->ag();
-	_Os[2] = mesh[x][y]->GetOpa()->ab();
+	_Os[0] = mesh[x][y]->GetOpa()->r();
+	_Os[1] = mesh[x][y]->GetOpa()->g();
+	_Os[2] = mesh[x][y]->GetOpa()->b();
 	_P[0] = mesh[x][y]->GetPos()->x();
 	_P[1] = mesh[x][y]->GetPos()->y();
 	_P[2] = mesh[x][y]->GetPos()->z();

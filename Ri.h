@@ -87,7 +87,7 @@ class RiContext {
 };
 
 //RiContext functions
-RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloat a,RtFloat z);	
+RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloat ar,RtFloat ag,RtFloat ab,RtFloat z);
 
 //Global Variables
 extern RiContext *RiCurrentContext;

@@ -21,7 +21,6 @@ class JRiPoint{
 		RtFloat a();
 		RtVoid Mult(RtMatrix* mat);
 		RtVoid MoveToScreen();
-		RtVoid DumpToScreen(RtFloat r,RtFloat g,RtFloat b);
 		RtVoid Set(RtFloat a,RtFloat b,RtFloat c,RtFloat d);
 		RtVoid Normalize();
 };
