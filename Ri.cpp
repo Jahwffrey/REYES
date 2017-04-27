@@ -105,9 +105,43 @@ JRiPixel::JRiPixel(RtFloat rr,RtFloat gg,RtFloat bb,RtFloat aar,RtFloat aag,RtFl
 JRiPixel::~JRiPixel(){
 	if(next != RI_NULL) delete(next);
 }
+RtFloat JRiPixel::GetFinalR(){
+	RtFloat col = 0;
+	if(next != RI_NULL) col = next->GetFinalR();
+	return std::min(col + r*ar,(float)1);
+}
+
+RtFloat JRiPixel::GetFinalG(){
+	RtFloat col = 0;
+	if(next != RI_NULL) col = next->GetFinalG();
+	return std::min(col + g*ag,(float)1);
+}
+
+RtFloat JRiPixel::GetFinalB(){
+	RtFloat col = 0;
+	if(next != RI_NULL) col = next->GetFinalB();
+	return std::min(col + b*ab,(float)1);
+}
+
+RtFloat JRiPixel::GetFinalAr(){
+	RtFloat opa = 0;
+	if(next != RI_NULL) opa = next->GetFinalAr();
+	return std::min(ar + opa,(float)1);
+}
+
+RtFloat JRiPixel::GetFinalAg(){
+	RtFloat opa = 0;
+	if(next != RI_NULL) opa = next->GetFinalAg();
+	return std::min(ag + opa,(float)1);
+}
+
+RtFloat JRiPixel::GetFinalAb(){
+	RtFloat opa = 0;
+	if(next != RI_NULL) opa = next->GetFinalAb();
+	return std::min(ab + opa,(float)1);
+}
 
 RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat sag,RtFloat sab,RtFloat sz){
-						//if(px->z > (ul->GetPos()->w())){
 	if(sar >= 1 && sag >= 1 && sab >= 1){
 		//Full opaque
 		if(z > sz){
@@ -119,10 +153,43 @@ RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat 
 			ag = sag;
 			ab = sab;
 			z = sz;
+		} else {
+			if(next == RI_NULL){
+				next = new JRiPixel(sr,sg,sb,sar,sag,sab,sz,u,v,du,dv);
+			} else {
+				next->AddSample(sr,sb,sb,sar,sag,sab,sz);
+			}
 		}
 	} else {
-	
+		//If this point is in front of me
+		if(z > sz){
+			//copy myself and put it behind myself before setting my new values, then put it into list
+			JRiPixel* newpx = new JRiPixel(r,g,b,ar,ag,ab,z,u,v,du,dv);
+			r = sr;
+			g = sg;
+			b = sb;
+			ar = sar;
+			ag = sag;
+			ab = sab;
+			z = sz;
+
+			newpx->next = next;
+			next = newpx;
+		} else {
+			//if this point is behind me
+			if(ar >= 1 && ag >= 1 && ab >= 1){
+				//if i am opaque
+				return;
+			} else {
+				if(next == RI_NULL){
+					next = new JRiPixel(sr,sg,sb,sar,sag,sab,sz,u,v,du,dv);
+				} else {
+					next->AddSample(sr,sb,sb,sar,sag,sab,sz);
+				}
+			}
+		}
 	}
+	return;
 }
 
 //Graphics States
@@ -593,12 +660,12 @@ RtVoid RiClearBuffer(){
 RtVoid RiGetSampledPixel(RtInt u,RtInt v,JRiPixel* col){
 	for(RtInt j = 0;j < RiCurrentContext -> YSamples;j++){
 		for(RtInt i = 0;i < RiCurrentContext -> XSamples;i++){
-			col->r += RiCurrentContext -> FrameBuffer[u][v][i][j]->r;
-			col->g += RiCurrentContext -> FrameBuffer[u][v][i][j]->g;
-			col->b += RiCurrentContext -> FrameBuffer[u][v][i][j]->b;
-			col->ar += RiCurrentContext -> FrameBuffer[u][v][i][j]->ar;
-			col->ag += RiCurrentContext -> FrameBuffer[u][v][i][j]->ag;
-			col->ab += RiCurrentContext -> FrameBuffer[u][v][i][j]->ab;
+			col->r += RiCurrentContext -> FrameBuffer[u][v][i][j]->GetFinalR();
+			col->g += RiCurrentContext -> FrameBuffer[u][v][i][j]->GetFinalG();
+			col->b += RiCurrentContext -> FrameBuffer[u][v][i][j]->GetFinalB();
+			col->ar += RiCurrentContext -> FrameBuffer[u][v][i][j]->GetFinalAr();
+			col->ag += RiCurrentContext -> FrameBuffer[u][v][i][j]->GetFinalAg();
+			col->ab += RiCurrentContext -> FrameBuffer[u][v][i][j]->GetFinalAb();
 			col->z += RiCurrentContext -> FrameBuffer[u][v][i][j]->z;
 		}
 	}

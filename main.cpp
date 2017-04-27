@@ -37,6 +37,7 @@
 //make sure not leaking any memory
 //TEXTURES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 //Look through for various alarmed messages
+//full non-opacity has annoying noisy errors
 
 int main(){
 	RiBegin(RI_NULL);
@@ -63,9 +64,8 @@ int main(){
 
 		RiWorldBegin();
 			RtColor col = {1,1,1};
-			//RtColor opa = {0.5,0.5,0.5};
-			RtColor opa = {1,1,1};
-			//RtColor opa = {0.5,0.5,0.5};
+			//RtColor opa = {1,1,1};
+			RtColor opa = {0.5,0.5,0.5};
 			RiColor(col);
 			RiOpacity(opa);
 			RiSurface(checkerboard);
