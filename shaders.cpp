@@ -51,3 +51,7 @@ void random_shader(void){
 	//_P[1] += (-2 + rand()%5)/20.0;
 	//_P[2] += (-2 + rand()%5)/20.0;
 }
+
+void texture_zero(void){
+	texture(0);
+}

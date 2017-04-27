@@ -81,4 +81,9 @@ class JRiImage {
 		~JRiImage();
 };
 
+//A global array for holding images
+//I just set there to be 16,383 of them cuz i felt like it
+//I dont really have any specific protections to make this work, i'll just trust that example images work correctly
+extern JRiImage* images[16383];
+
 #endif

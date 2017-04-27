@@ -63,15 +63,16 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,5);
+		RiTranslate(0,0,2.5);
 
 		RiWorldBegin();
 			RtColor col = {1,1,1};
 			//RtColor opa = {1,1,1};
-			RtColor opa = {0.4,0.4,0.4};
+			RtColor opa = {1,1,1};
 			RiColor(col);
 			RiOpacity(opa);
-			RiSurface(checkerboard);
+			RiMakeTexture("",0);
+			RiSurface(texture_zero);
 			//RiSurface(random_shader);
 			//RiSurface(phong_lighting);
 			RiIdentity();
@@ -80,13 +81,7 @@ int main(){
 			//Rendering
 			RiTransformBegin();
 				RiRotate(1.57,1,0,0);
-				RiTranslate(1,0,0);	
-				RiSphere(2,-2,2,360,RI_NULL);
-				//RiTorus(2,1,0,360,360,RI_NULL);
-			RiTransformEnd();
-			RiTransformBegin();
-				RiRotate(1.57,1,0,0);
-				RiTranslate(-1,0,0);	
+				//RiTranslate(1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);
 				//RiTorus(2,1,0,360,360,RI_NULL);
 			RiTransformEnd();

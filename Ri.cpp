@@ -27,6 +27,18 @@ RtFloat _V;//texture coord v
 RtFloat _dU;//derivative of surface params
 RtFloat _dV;//derivative of surface params
 
+//RtVoid JRiImage::GetUVPoint(RtFloat u,RtFloat v,RtFloat* vals){
+RtVoid texture(int ind){
+	RtFloat vals[6];
+	images[ind]->GetUVPoint(_U,_V,vals);
+	_Cs[0] = vals[0];
+	_Cs[1] = vals[1];
+	_Cs[2] = vals[2];
+	_Os[0] = vals[3];
+	_Os[1] = vals[4];
+	_Os[2] = vals[5];
+	return;
+}
 
 void default_shader(void){
 	return;
@@ -649,7 +661,16 @@ RtVoid RiOpacity(RtFloat* col){
 }
 
 RtVoid RiMakeTexture(RtToken file,RtInt slot){
-	
+	images[slot] = new JRiImage(1000,1000);
+	for(int j = 0;j < 1000;j++){
+		for(int i = 0;i < 1000;i++){
+			RtFloat u = i / 1000.0;
+			RtFloat v = j / 1000.0;
+			//RtFloat va[6] = {sin(u*2*M_PI*4),sin(v*2*M_PI*4),1,1,1,1};
+			RtFloat va[6] = {u,v,1,1,u,v};
+			images[slot] -> SetImageVal(i,j,va);	
+		}
+	}	
 }
 
 //Internal Stuff

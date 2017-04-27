@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <iostream>
 
+JRiImage* images[16383];
+
 JRiPoint::JRiPoint(RtFloat x,RtFloat y,RtFloat z,RtFloat w){
 	pt[0] = x;
 	pt[1] = y;
@@ -441,7 +443,12 @@ RtInt JRiMesh::GetHeight(){
 }*/
 
 RtVoid JRiImage::GetUVPoint(RtFloat u,RtFloat v,RtFloat* vals){
-	RtFloat* pt = img[(int)(u*width)][(int)(v*height)];
+	int x = (int)(u*width) % width;
+	int y = (int)(v*height) % height;
+	if(x < 0) x = 0;
+	if(y < 0) y = 0;	
+
+	RtFloat* pt = img[x][y];
 	for(int i = 0;i < 6;i++){
 		vals[i] = pt[i];
 	}	

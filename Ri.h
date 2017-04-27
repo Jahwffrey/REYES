@@ -42,6 +42,8 @@ extern RtFloat _V;//texture coord v
 extern RtFloat _dU;//derivative of surface params
 extern RtFloat _dV;//derivative of surface params
 
+RtVoid texture(int ind);
+
 class JRiPixel {
 	public:
 	RtFloat r;
