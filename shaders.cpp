@@ -114,17 +114,21 @@ RtFloat get_perlin_val(RtFloat u,RtFloat v,int freq){
 	RtInt iy = (RtInt)y;
 
 	
-	RtFloat ul_grad_x = perlin_vect[freq-1][ix % inm][iy % inm] * -1 + perlin_vect[freq-1][(ix + 1) % inm][iy % inm];
+	RtFloat ul_grad_x = perlin_vect[freq-1][ix % inm][iy % inm] * -1 + perlin_vect[freq-1][(ix + 1) % inm][(iy + 0) % inm];
 	RtFloat ul_grad_y = perlin_vect[freq-1][ix % inm][iy % inm] * -1 + perlin_vect[freq-1][ix % inm][(iy + 1) % inm];
+	//RtFloat ul_grad_y = perlin_vect[freq-1][ix % inm][iy % inm] + -1 * perlin_vect[freq-1][ix % inm][(iy + 1) % inm];
 	
-	RtFloat ur_grad_x = perlin_vect[freq-1][(ix + 1) % inm][iy % inm] * -1 + perlin_vect[freq-1][(ix + 2) % inm][iy % inm];
+	RtFloat ur_grad_x = perlin_vect[freq-1][(ix + 1) % inm][iy % inm] * -1 + perlin_vect[freq-1][(ix + 2) % inm][(iy + 0) % inm];
 	RtFloat ur_grad_y = perlin_vect[freq-1][(ix + 1) % inm][iy % inm] * -1 + perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm];
+	//RtFloat ur_grad_y = perlin_vect[freq-1][(ix + 1) % inm][iy % inm] + -1 * perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm];
 
 	RtFloat lr_grad_x = perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm] * -1 + perlin_vect[freq-1][(ix + 2) % inm][(iy + 1) % inm];
 	RtFloat lr_grad_y = perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm] * -1 + perlin_vect[freq-1][(ix + 1) % inm][(iy + 2) % inm];
+	//RtFloat lr_grad_y = perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm] + -1 * perlin_vect[freq-1][(ix + 1) % inm][(iy + 2) % inm];
 
 	RtFloat ll_grad_x = perlin_vect[freq-1][ix % inm][(iy + 1) % inm] * -1 + perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm];
 	RtFloat ll_grad_y = perlin_vect[freq-1][ix % inm][(iy + 1) % inm] * -1 + perlin_vect[freq-1][ix % inm][(iy + 2) % inm];
+	//RtFloat ll_grad_y = perlin_vect[freq-1][ix % inm][(iy + 1) % inm] + -1 * perlin_vect[freq-1][ix % inm][(iy + 2) % inm];
 
 	RtFloat s = (x - (float)(ix + 1))*ur_grad_x + (y - (float)iy)*ur_grad_y;
 	RtFloat t = (x - (float)ix)*ul_grad_x + (y - (float)iy)*ul_grad_y; //ul vector dot gradient of upper left
@@ -132,9 +136,11 @@ RtFloat get_perlin_val(RtFloat u,RtFloat v,int freq){
 	RtFloat v2 = (x - (float)(ix))*ll_grad_x + (y - (float)(iy+1))*ll_grad_y;	
 
 	RtFloat Sx = 3*pow((x - (float)(ix)),2) - 2*pow(x - (float)ix,3);
+	//RtFloat Sx = 3*pow((y - (float)(iy)),2) - 2*pow(y - (float)iy,3);
 	RtFloat a = (1 - Sx)*t + Sx*s;
 	RtFloat b = (1 - Sx)*v2 + Sx*u2;
-	RtFloat Sy = 3*pow((y - (float)(iy)),2) - 2*pow(y - (float)iy,3);
+	RtFloat Sy = 3*pow(((float)(iy+1) - y),2) - 2*pow(((float)(iy+1) - y),3);
+	//RtFloat Sy = 3*pow((x - (float)(ix)),2) - 2*pow(x - (float)ix,3);
 	RtFloat out = (1-Sy)*b + Sy*a;
 
 	return out;
@@ -143,8 +149,9 @@ RtFloat get_perlin_val(RtFloat u,RtFloat v,int freq){
 void BUMPY(void){
 	RtFloat scal = 0;
 	for(int i = BUMP_MIN_FREQ_EXP;i <= BUMP_MAX_FREQ_EXP;i++){
-		scal += get_perlin_val(_U,_V,i)/pow(2,i);
+		scal += get_perlin_val(_U,_V,i)/i;  ///pow(2,i);	
 	}
+	//std::cout << scal << "\n";
 	_P[0] += _N[0] * BUMP_AMPLITUDE * scal;
 	_P[1] += _N[1] * BUMP_AMPLITUDE * scal;
 	_P[2] += _N[2] * BUMP_AMPLITUDE * scal;

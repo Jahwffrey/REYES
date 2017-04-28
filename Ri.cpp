@@ -505,6 +505,7 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 
 	//Then create the mesh
 	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*8.0),(RtInt)(screenwidth*4.0));
+	//JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*4.0),(RtInt)(screenwidth*4.0));
 	//JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/20.0),(RtInt)(screenwidth/40.0));
 	RtFloat phimin = -M_PI/2.0;
 	if(zmin > -radius) phimin = asin(zmin/radius);
