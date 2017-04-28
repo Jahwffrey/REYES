@@ -154,14 +154,7 @@ RtFloat JRiPixel::GetFinalAb(){
 }
 
 RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat sag,RtFloat sab,RtFloat sz){
-	/*r = sr;
-	g = sg;
-	b = sb;
-	ar = sar;
-	ag = sag;
-	ab = sab;
-	z = sz;
-	return;*/
+	if(sz < RiCurrentContext -> Near) return;
 	if(sar >= 0.99 && sag >= 0.99 && sab >= 0.99){
 		//Full opaque
 		if(z > sz){	
@@ -227,6 +220,8 @@ RtVoid RiBegin(RtToken name){
 	RiCurrentContext -> CurrentOpacity[2] = 1;
 	RiCurrentContext -> DisplacementShaderFunction = &default_shader;
 	RiCurrentContext -> SurfaceShaderFunction = &default_shader;
+	RiCurrentContext -> Near = 0.1;
+	RiCurrentContext -> Far = 10000;	
 	srand(time(NULL));
 	return;
 }
@@ -504,8 +499,6 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 	RtFloat bbox[4];
 	FindBoundingBox(radius*2,bbox);
 	RtFloat screenwidth = std::max(bbox[1] - bbox[0],bbox[3] - bbox[2]);
-
-	std::cout << screenwidth << "\n" << std::flush;
 
 	//Then create the mesh
 	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*8.0),(RtInt)(screenwidth*4.0));

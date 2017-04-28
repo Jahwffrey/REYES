@@ -8,12 +8,7 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//make sure RiBegin correclty sets all defaults including clipping planes
-//Make everything work by degrees as opposed to radians
-//implement near culling
 //bumpy shader via perlin noise
-//what was that strange matrix math for normals??
-//phong lighting specular component!!
 //make sure not leaking any memory
 //frame begin and frame end correctly!
 //Look through for various alarmed messages
