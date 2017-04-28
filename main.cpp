@@ -8,8 +8,6 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//bumpy shader via perlin noise
-//make sure not leaking any memory
 //frame begin and frame end correctly!
 //Look through for various alarmed messages
 //Weird problem with shrink shader
@@ -53,6 +51,8 @@ int main(){
 			//RiMakeTexture("",0);
 			RiDisplacement(BUMPY);
 			RiSurface(phong_lighting);
+			BUMP_MIN_FREQ_EXP = 2;
+			BUMP_MAX_FREQ_EXP = 8;
 			BUMP_AMPLITUDE = 0.2;
 			RiTransformBegin();	
 				RiRotate(45,1,0,0);	

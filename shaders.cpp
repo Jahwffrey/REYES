@@ -149,7 +149,7 @@ RtFloat get_perlin_val(RtFloat u,RtFloat v,int freq){
 void BUMPY(void){
 	RtFloat scal = 0;
 	for(int i = BUMP_MIN_FREQ_EXP;i <= BUMP_MAX_FREQ_EXP;i++){
-		scal += get_perlin_val(_U,_V,i)/i;  ///pow(2,i);	
+		scal += get_perlin_val(_U,_V,i)/pow(2,i);	
 	}
 	//std::cout << scal << "\n";
 	_P[0] += _N[0] * BUMP_AMPLITUDE * scal;
