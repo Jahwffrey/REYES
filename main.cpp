@@ -53,6 +53,7 @@ int main(){
 			//RiMakeTexture("",0);
 			RiDisplacement(BUMPY);
 			RiSurface(phong_lighting);
+			BUMP_AMPLITUDE = 0.2;
 			RiTransformBegin();	
 				RiRotate(45,1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);
