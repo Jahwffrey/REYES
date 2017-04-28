@@ -154,9 +154,17 @@ RtFloat JRiPixel::GetFinalAb(){
 }
 
 RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat sag,RtFloat sab,RtFloat sz){
+	/*r = sr;
+	g = sg;
+	b = sb;
+	ar = sar;
+	ag = sag;
+	ab = sab;
+	z = sz;
+	return;*/
 	if(sar >= 0.99 && sag >= 0.99 && sab >= 0.99){
 		//Full opaque
-		if(z > sz){
+		if(z > sz){	
 			if(next != RI_NULL) delete(next);
 			r = sr;
 			g = sg;
@@ -166,6 +174,7 @@ RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat 
 			ab = sab;
 			z = sz;
 		} else {
+			return;
 			if(next == RI_NULL){
 				next = new JRiPixel(sr,sg,sb,sar,sag,sab,sz,u,v,du,dv);
 			} else {

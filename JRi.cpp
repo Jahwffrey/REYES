@@ -364,6 +364,7 @@ RtVoid JRiMesh::SetVertexFromShaderVals(RtInt x,RtInt y){
 	//RtFloat r,RtFloat g,RtFloat b,
 	//RtFloat ar,RtFloat ag,RtFloat ab,
 	//RtFloat tx,RtFloat ty,RtFloat du,RtFloat dv)
+	//std::cout << _Cs[0] << "," << _Cs[1] << "," << _Cs[2] << "\n";
 	Set(	x,y,
 		_P[0],_P[1],_P[2],
 		_N[0],_N[1],_N[2],
