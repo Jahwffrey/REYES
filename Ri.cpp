@@ -262,7 +262,7 @@ RtVoid RiProjection(RtToken name,RtToken paramname,RtFloat *fov){
 		if(strcmp(paramname,RI_FOV) == 0){
 			RiPerspective(*fov);
 		} else {
-			RiPerspective(M_PI/2);
+			RiPerspective(90.0);//M_PI/2);
 		}
 	} else if(strcmp(name,RI_ORTHOGRAPHIC) == 0){
 		//THIS IS WRONG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -467,9 +467,11 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
 }
 
 RtVoid RiPerspective(RtFloat fov){
-	RtFloat ScaleFactor = 1.0 /(tan(fov/2));
+	RtFloat ff = (((fov * M_PI)/180.0)*M_PI)/180;
+	
+	RtFloat ScaleFactor = 1.0 /(tan(ff/2));
 	RtFloat aspect = 1/(RiCurrentContext->PixelAspectRatio);
-	RtFloat ScaleFactorAspect = 1.0 /(tan((fov/2)*aspect));
+	RtFloat ScaleFactorAspect = 1.0 /(tan((ff/2)*aspect));
 	RtFloat nr = RiCurrentContext -> Near;
 	RtFloat fr = RiCurrentContext -> Far;
 

@@ -22,6 +22,7 @@
 //try all the render scenes!
 //Make sure RiWorldBegin freezes changing all rendering options!
 //If JRI.h not included here, get a double free error??
+//FrameAspectRatio is never use and the way i am gettign action FOV is all kinds of screwed up!
 
 int main(){
 	RiBegin(RI_NULL);
@@ -34,7 +35,8 @@ int main(){
 		RiIdentity();
 		//RtFloat fov = M_PI/2;//90 degrees
 		//RtFloat fov = 1.0472;//60 degrees
-		RtFloat fov = 0.174533/2/2/2/2;//10 degrees
+		RtFloat fov = 45.0;//1.0;//45.0;//0.785398;//45 degrees
+//0.174533/2/2/2/2;//10 degrees
 		
 		//Screen Transform	
 		//RiTranslate(320/4,240/4,0);
@@ -44,7 +46,7 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,5);
+		RiTranslate(0,0,3);
 
 		RiWorldBegin();
 			RtColor col = {1,1,1};
@@ -53,8 +55,9 @@ int main(){
 			RiColor(col);
 			RiOpacity(opa);
 			RiMakeTexture("",0);
-			RiSurface(phong_lighting);
+			RiSurface(random_shader);//phong_lighting);
 			RiTransformBegin();	
+				
 				RiSphere(2,-2,2,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
