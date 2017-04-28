@@ -46,10 +46,12 @@ int main(){
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,3);
+		RiTranslate(0,0,2.5);
 
 		RiWorldBegin();
-			RtColor col = {1,1,1};
+			RiTransformBegin();
+			RiTransformEnd();
+			RtColor col = {1,0,0};
 			//RtColor opa = {1,1,1};
 			RtColor opa = {1,1,1};
 			RiColor(col);
@@ -57,7 +59,7 @@ int main(){
 			RiMakeTexture("",0);
 			RiSurface(random_shader);//phong_lighting);
 			RiTransformBegin();	
-				
+				//RiRotate(90,1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	

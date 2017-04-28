@@ -449,12 +449,13 @@ RtVoid RiScale(RtFloat dx,RtFloat dy,RtFloat dz){
 }
 
 RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
+	RtFloat angl = (angle * M_PI)/180.0;
 	RtFloat len = sqrt(pow(dx,2) + pow(dy,2) + pow(dz,2));
 	dx = dx / len;
 	dy = dy / len;
 	dz = dz / len;
-	RtFloat co = cos(angle);
-	RtFloat si = sin(angle);
+	RtFloat co = cos(angl);
+	RtFloat si = sin(angl);
 	RtFloat t = 1 - co;
 
 	//http://www.euclideanspace.com/maths/geometry/rotations/conversions/angleToMatrix/
@@ -467,7 +468,8 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
 }
 
 RtVoid RiPerspective(RtFloat fov){
-	RtFloat ff = (((fov * M_PI)/180.0)*M_PI)/180;
+	//RtFloat ff = (((fov * M_PI)/180.0)*M_PI)/180;
+	RtFloat ff = ((fov * M_PI)/180.0);
 	
 	RtFloat ScaleFactor = 1.0 /(tan(ff/2));
 	RtFloat aspect = 1/(RiCurrentContext->PixelAspectRatio);
@@ -491,6 +493,8 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 	RtFloat bbox[4];
 	FindBoundingBox(radius*2,bbox);
 	RtFloat screenwidth = std::max(bbox[1] - bbox[0],bbox[3] - bbox[2]);
+
+	std::cout << screenwidth << "\n" << std::flush;
 
 	//Then create the mesh
 	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*4.0),(RtInt)(screenwidth*2.0));
@@ -715,20 +719,25 @@ RtVoid FindBoundingBox(RtFloat diameter,RtFloat* vals){
 	//umin,umax,vmin,vmax
 	RtFloat radius = diameter/2;
 	JRiPoint p1 = JRiPoint(-radius,-radius,-radius,1);
+	JRiPoint p2 = JRiPoint(0,0,0,1);
+	p1.Transform();
+	p2.Transform();
 	p1.MoveToScreen();
-	vals[0] = p1.x();
-	vals[1] = p1.x();
-	vals[2] = p1.y();
-	vals[3] = p1.y();
+	p2.MoveToScreen();
+	vals[0] = abs(p1.x()-p2.x());
+	vals[1] = abs(p1.x()-p2.x());
+	vals[2] = abs(p1.y()-p2.y());
+	vals[3] = abs(p1.y()-p2.y());
 	for(RtInt i = -1;i < 2;i++){
 		for(RtInt j = -1;j < 2;j++){
 			for(RtInt k = -1;k < 2;k++){
 				JRiPoint pt = JRiPoint(i*radius,j*radius,k*radius,1);
+				pt.Transform();
 				pt.MoveToScreen();
-				if(pt.x() < vals[0]) vals[0] = pt.x();
-				if(pt.x() > vals[1]) vals[1] = pt.x();
-				if(pt.y() < vals[2]) vals[2] = pt.y();
-				if(pt.y() > vals[3]) vals[3] = pt.y();
+				if(pt.x()-p2.x() < vals[0]) vals[0] = abs(pt.x()-p2.x());
+				if(pt.x()-p2.x() > vals[1]) vals[1] = abs(pt.x()-p2.x());
+				if(pt.y()-p2.y() < vals[2]) vals[2] = abs(pt.y()-p2.y());
+				if(pt.y()-p2.y() > vals[3]) vals[3] = abs(pt.y()-p2.y());
 			}
 		}
 	}

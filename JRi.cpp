@@ -54,7 +54,7 @@ RtVoid JRiPoint::Transform(){
 }
 
 RtVoid JRiPoint::MoveToScreen(){
-	Mult(&(RiCurrentContext -> ViewTransform));
+	//Mult(&(RiCurrentContext -> ViewTransform));
 	Mult(&(RiCurrentContext -> ScreenTransform));
 
 	for(int i = 0;i < 3;i++){
@@ -296,7 +296,7 @@ extern RtFloat _dV;//derivative of surface params
 
 RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
 	//calculate normals and everything
-	//normals at every point ill be normal of triangle of it and point to right and down
+	//normals at every point will be normal of triangle of it and point to right and down
 	//normals of right and bottom edge points will be the same as opposite edge
 	if(x == width - 1){
 		if(y == height - 1){
@@ -314,7 +314,7 @@ RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
 		RtFloat a[3] = {p1->x() - p2->x(),p1->y() - p2->y(),p1->z() - p2->z()};	
 		RtFloat b[3] = {p1->x() - p3->x(),p1->y() - p3->y(),p1->z() - p3->z()};
 		
-		mesh[x][y]->GetNorm()->Set(-(a[1]*b[2] - a[2]*b[1]),-(a[2]*b[0] - a[0]*b[2]),-(a[0]*b[1] - a[1]*b[0]),1);
+		mesh[x][y]->GetNorm()->Set((a[1]*b[2] - a[2]*b[1]),(a[2]*b[0] - a[0]*b[2]),(a[0]*b[1] - a[1]*b[0]),1);
 		mesh[x][y]->GetNorm()->Normalize();	
 	}
 }
@@ -405,6 +405,7 @@ RtVoid JRiMesh::Draw(){
 	for(int j = 0;j < height;j++){
 		for(int i = 0;i < width;i++){
 			mesh[i][j] -> MoveToScreen();
+			//std::cout << mesh[i][j]->GetPos()->x() <<","<< mesh[i][j]->GetPos()->y()<< "\n";
 		}
 	}
 	//Draw each micropolygon
