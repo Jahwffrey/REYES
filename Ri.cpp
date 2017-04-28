@@ -26,6 +26,9 @@ RtFloat _U;//texture coord x
 RtFloat _V;//texture coord v
 RtFloat _dU;//derivative of surface params
 RtFloat _dV;//derivative of surface params
+RtFloat BUMP_AMPLITUDE = 1;
+RtFloat BUMP_MIN_FREQ_EXP = 2;
+RtFloat BUMP_MAX_FREQ_EXP = 6;
 
 //RtVoid JRiImage::GetUVPoint(RtFloat u,RtFloat v,RtFloat* vals){
 RtVoid texture(int ind){

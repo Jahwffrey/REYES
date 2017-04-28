@@ -9,5 +9,7 @@ void checkerboard(void);
 void phong_lighting(void);
 void random_shader(void);
 void texture_zero(void);
+void shrink(void);
+void BUMPY(void);
 
 #endif

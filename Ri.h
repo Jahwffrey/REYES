@@ -43,6 +43,9 @@ extern RtFloat _dU;//derivative of surface params
 extern RtFloat _dV;//derivative of surface params
 
 RtVoid texture(int ind);
+extern RtFloat BUMP_AMPLITUDE;
+extern RtFloat BUMP_MIN_FREQ_EXP;
+extern RtFloat BUMP_MAX_FREQ_EXP;
 
 class JRiPixel {
 	public:

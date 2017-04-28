@@ -5,6 +5,7 @@
 #include "Ri.h"
 #include <math.h>
 #include <iostream>
+#include <vector>
 
 //extern RtColor _Cs;//color of a point
 //extern RtColor _Os;//opacity of a point
@@ -26,6 +27,8 @@ RtFloat l_dir[3] = {3,0,-4};
 RtFloat l_amb[3] = {0.1,0.1,0.1};
 //RtFloat l_pos[3] = {0,0,3};
 RtFloat v_dir[3] = {0,0,-1};
+
+std::vector<RtFloat **> perlin_vect;
 
 void checkerboard(void){
 	RtInt val = (((RtInt)(_U * 100) % CHECK_SIZE_X) > 4) xor (((RtInt)(_V * 100) % CHECK_SIZE_Y) > 4);
@@ -72,4 +75,73 @@ void random_shader(void){
 
 void texture_zero(void){
 	texture(0);
+}
+
+void shrink(void){
+	_P[0] -= _N[0]*0.5;
+	_P[1] -= _N[1]*0.5;
+	_P[2] -= _N[2]*0.5;
+}
+
+//RtFloat BUMP_AMPLITUDE = 1;
+//RtFloat BUMP_MIN_FREQ_EXP = 2;
+//RtFloat BUMP_MAX_FREQ_EXP = 6;
+
+RtVoid generate_perlin_grid(RtFloat** grid,int freq){
+	int nm = (int)pow(2,freq);
+	grid = new RtFloat*[nm];
+	for(int i = 0; i < nm;i++){
+		grid[i] = new RtFloat[nm];
+		for(int j = 0;j < nm;j++){
+			grid[i][j] = rand()%2;
+		}
+	}
+}
+
+RtFloat get_perlin_val(RtFloat u,RtFloat v,int freq){
+	while(perlin_vect.size() < freq){
+		perlin_vect.push_back(RI_NULL);
+	}
+	if(perlin_vect[freq - 1] == RI_NULL){
+		generate_perlin_grid(perlin_vect[freq - 1],freq);
+	}
+	RtFloat nm = pow(2,(float)freq);
+	RtInt inm = (int)nm;
+	RtFloat x = u * nm;
+	RtFloat y = v * nm;
+
+	RtInt ix = (RtInt)x;
+	RtInt iy = (RtInt)y;
+
+	RtFloat ul_grad_x = perlin_vect[freq-1][ix][iy] * -1 + perlin_vect[freq-1][(ix + 1) % inm][iy];
+	RtFloat ul_grad_y = perlin_vect[freq-1][ix][iy] * -1 + perlin_vect[freq-1][ix][(iy + 1) % inm];
+	
+	RtFloat ur_grad_x = perlin_vect[freq-1][(ix + 1) % inm][iy] * -1 + perlin_vect[freq-1][(ix + 2) % inm][iy];
+	RtFloat ur_grad_y = perlin_vect[freq-1][(ix + 1) % inm][iy] * -1 + perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm];
+
+	RtFloat lr_grad_x = perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm] * -1 + perlin_vect[freq-1][(ix + 2) % inm][(iy + 1) % inm];
+	RtFloat lr_grad_y = perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm] * -1 + perlin_vect[freq-1][(ix + 1) % inm][(iy + 2) % inm];
+
+	RtFloat ll_grad_x = perlin_vect[freq-1][ix][(iy + 1) % inm] * -1 + perlin_vect[freq-1][(ix + 1) % inm][(iy + 1) % inm];
+	RtFloat ll_grad_y = perlin_vect[freq-1][ix][(iy + 1) % inm] * -1 + perlin_vect[freq-1][ix][(iy + 2) % inm];
+
+	RtFloat s = (x - (float)(ix + 1))*ur_grad_x + (y - (float)iy)*ur_grad_y;
+	RtFloat t = (x - (float)ix)*ul_grad_x + (y - (float)iy)*ul_grad_y; //ul vector dot gradient of upper left
+	RtFloat u2 = (x - (float)(ix + 1))*lr_grad_x + (y - (float)(iy+1))*lr_grad_y;	
+	RtFloat v2 = (x - (float)(ix))*ll_grad_x + (y - (float)(iy+1))*ll_grad_y;	
+
+	RtFloat Sx = 3*pow((x - (float)(ix)),2) - 2*pow(x - (float)ix,3);
+	RtFloat a = (1 - Sx)*t + Sx*s;
+	RtFloat b = (1 - Sx)*v2 + Sx*u2;
+	RtFloat Sy = 3*pow((y - (float)(iy)),2) - 2*pow(y - (float)iy,3);
+	RtFloat out = (1-Sy)*b + Sy*a;
+
+	return out;
+}
+
+void BUMPY(void){
+	RtFloat scal = 0;
+	for(int i = BUMP_MIN_FREQ_EXP;i <= BUMP_MAX_FREQ_EXP;i++){
+		scal += get_perlin_val(_U,_V,i);
+	}
 }

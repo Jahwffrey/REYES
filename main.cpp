@@ -12,12 +12,13 @@
 //make sure not leaking any memory
 //frame begin and frame end correctly!
 //Look through for various alarmed messages
+//Weird problem with shrink shader
+//Make sure RiWorldBegin freezes changing all rendering options!
+//FrameAspectRatio is never use and the way i am gettign action FOV is all kinds of screwed up!
 //PORT TO CIMAGE and windows!!
 //write out actual image types, not ppm
 //try all the render scenes!
-//Make sure RiWorldBegin freezes changing all rendering options!
 //If JRI.h not included here, get a double free error??
-//FrameAspectRatio is never use and the way i am gettign action FOV is all kinds of screwed up!
 
 int main(){
 	RiBegin(RI_NULL);
@@ -50,6 +51,7 @@ int main(){
 			RiColor(col);
 			RiOpacity(opa);
 			//RiMakeTexture("",0);
+			RiDisplacement(BUMPY);
 			RiSurface(phong_lighting);
 			RiTransformBegin();	
 				RiRotate(45,1,0,0);	
