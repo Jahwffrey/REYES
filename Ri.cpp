@@ -242,7 +242,11 @@ RtVoid RiTransformBegin(){
 
 RtVoid RiTransformEnd(){
 	//pretending to pop stack
-	RiIdentity();
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			RiCurrentContext -> CurrentTransform[i][j] = RiCurrentContext -> ViewTransform[i][j];
+		}
+	}
 	RiCurrentContext -> TransBegun = 0;
 	return;
 }

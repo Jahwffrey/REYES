@@ -8,7 +8,6 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//I think my coords are still weird -> z is still backwards!!
 //make sure RiBegin correclty sets all defaults including clipping planes
 //Make everything work by degrees as opposed to radians
 //implement near culling
@@ -21,12 +20,14 @@
 //PORT TO CIMAGE and windows!!
 //write out actual image types, not ppm
 //try all the render scenes!
+//Make sure RiWorldBegin freezes changing all rendering options!
+//If JRI.h not included here, get a double free error??
 
 int main(){
 	RiBegin(RI_NULL);
 		//RiFormat(320/2,240/2,1);
 		RiClipping(0.1,10000);
-		RiFormat(640,480,1);
+		RiFormat(320,240,1);
 		//RiFrameAspectRatio(2.0/1.0);
 		//RiFrameBegin(0);
 		
@@ -37,13 +38,13 @@ int main(){
 		
 		//Screen Transform	
 		//RiTranslate(320/4,240/4,0);
-		RiTranslate(320,240,0);
+		RiTranslate(320/2,240/2,0);
 		RiProjection(RI_PERSPECTIVE,"fov",&fov);
 		
 		RiIdentity();
 
 		//Camera Transform
-		RiTranslate(0,0,2.5);
+		RiTranslate(0,0,5);
 
 		RiWorldBegin();
 			RtColor col = {1,1,1};
@@ -52,18 +53,9 @@ int main(){
 			RiColor(col);
 			RiOpacity(opa);
 			RiMakeTexture("",0);
-			RiSurface(texture_zero);
-			//RiSurface(random_shader);
-			//RiSurface(phong_lighting);
-			RiIdentity();
-			//RiRotate(1.57/2,1,0,0);	
-			//RiRotate(1.57,0,0,1);	
-			//Rendering
-			RiTransformBegin();
-				RiRotate(1.57,1,0,0);
-				//RiTranslate(1,0,0);	
+			RiSurface(phong_lighting);
+			RiTransformBegin();	
 				RiSphere(2,-2,2,360,RI_NULL);
-				//RiTorus(2,1,0,360,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
