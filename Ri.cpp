@@ -175,11 +175,11 @@ RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat 
 			z = sz;
 		} else {
 			return;
-			if(next == RI_NULL){
+			/*if(next == RI_NULL){
 				next = new JRiPixel(sr,sg,sb,sar,sag,sab,sz,u,v,du,dv);
 			} else {
 				next->AddSample(sr,sg,sb,sar,sag,sab,sz);
-			}
+			}*/
 		}
 	} else {
 		//If this point is in front of me

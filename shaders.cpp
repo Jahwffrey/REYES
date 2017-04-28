@@ -22,8 +22,8 @@ int CHECK_SIZE_Y = 10;
 
 //RtFloat l_pos[3] = {0,-2,100};
 //RtFloat l_dir[3] = {0,-2,3};
-RtFloat l_dir[3] = {5,0,-5};
-RtFloat l_amb = 0.2;
+RtFloat l_dir[3] = {3,0,-2};
+RtFloat l_amb = 0;//.2;
 //RtFloat l_pos[3] = {0,0,3};
 RtFloat v_dir[3] = {0,0,1};
 
