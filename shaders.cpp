@@ -22,10 +22,10 @@ int CHECK_SIZE_Y = 10;
 
 //RtFloat l_pos[3] = {0,-2,100};
 //RtFloat l_dir[3] = {0,-2,3};
-RtFloat l_dir[3] = {3,0,-2};
-RtFloat l_amb = 0;//.2;
+RtFloat l_dir[3] = {3,0,-4};
+RtFloat l_amb[3] = {0.1,0.1,0.1};
 //RtFloat l_pos[3] = {0,0,3};
-RtFloat v_dir[3] = {0,0,1};
+RtFloat v_dir[3] = {0,0,-1};
 
 void checkerboard(void){
 	RtInt val = (((RtInt)(_U * 100) % CHECK_SIZE_X) > 4) xor (((RtInt)(_V * 100) % CHECK_SIZE_Y) > 4);
@@ -43,15 +43,17 @@ void phong_lighting(void){
 	l_dir_n[1] = l_dir[1]/l_dir_mag;
 	l_dir_n[2] = l_dir[2]/l_dir_mag;
 	
-	RtFloat hv_dir[3] = {l_dir_n[0] + v_dir[0],l_dir_n[1] + v_dir[1],l_dir_n[2] + v_dir[2]};
-	RtFloat hv_dir_mag = sqrt(hv_dir[0]*hv_dir[0] + hv_dir[1]*hv_dir[1] + hv_dir[2]*hv_dir[2]);
-	hv_dir[0] = hv_dir[0]/hv_dir_mag;
-	hv_dir[1] = hv_dir[1]/hv_dir_mag;
-	hv_dir[2] = hv_dir[2]/hv_dir_mag;
+	RtFloat hv_dir[3] = {(l_dir_n[0] + v_dir[0])/2,(l_dir_n[1] + v_dir[1])/2,(l_dir_n[2] + v_dir[2])/2};
+	//RtFloat hv_dir_mag = sqrt(hv_dir[0]*hv_dir[0] + hv_dir[1]*hv_dir[1] + hv_dir[2]*hv_dir[2]);
+	//hv_dir[0] = hv_dir[0]/hv_dir_mag;
+	//hv_dir[1] = hv_dir[1]/hv_dir_mag;
+	//hv_dir[2] = hv_dir[2]/hv_dir_mag;
 	
 	RtFloat dot = std::max((float)0,_N[0]*l_dir_n[0] + _N[1]*l_dir_n[1] + _N[2]*l_dir_n[2]);
 	RtFloat dot_2 = std::max((float)0,_N[0]*hv_dir[0] + _N[1]*hv_dir[1] + _N[2]*hv_dir[2]);//_N[0]*l_dir_n[0] + _N[1]*l_dir_n[1] + _N[2]*l_dir_n[2];
-	_Cs[0] = std::min((float)1,_Cs[0] * dot + l_amb * _Cs[0]);// + dot_2*dot_2*dot_2*dot_2);
+	_Cs[0] = std::min((float)1,_Cs[0] * dot + l_amb[0] * _Cs[0] + (float)pow(dot_2,20)*3);
+	_Cs[1] = std::min((float)1,_Cs[1] * dot + l_amb[1] * _Cs[1] + (float)pow(dot_2,20)*3);
+	_Cs[2] = std::min((float)1,_Cs[2] * dot + l_amb[2] * _Cs[2] + (float)pow(dot_2,20)*3);
 	//_Cs[1] = std::min((float)1,_Cs[1] * dot + l_amb * _Cs[1]);// + dot_2*dot_2*dot_2*dot_2);
 	//_Cs[2] = std::min((float)1,_Cs[2] * dot + l_amb * _Cs[2]);// + dot_2*dot_2*dot_2*dot_2);
 }
