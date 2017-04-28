@@ -35,7 +35,7 @@ int main(){
 		RiIdentity();
 		//RtFloat fov = M_PI/2;//90 degrees
 		//RtFloat fov = 1.0472;//60 degrees
-		RtFloat fov = 45.0;//1.0;//45.0;//0.785398;//45 degrees
+		RtFloat fov = 2;//45.0;//1.0;//45.0;//0.785398;//45 degrees
 //0.174533/2/2/2/2;//10 degrees
 		
 		//Screen Transform	
