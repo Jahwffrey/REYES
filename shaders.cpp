@@ -20,7 +20,7 @@
 int CHECK_SIZE_X = 10;
 int CHECK_SIZE_Y = 10;
 
-RtFloat l_pos[3] = {0,0,4};
+RtFloat l_pos[3] = {0,-2,-4};
 
 void checkerboard(void){
 	RtInt val = (((RtInt)(_U * 100) % CHECK_SIZE_X) > 4) xor (((RtInt)(_V * 100) % CHECK_SIZE_Y) > 4);
@@ -31,12 +31,14 @@ void checkerboard(void){
 
 void phong_lighting(void){
 	RtFloat l_dir[3] = {l_pos[0] - _P[0],l_pos[1] - _P[1],l_pos[2] - _P[2]};
+	//RtFloat l_dir[3] = {0,0,1};
 	RtFloat l_dir_mag = sqrt(l_dir[0]*l_dir[0] + l_dir[1]*l_dir[1] + l_dir[2]*l_dir[2]);
 	l_dir[0] = l_dir[0]/l_dir_mag;
 	l_dir[1] = l_dir[1]/l_dir_mag;
 	l_dir[2] = l_dir[1]/l_dir_mag;
-	RtFloat dot = _N[0]*l_dir[0] + _N[1]*l_dir[1] * _N[2]*l_dir[2];
-	if(dot < 0) dot *= -1;
+	RtFloat dot = _N[0]*l_dir[0] + _N[1]*l_dir[1] + _N[2]*l_dir[2];
+	//std::cout << dot << "\n";
+	if(dot < 0) dot = 0;//-1;
 	//std::cout << dot << "\n";
 	_Cs[0] = _Cs[0] * dot;
 	_Cs[1] = _Cs[1] * dot;

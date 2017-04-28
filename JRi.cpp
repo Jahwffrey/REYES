@@ -54,7 +54,7 @@ RtVoid JRiPoint::Transform(){
 }
 
 RtVoid JRiPoint::MoveToScreen(){
-	//Mult(&(RiCurrentContext -> ViewTransform));
+	Mult(&(RiCurrentContext -> ViewTransform));
 	Mult(&(RiCurrentContext -> ScreenTransform));
 
 	for(int i = 0;i < 3;i++){

@@ -43,8 +43,6 @@ int main(){
 		RiTranslate(320/2,240/2,0);
 		RiProjection(RI_PERSPECTIVE,"fov",&fov);
 		
-		RiIdentity();
-
 		//Camera Transform
 		RiTranslate(0,0,2.5);
 
@@ -57,7 +55,7 @@ int main(){
 			RiColor(col);
 			RiOpacity(opa);
 			RiMakeTexture("",0);
-			RiSurface(random_shader);//phong_lighting);
+			RiSurface(phong_lighting);
 			RiTransformBegin();	
 				//RiRotate(90,1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);

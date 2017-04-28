@@ -242,11 +242,12 @@ RtVoid RiTransformBegin(){
 
 RtVoid RiTransformEnd(){
 	//pretending to pop stack
-	for(int j = 0;j < 4;j++){
+	/*for(int j = 0;j < 4;j++){
 		for(int i = 0;i < 4;i++){
 			RiCurrentContext -> CurrentTransform[i][j] = RiCurrentContext -> ViewTransform[i][j];
 		}
-	}
+	}*/
+	RiIdentity();
 	RiCurrentContext -> TransBegun = 0;
 	return;
 }
@@ -280,6 +281,7 @@ RtVoid RiProjection(RtToken name,RtToken paramname,RtFloat *fov){
 			RiCurrentContext -> ScreenTransform[i][j] = RiCurrentContext -> CurrentTransform[i][j];
 		}
 	}
+	RiIdentity();
 }
 
 RtVoid RiWorldBegin(){
