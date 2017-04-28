@@ -154,7 +154,7 @@ RtFloat JRiPixel::GetFinalAb(){
 }
 
 RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat sag,RtFloat sab,RtFloat sz){
-	if(sar >= 1 && sag >= 1 && sab >= 1){
+	if(sar >= 0.99 && sag >= 0.99 && sab >= 0.99){
 		//Full opaque
 		if(z > sz){
 			if(next != RI_NULL) delete(next);
@@ -169,7 +169,7 @@ RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat 
 			if(next == RI_NULL){
 				next = new JRiPixel(sr,sg,sb,sar,sag,sab,sz,u,v,du,dv);
 			} else {
-				next->AddSample(sr,sb,sb,sar,sag,sab,sz);
+				next->AddSample(sr,sg,sb,sar,sag,sab,sz);
 			}
 		}
 	} else {
@@ -189,14 +189,14 @@ RtVoid JRiPixel::AddSample(RtFloat sr,RtFloat sg,RtFloat sb,RtFloat sar,RtFloat 
 			next = newpx;
 		} else {
 			//if this point is behind me
-			if(ar >= 1 && ag >= 1 && ab >= 1){
+			if(ar >= 0.99 && ag >= 0.99 && ab >= 0.99){
 				//if i am opaque
 				return;
 			} else {
 				if(next == RI_NULL){
 					next = new JRiPixel(sr,sg,sb,sar,sag,sab,sz,u,v,du,dv);
 				} else {
-					next->AddSample(sr,sb,sb,sar,sag,sab,sz);
+					next->AddSample(sr,sg,sb,sar,sag,sab,sz);
 				}
 			}
 		}
@@ -499,7 +499,7 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 	std::cout << screenwidth << "\n" << std::flush;
 
 	//Then create the mesh
-	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*4.0),(RtInt)(screenwidth*2.0));
+	JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth*8.0),(RtInt)(screenwidth*4.0));
 	//JRiMesh* mesh = new JRiMesh((RtInt)(screenwidth/20.0),(RtInt)(screenwidth/40.0));
 	RtFloat phimin = -M_PI/2.0;
 	if(zmin > -radius) phimin = asin(zmin/radius);

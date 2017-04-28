@@ -49,13 +49,13 @@ RtFloat JRiPoint::a(){
 }
 
 RtVoid JRiPoint::Transform(){
-	Mult(&(RiCurrentContext -> CurrentTransform));
+	Mult(&(RiCurrentContext -> CurrentTransform));//Move in world
+	Mult(&(RiCurrentContext -> ViewTransform));//Move to within camera view
 	return;
 }
 
 RtVoid JRiPoint::MoveToScreen(){
-	Mult(&(RiCurrentContext -> ViewTransform));
-	Mult(&(RiCurrentContext -> ScreenTransform));
+	Mult(&(RiCurrentContext -> ScreenTransform));//Perspective transform and moving on the screen
 
 	for(int i = 0;i < 3;i++){
 		pt[i] = pt[i]/(pt[3] + 0.000001);
@@ -84,7 +84,7 @@ RtVoid JRiPoint::Set(RtFloat a,RtFloat b,RtFloat c,RtFloat d){
 	return;
 }
 RtVoid JRiPoint::Normalize(){
-	RtFloat len = sqrt(pow(pt[0],2) + pow(pt[1],2) + pow(pt[2],2));
+	RtFloat len = (float)sqrt(pow(pt[0],2) + pow(pt[1],2) + pow(pt[2],2));
 	pt[0] = pt[0]/len;
 	pt[1] = pt[1]/len;
 	pt[2] = pt[2]/len;

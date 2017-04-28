@@ -54,10 +54,10 @@ int main(){
 			RtColor opa = {1,1,1};
 			RiColor(col);
 			RiOpacity(opa);
-			RiMakeTexture("",0);
-			RiSurface(phong_lighting);
+			//RiMakeTexture("",0);
+			RiSurface(random_shader);//phong_lighting);
 			RiTransformBegin();	
-				//RiRotate(90,1,0,0);	
+				RiRotate(90,1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
