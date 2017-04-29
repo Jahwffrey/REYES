@@ -47,7 +47,7 @@ int main(){
 			RiColor(col);
 			RiOpacity(opa);
 			//RiMakeTexture("",0);
-			RiDisplacement(shrink);
+			//RiDisplacement(shrink);
 			RiSurface(phong_lighting);
 			BUMP_MIN_FREQ_EXP = 2;
 			BUMP_MAX_FREQ_EXP = 4;

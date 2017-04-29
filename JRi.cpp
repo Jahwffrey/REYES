@@ -322,9 +322,9 @@ RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
 		//mesh[x][y]->CopyNorm(mesh[x][y-1]->GetNorm());
 	} else {*/
 		p1 = mesh[x][y]->GetPos();
-		p2 = mesh[(x+1)%width][y]->GetPos();
+		p2 = mesh[(x+2)%width][y]->GetPos();
 		//p2 = mesh[(x+1)][y]->GetPos();
-		p3 = mesh[x][(y+1)%height]->GetPos();
+		p3 = mesh[x][(y+2)%height]->GetPos();
 		//p3 = mesh[x][(y+1)]->GetPos();
 	//}	
 
@@ -431,8 +431,8 @@ RtVoid JRiMesh::Draw(){
 		}
 	}
 	//Draw each micropolygon
-	for(int j = 1;j < height - 1;j++){
-		for(int i = 1;i < width - 1;i++){
+	for(int j = 0;j < height - 1;j++){
+		for(int i = 0;i < width - 1;i++){
 			//DrawMicropolygon(mesh[i][j],mesh[(i + 1)%width][j],mesh[i][(j + 1)%height],mesh[(i + 1)%width][(j + 1)%height]);
 			DrawMicropolygon(mesh[i][j],mesh[(i + 1)][j],mesh[i][(j + 1)],mesh[(i + 1)][(j + 1)]);
 		}
