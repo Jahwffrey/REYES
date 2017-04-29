@@ -40,6 +40,7 @@ int main(){
 		//Camera Transform
 		RiTranslate(0,0,2.5);
 
+		RiFrameBegin(2);
 		RiWorldBegin();
 			RiTransformBegin();
 			RiTransformEnd();
@@ -52,13 +53,15 @@ int main(){
 			RiDisplacement(BUMPY);
 			RiSurface(phong_lighting);
 			BUMP_MIN_FREQ_EXP = 2;
-			BUMP_MAX_FREQ_EXP = 8;
-			BUMP_AMPLITUDE = 0.2;
+			BUMP_MAX_FREQ_EXP = 4;
+			BUMP_AMPLITUDE = 0.5;
 			RiTransformBegin();	
 				RiRotate(45,1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
+		std::cout << "got here!" << std::flush;
+		RiFrameEnd();
 	RiEnd();
 }

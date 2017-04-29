@@ -96,10 +96,13 @@ class RiContext {
 		RtColor CurrentOpacity;
 		void(*DisplacementShaderFunction)(void);
 		void(*SurfaceShaderFunction)(void);
-	
+		RiContext* prev;	
+
+		RiContext();
 		~RiContext();
 		RtVoid DeleteFrameBuffer();
 		RtVoid AllocateFrameBuffer();
+		RtVoid Copy(RiContext* other);
 };
 
 //RiContext functions

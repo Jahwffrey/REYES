@@ -60,8 +60,13 @@ RtVoid WriteFrameBuffer(RtFloat x,RtFloat y,RtFloat r,RtFloat g,RtFloat b,RtFloa
 			RiCurrentContext -> FrameBuffer[i][j][0][0]->z = z;
 }
 
+RiContext::RiContext(){};
+
+
+
 RiContext::~RiContext(){
-	DeleteFrameBuffer();
+	//Im not deleting frame buffer cuz i want there to be only one preseved throughout runtime
+	//DeleteFrameBuffer();
 }
 
 RtVoid RiContext::AllocateFrameBuffer(){
@@ -321,12 +326,52 @@ RtVoid RiPixelSamples(RtFloat xsamples,RtFloat ysamples){
 
 RtVoid RiFrameBegin(RtInt frame){
 	//NOT DONE! NOT DONE AT ALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	RiContext* nc = new RiContext();
+	nc->Copy(RiCurrentContext);
+	nc->prev = RiCurrentContext;
+	RiCurrentContext = nc;
 	RiCurrentContext -> FrameBegun = 1;
 	RiCurrentContext -> CurrentFrame = frame;
 	return;
 }
 
+RtVoid RiContext::Copy(RiContext* other){
+	for(int j = 0;j < 4;j++){
+		for(int i = 0;i < 4;i++){
+			CurrentTransform[i][j] = other->CurrentTransform[i][j];
+			ViewTransform[i][j] = other->ViewTransform[i][j];
+			ScreenTransform[i][j] = other->ScreenTransform[i][j];
+		}
+	} 
+	//They are all gana share the same frame buffer pointer
+	FrameBuffer = other -> FrameBuffer;
+	XResolution = other -> XResolution;
+	YResolution = other -> YResolution;
+	XSamples = other -> XSamples;
+	YSamples = other -> YSamples;
+	PixelAspectRatio = other -> PixelAspectRatio;
+	FrameAspectRatio = other -> FrameAspectRatio;
+	Near = other -> Near;
+	Far = other -> Far;
+	TransBegun = other -> TransBegun;
+	WorldBegun = other -> WorldBegun;
+	FrameBegun = other -> FrameBegun;
+	CurrentFrame = other -> CurrentFrame;
+	for(int i = 0;i < 3;i++){
+		CurrentColor[i] = other -> CurrentColor[i];
+		CurrentOpacity[i] = other -> CurrentOpacity[i];
+	}
+	DisplacementShaderFunction = other -> DisplacementShaderFunction;
+	SurfaceShaderFunction = other -> SurfaceShaderFunction;
+	//Im allocation a fresh frame buffer, the frame buffer is not a rendering option
+	//AllocateFrameBuffer();
+	return;
+}
+
 RtVoid RiFrameEnd(){
+	RiContext* old = RiCurrentContext;
+	RiCurrentContext = old->prev;
+	delete(old);
 	RiCurrentContext -> FrameBegun = 0;
 	RiCurrentContext -> CurrentFrame = -1;
 	for(int i = 0;i < images.size();i++){
