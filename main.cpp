@@ -8,13 +8,13 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//frame begin and frame end correctly!
 //Look through for various alarmed messages
 //Weird problem with shrink shader
 //Make sure RiWorldBegin freezes changing all rendering options!
 //FrameAspectRatio is never use and the way i am gettign action FOV is all kinds of screwed up!
+//MY FOV IS ALL KINDS OF SCREWED UP!!
 //PORT TO CIMAGE and windows!!
-//write out actual image types, not ppm
+//write out actual image types, not ppp, make RiDisplay work correctly
 //try all the render scenes!
 //If JRI.h not included here, get a double free error??
 

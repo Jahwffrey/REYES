@@ -278,13 +278,11 @@ RtVoid RiProjection(RtToken name,RtToken paramname,RtFloat *fov){
 			RiPerspective(90.0);//M_PI/2);
 		}
 	} else if(strcmp(name,RI_ORTHOGRAPHIC) == 0){
-		//THIS IS WRONG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		std::cout << "Here am BAD 2!!!";
-		RtFloat ZScale = 1.0/(RiCurrentContext-> Far - RiCurrentContext -> Near);
+		RtFloat ZScale = (RiCurrentContext->Far)/(RiCurrentContext-> Far - RiCurrentContext -> Near);
 		RtMatrix ortho = {1,0,0,0,
 				  0,1,0,0,
-				  0,0,ZScale,-(RiCurrentContext -> Near),
-				  0,0,0,0};
+				  0,0,ZScale,0,
+				  0,0,0,1};
 		RiConcatTransform(ortho);
 	} //else if (name == RI_NULL){
 	
