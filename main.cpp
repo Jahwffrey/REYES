@@ -8,13 +8,13 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//MY FOV IS ALL KINDS OF SCREWED UP!!
 //PORT TO CIMAGE and windows!!
 //write out actual image types, not ppp, make RiDisplay work correctly
 //try all the render scenes!
 //If JRI.h not included here, get a double free error??
 //Weird problem with shrink shader
 //Make there be more micropolygons as in finder dicing
+//MY FOV IS ALL KINDS OF SCREWED UP!!
 
 int main(){
 	RiBegin(RI_NULL);
