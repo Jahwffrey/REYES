@@ -303,6 +303,7 @@ RtVoid RiWorldBegin(){
 			RiCurrentContext -> ViewTransform[i][j] = RiCurrentContext -> CurrentTransform[i][j];
 		}
 	}
+	RiIdentity();
 	return;
 }
 
@@ -526,8 +527,8 @@ RtVoid RiRotate(RtFloat angle,RtFloat dx,RtFloat dy,RtFloat dz){
 }
 
 RtVoid RiPerspective(RtFloat fov){
-	//RtFloat ff = (((fov * M_PI)/180.0)*M_PI)/180;
-	RtFloat ff = ((fov * M_PI)/180.0);
+	RtFloat ff = (((fov * M_PI)/180.0)*M_PI)/180;
+	//RtFloat ff = ((fov * M_PI)/180.0);
 	
 	RtFloat ScaleFactor = 1.0 /(tan(ff/2));
 	RtFloat aspect = 1/(RiCurrentContext->PixelAspectRatio);
