@@ -329,6 +329,9 @@ RtVoid RiFrameBegin(RtInt frame){
 RtVoid RiFrameEnd(){
 	RiCurrentContext -> FrameBegun = 0;
 	RiCurrentContext -> CurrentFrame = -1;
+	for(int i = 0;i < images.size();i++){
+		if(images[i] != RI_NULL) delete(images[i]);
+	}
 	return;
 }
 
@@ -679,6 +682,12 @@ RtVoid RiOpacity(RtFloat* col){
 }
 
 RtVoid RiMakeTexture(RtToken file,RtInt slot){
+	while(slot >= images.size()){
+		images.push_back(RI_NULL);
+	}
+	if(images[slot] != RI_NULL){
+		delete(images[slot]);
+	}
 	images[slot] = new JRiImage(1000,1000);
 	for(int j = 0;j < 1000;j++){
 		for(int i = 0;i < 1000;i++){

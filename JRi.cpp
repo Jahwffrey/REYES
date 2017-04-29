@@ -6,8 +6,9 @@
 #include <math.h>
 #include <algorithm>
 #include <iostream>
+#include <vector>
 
-JRiImage* images[16383];
+std::vector<JRiImage*> images;
 
 JRiPoint::JRiPoint(RtFloat x,RtFloat y,RtFloat z,RtFloat w){
 	pt[0] = x;

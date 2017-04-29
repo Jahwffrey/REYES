@@ -6,7 +6,7 @@
 #define _RI_H_
 
 #include <cstddef>
-
+#include <vector>
 
 typedef short RtBoolean;
 typedef int RtInt;
