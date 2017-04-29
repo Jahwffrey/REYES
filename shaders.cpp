@@ -78,9 +78,12 @@ void texture_zero(void){
 }
 
 void shrink(void){
-	_P[0] -= _N[0]*0.5;
-	_P[1] -= _N[1]*0.5;
-	_P[2] -= _N[2]*0.5;
+	//if(_N[0] < -1) std::cout << _N[0] << "\n";
+	//if(_N[1] < -1) std::cout << _N[1] << "\n";
+	//if(_N[2] < -1) std::cout << _N[2] << "\n";
+	_P[0] = _P[0] - _N[0]*0.5;
+	_P[1] = _P[1] - _N[1]*0.5;
+	_P[2] = _P[2] - _N[2]*0.5;
 }
 
 //RtFloat BUMP_AMPLITUDE = 1;

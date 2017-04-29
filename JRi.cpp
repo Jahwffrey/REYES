@@ -122,7 +122,6 @@ RtVoid JRiVertex::Set(RtFloat x,RtFloat y,RtFloat z,RtFloat nx,RtFloat ny,RtFloa
 
 RtVoid JRiVertex::Transform(){
 	pos->Transform();
-	//DO THE SAME TO THE NORMALS?????????????????????????????????????????????????????????????????????????NOT DONE!!!!!
 	return;
 }
 
@@ -224,6 +223,7 @@ RtVoid JRiMesh::DrawMicropolygon(JRiVertex* ul,JRiVertex* ur,JRiVertex* ll,JRiVe
 		if(varr[i] > maxv) maxv = varr[i];
 	}
 
+
 	//Loop over relevant screen pixels
 	for(int j = std::max(0,(int)minv);j <= std::min(RiCurrentContext -> YResolution - 1,(int)maxv);j++){
 		for(RtInt i = std::max(0,(RtInt)minu);i <= std::min(RiCurrentContext -> XResolution - 1,(RtInt)maxu);i++){
@@ -296,28 +296,48 @@ extern RtFloat _dV;//derivative of surface params
 */
 
 RtVoid JRiMesh::CalcVertexValsForShader(RtInt x,RtInt y){
+	//IM GANA TRY REVERSING THE DIRECTION! IF ITS AN EDGE ONE ITS INSTEAD DEFINED BY THE ONES UP AND LEFT, NOT RIGHT AND DOWN!!
 	//calculate normals and everything
 	//normals at every point will be normal of triangle of it and point to right and down
 	//normals of right and bottom edge points will be the same as opposite edge
-	if(x == width - 1){
+	JRiPoint* p1;
+	JRiPoint* p2;
+	JRiPoint* p3;
+	/*if(x == width - 1){
 		if(y == height - 1){
-			mesh[x][y]->CopyNorm(mesh[0][0]->GetNorm());
+			//mesh[x][y]->CopyNorm(mesh[x-1][y-1]->GetNorm());
+			p1 = mesh[0][0]->GetPos();
+			p2 = mesh[0][1]->GetPos();
+			p3 = mesh[1][0]->GetPos();
 		} else {
-			mesh[x][y]->CopyNorm(mesh[0][y]->GetNorm());
+			p1 = mesh[0][y]->GetPos();
+			p2 = mesh[1][y]->GetPos();
+			p3 = mesh[0][y+1]->GetPos();
+			//mesh[x][y]->CopyNorm(mesh[x-1][y]->GetNorm());
 		}
 	} else if(y == height - 1){
-		mesh[x][y]->CopyNorm(mesh[x][0]->GetNorm());
-	} else {
-		JRiPoint *p1 = mesh[x][y]->GetPos();
-		JRiPoint *p2 = mesh[x+1][y]->GetPos();
-		JRiPoint *p3 = mesh[x][y+1]->GetPos();
-		
-		RtFloat a[3] = {p1->x() - p2->x(),p1->y() - p2->y(),p1->z() - p2->z()};	
-		RtFloat b[3] = {p1->x() - p3->x(),p1->y() - p3->y(),p1->z() - p3->z()};
-		
-		mesh[x][y]->GetNorm()->Set((a[1]*b[2] - a[2]*b[1]),(a[2]*b[0] - a[0]*b[2]),(a[0]*b[1] - a[1]*b[0]),1);
-		mesh[x][y]->GetNorm()->Normalize();	
-	}
+		p1 = mesh[x][0]->GetPos();
+		p2 = mesh[x+1][0]->GetPos();
+		p3 = mesh[x][1]->GetPos();
+		//mesh[x][y]->CopyNorm(mesh[x][y-1]->GetNorm());
+	} else {*/
+		p1 = mesh[x][y]->GetPos();
+		p2 = mesh[(x+1)%width][y]->GetPos();
+		//p2 = mesh[(x+1)][y]->GetPos();
+		p3 = mesh[x][(y+1)%height]->GetPos();
+		//p3 = mesh[x][(y+1)]->GetPos();
+	//}	
+
+	float a[3] = {p1->x() - p2->x(),p1->y() - p2->y(),p1->z() - p2->z()};	
+	float b[3] = {p1->x() - p3->x(),p1->y() - p3->y(),p1->z() - p3->z()};
+
+	mesh[x][y]->GetNorm()->Set((a[1]*b[2] - a[2]*b[1]),(a[2]*b[0] - a[0]*b[2]),(a[0]*b[1] - a[1]*b[0]),1);
+	mesh[x][y]->GetNorm()->Normalize();
+
+	//if(x == width - 1 || y == height - 1){
+	//	mesh[x][y]->GetNorm()->Set(0,0,1,1);
+	//}
+	
 }
 
 RtVoid JRiMesh::SetShaderVals(RtInt x,RtInt y){
@@ -411,8 +431,8 @@ RtVoid JRiMesh::Draw(){
 		}
 	}
 	//Draw each micropolygon
-	for(int j = 0;j < height - 1;j++){
-		for(int i = 0;i < width - 1;i++){
+	for(int j = 1;j < height - 1;j++){
+		for(int i = 1;i < width - 1;i++){
 			//DrawMicropolygon(mesh[i][j],mesh[(i + 1)%width][j],mesh[i][(j + 1)%height],mesh[(i + 1)%width][(j + 1)%height]);
 			DrawMicropolygon(mesh[i][j],mesh[(i + 1)][j],mesh[i][(j + 1)],mesh[(i + 1)][(j + 1)]);
 		}

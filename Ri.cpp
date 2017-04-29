@@ -239,6 +239,7 @@ RtVoid RiEnd(){
 }
 
 RtVoid RiFormat(RtInt xresolution,RtInt yresolution,RtFloat pixelaspectratio){
+	if(RiCurrentContext -> WorldBegun == 1) return;
 	RiCurrentContext -> XResolution = xresolution;
 	RiCurrentContext -> YResolution = yresolution;
 	RiCurrentContext -> PixelAspectRatio = pixelaspectratio;
@@ -265,6 +266,7 @@ RtVoid RiTransformEnd(){
 }
 
 RtVoid RiClipping(RtFloat near,RtFloat far){
+	if(RiCurrentContext -> WorldBegun == 1) return;
 	RiCurrentContext -> Near = near;
 	RiCurrentContext -> Far = far;
 	return;
@@ -310,11 +312,13 @@ RtVoid RiWorldEnd(){
 }
 
 RtVoid RiFrameAspectRatio(RtFloat rat){
+	if(RiCurrentContext -> WorldBegun == 1) return;
 	RiCurrentContext -> FrameAspectRatio = rat;
 	return;
 }
 
 RtVoid RiPixelSamples(RtFloat xsamples,RtFloat ysamples){
+	if(RiCurrentContext -> WorldBegun == 1) return;
 	RiCurrentContext -> DeleteFrameBuffer();
 	RiCurrentContext -> XSamples = xsamples;
 	RiCurrentContext -> YSamples = ysamples;
@@ -323,7 +327,6 @@ RtVoid RiPixelSamples(RtFloat xsamples,RtFloat ysamples){
 }
 
 RtVoid RiFrameBegin(RtInt frame){
-	//NOT DONE! NOT DONE AT ALL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	RiContext* nc = new RiContext();
 	nc->Copy(RiCurrentContext);
 	nc->prev = RiCurrentContext;
@@ -542,8 +545,6 @@ RtVoid RiPerspective(RtFloat fov){
 
 //Primitives
 RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPointer param){
-	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-	
 	//First find bounding box
 	RtFloat bbox[4];
 	FindBoundingBox(radius*2,bbox);
@@ -587,8 +588,6 @@ RtVoid RiSphere(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax,RtPoin
 
 
 RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param){
-	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-	
 	//First find bounding box
 	RtFloat bbox[4];
 	FindBoundingBox(std::max(height,radius*2),bbox);
@@ -624,8 +623,6 @@ RtVoid RiCone(RtFloat height,RtFloat radius,RtFloat thetamax,RtPointer param){
 }
 
 RtVoid RiCylinder(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax, RtPointer param){
-	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-	
 	//First find bounding box
 	RtFloat bbox[4];
 	FindBoundingBox(std::max(radius * 2,zmax - zmin),bbox);
@@ -661,8 +658,6 @@ RtVoid RiCylinder(RtFloat radius,RtFloat zmin,RtFloat zmax,RtFloat thetamax, RtP
 }
 
 RtVoid RiTorus(RtFloat majorradius,RtFloat minorradius,RtFloat phimin,RtFloat phimax,RtFloat thetamax, RtPointer param){
-	//CURRENTLY I AM CONSTRUCTING THE MESH, DRAWING IT, AND DELETING IT!!! THIS MAY CHANGE LATER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! 
-	
 	//First find bounding box
 	RtFloat bbox[4];
 	FindBoundingBox(majorradius*2,bbox);

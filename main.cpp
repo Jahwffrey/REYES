@@ -8,15 +8,12 @@
 #include <math.h>
 
 //THING TO REMEMBER TO DO:!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//Look through for various alarmed messages
-//Weird problem with shrink shader
-//Make sure RiWorldBegin freezes changing all rendering options!
-//FrameAspectRatio is never use and the way i am gettign action FOV is all kinds of screwed up!
 //MY FOV IS ALL KINDS OF SCREWED UP!!
 //PORT TO CIMAGE and windows!!
 //write out actual image types, not ppp, make RiDisplay work correctly
 //try all the render scenes!
 //If JRI.h not included here, get a double free error??
+//Weird problem with shrink shader
 
 int main(){
 	RiBegin(RI_NULL);
@@ -50,18 +47,17 @@ int main(){
 			RiColor(col);
 			RiOpacity(opa);
 			//RiMakeTexture("",0);
-			RiDisplacement(BUMPY);
+			RiDisplacement(shrink);
 			RiSurface(phong_lighting);
 			BUMP_MIN_FREQ_EXP = 2;
 			BUMP_MAX_FREQ_EXP = 4;
 			BUMP_AMPLITUDE = 0.5;
 			RiTransformBegin();	
-				RiRotate(45,1,0,0);	
+				RiRotate(2,1,0,0);	
 				RiSphere(2,-2,2,360,RI_NULL);
 			RiTransformEnd();
 			RiDisplay("tmp.ppm","file","rgb");	
 		RiWorldEnd();
-		std::cout << "got here!" << std::flush;
 		RiFrameEnd();
 	RiEnd();
 }
